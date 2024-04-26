@@ -133,7 +133,12 @@ public class ClientServerConstants {
 		 * request: Notification.ID
 		 * response: result[OK|KO], message
 		 */
-		DELETE_NOTIFICATION(14),
+		DELETE_NOTIFICATION(14), 
+		/**TODO DELETE_NOTIFICATION
+		 * request: username
+		 * response: result[OK|KO], <relations list>
+		 */
+		GET_RELATIONS(15)
 		;
 
 		private static Map<Integer, ServerAction> internalMap = new HashMap<>();

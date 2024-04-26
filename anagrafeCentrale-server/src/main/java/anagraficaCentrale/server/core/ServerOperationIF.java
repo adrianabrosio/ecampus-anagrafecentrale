@@ -89,4 +89,10 @@ public interface ServerOperationIF {
 	 * response: result[OK|KO]
 	 */
 	public String[] deleteNotificationOperation(String[] commArgs);
+
+	/**TODO RELATIONS_DATA - get user relations list
+	 * request: username
+	 * response: result[OK|KO], <usernames of related users>
+	 */
+	public String[] getRelationsDataOperation(String[] commArgs);
 }

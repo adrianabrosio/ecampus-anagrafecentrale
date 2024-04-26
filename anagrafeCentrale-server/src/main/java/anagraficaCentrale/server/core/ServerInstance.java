@@ -129,6 +129,9 @@ public class ServerInstance extends Thread {
 				case CHECK_NEW_NOTIFICATION:
 					resultList = this.serverOp.checkNewNotificationOperation(commArgs);
 					break;
+				case GET_RELATIONS:
+					resultList = this.serverOp.getRelationsDataOperation(commArgs);
+					break;
 				default : // Unsupported action
 					logger.warn(this.getName() + " - Unsupported action ["+action+"]");
 					resultList = new String[]{"ERROR"};

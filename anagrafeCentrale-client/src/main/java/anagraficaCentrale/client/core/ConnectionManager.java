@@ -46,6 +46,7 @@ public class ConnectionManager {
 	private boolean isAdmin;
 	private String username;
 	private Map<String, String> userAttributes;
+	private Map<String, Map<String, String>> relationsAttributes;
 	private ArrayList<Map<String,String>> notificationList, reportList;
 	private Properties prop;
 
@@ -344,5 +345,43 @@ public class ConnectionManager {
 		if(checkIfErrorAndParse(respComm)){
 			throw new AcServerRuntimeException(lastError);
 		}
+	}
+
+	public void refreshRelationsData() {
+		
+		String[] respComm = serverCall(ServerAction.GET_RELATIONS, username);
+		if(checkIfErrorAndParse(respComm)){
+			throw new AcServerRuntimeException(lastError);
+		}
+		
+		String[] relationList = respComm[1].split(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR);
+		if(relationsAttributes != null){
+			relationsAttributes.clear();
+		} else {
+			relationsAttributes = new HashMap<>();
+		}
+		
+		for(String user : relationList){
+			Map<String, String> tmpMap = new HashMap<>();
+			respComm = serverCall(ServerAction.GET_USER_DATA, user);
+			if(checkIfErrorAndParse(respComm)){
+				throw new AcServerRuntimeException(lastError);
+			}
+			for(String ret : respComm){
+				if(ret.contains("=")){
+					String[] tokens = ret.split("=", 2);
+					tmpMap.put(tokens[0], tokens[1]);
+				}
+			}
+			relationsAttributes.put(tmpMap.get("id"), tmpMap);
+		}
+	}
+	
+	public String getRelationAttribute(String username, String attrName){
+		return relationsAttributes.get(username).get(attrName);
+	}
+	
+	public String[] getRelationsList(){
+		return relationsAttributes.keySet().toArray(new String[0]);
 	}
 }

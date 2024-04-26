@@ -112,4 +112,8 @@ public class AcTextField extends JPanel {
 	public void setMandatory(boolean isMandatory){
 		this.isMandatory = isMandatory;
 	}
+
+	public void setEditable(boolean b) {
+		text.setEditable(b);
+	}
 }

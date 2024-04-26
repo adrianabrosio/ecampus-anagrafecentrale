@@ -56,5 +56,8 @@ public class GUIConstants {
 		public static final String lblAppointmentDate = "Data appuntamento";
 		public static final String lblAppointmentCreateBtn = "Prenota";
 		public static final String msgAppointmentSuccess = "Appuntamento richiesto con successo. Una volta confermata la data, riceverai una notifica.";
+		public static final String lbl_APP_CI_SrvTitle = "Appuntamento Carta d'identità";
+		public static final String lblAppointmentListUser = "Intestatario richiesta";
+		public static final String lbl_APP_CI_SrvText = "Gentile cittadino/a,\n\nPer richiedere il rilascio della carta d'identità elettronica è necessario prenotare un appuntamento.\n\nDocumenti da presentare:\n• Documento di identità valido (se disponibile)\n• Tessera sanitaria\n• Codice fiscale\n• Fototessera recente (formato 3x4 cm)\n\nDati anagrafici:";
 	}
 }

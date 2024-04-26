@@ -82,9 +82,13 @@ public class ServerOperationImpl implements ServerOperationIF {
 	public String[] createAccountOperation(String[] commArgs) {
 		try {
 			//input
-			String username = commArgs[1];
+			//String username = commArgs[1];
 			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
 			String paramListString = commArgs.length>=4? commArgs[3] : "";
+			
+			//check admin
+			if(!isAdmin)
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgCommandForAdminOnly};
 			//extract param list
 
 			Map<String,String> userProps = new HashMap<>();
@@ -174,8 +178,21 @@ public class ServerOperationImpl implements ServerOperationIF {
 
 	@Override
 	public String[] createNewRequestOperation(String[] commArgs) {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("creating new request..");
+		String notificationID = commArgs[1];
+		ResultSet rs;
+		try {
+			rs = qm.getStatement().executeQuery("SELECT * FROM Notification WHERE id='" + notificationID + "'");
+			if(!rs.first()){
+				logger.info("Notification with id " + notificationID + " not found");
+			} else {
+				qm.getStatement().executeUpdate("UPDATE Notification SET unread=false WHERE id='" + notificationID + "'");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new String[]{ClientServerConstants.SERVER_RESP_OK};
 	}
 
 	@Override
@@ -209,6 +226,32 @@ public class ServerOperationImpl implements ServerOperationIF {
 			for (int i = 1; i <= columnsNumber; i++) {
 				String columnValue = rs.getString(i);
 				attrList.add(rsmd.getColumnName(i) + "=" + columnValue);
+			}
+
+			return attrList.toArray(new String[0]);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
+		}
+	}
+	
+	@Override
+	public String[] getRelationsDataOperation(String[] commArgs) {
+		try {
+			//input
+			String username = commArgs[1];
+			//output
+			//verify if user exists
+			ResultSet rs = qm.getStatement().executeQuery("SELECT * FROM Relationship WHERE `primary`='" + username + "' AND degree IN ('madre', 'padre')");
+			if(!rs.first()){
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgLoginUserNotExists, "false"};
+			}
+			ArrayList<String> attrList = new ArrayList<>();
+			attrList.add(ClientServerConstants.SERVER_RESP_OK); //op return value
+			
+			rs.beforeFirst();
+			while(rs.next()){
+				attrList.add(rs.getString("secondary"));
 			}
 
 			return attrList.toArray(new String[0]);

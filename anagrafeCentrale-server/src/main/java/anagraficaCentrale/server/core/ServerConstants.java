@@ -12,6 +12,7 @@ public class ServerConstants {
 		public static final String msgUserAlreadyExists = "Utente già censito in anagrafica";
 		public static final String msgCreateUserSuccessful = "Utente creato con successo";
 		public static final String msgCreateUserUnsuccessful = "Creazione utente fallita";
-		public static final String msgTaxIdCodeAlreadyExists = "Risulta già un utenza associata al CF inserito";
+		public static final String msgTaxIdCodeAlreadyExists = "Risulta già un'utenza associata al CF inserito";
+		public static final String msgCommandForAdminOnly = "Permessi insufficienti per eseguire la richiesta. Contatta l'amministrazione";
 	}
 }
