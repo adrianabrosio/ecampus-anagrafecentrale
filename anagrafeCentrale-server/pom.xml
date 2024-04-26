@@ -3,7 +3,7 @@
   <groupId>ecampus.linguaggi</groupId>
   <artifactId>anagraficaCentrale.server</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Anagrafica Centrale - Server</name>
+  <name>Anagrafe Centrale - Server</name>
   <dependencies>
   	  <dependency>
   		<groupId>mysql</groupId>
