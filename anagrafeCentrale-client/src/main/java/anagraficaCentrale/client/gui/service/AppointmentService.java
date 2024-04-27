@@ -94,35 +94,22 @@ public class AppointmentService extends GenericService {
 		textSurname.setText(operationPanel.getConnectionManager().getUserAttribute("surname"));
 
 		//lista persone per appuntamento
-		operationPanel.getConnectionManager().refreshRelationsData();
-		String[] relations = operationPanel.getConnectionManager().getRelationsList();
-		Map<String, Map<String,String>> taxIdList = new HashMap<>();
-		
-		Map<String,String> tmpMap = new HashMap<>();
-		tmpMap.put("first_name", operationPanel.getConnectionManager().getUserAttribute("first_name"));
-		tmpMap.put("surname", operationPanel.getConnectionManager().getUserAttribute("surname"));
-		taxIdList.put(operationPanel.getConnectionManager().getUserAttribute("tax_id_code"), tmpMap);
-		for(String rel:relations){
-			Map<String,String> tmpMap2 = new HashMap<>();
-			tmpMap2.put("first_name", operationPanel.getConnectionManager().getRelationAttribute(rel, "first_name"));
-			tmpMap2.put("surname", operationPanel.getConnectionManager().getRelationAttribute(rel, "surname"));
-			taxIdList.put(operationPanel.getConnectionManager().getRelationAttribute(rel, "tax_id_code"), tmpMap2);
-		}
+		Map<String, Map<String,String>> usersList = operationPanel.getRelationsData();
 		
 		JLabel lblUser = new JLabel(GUIConstants.LANG.lblAppointmentListUser + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblUser, gbc);
 
-		JComboBox<String> userList = new JComboBox<>(taxIdList.keySet().toArray(new String[0]));
+		JComboBox<String> userList = new JComboBox<>(usersList.keySet().toArray(new String[0]));
 		userList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		userList.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String selection = (String) userList.getSelectedItem();
-				textFirstName.setText(taxIdList.get(selection).get("first_name"));
-				textSurname.setText(taxIdList.get(selection).get("surname"));
+				textFirstName.setText(usersList.get(selection).get("first_name"));
+				textSurname.setText(usersList.get(selection).get("surname"));
 			}
 		});
 		gbc.gridx = 1;

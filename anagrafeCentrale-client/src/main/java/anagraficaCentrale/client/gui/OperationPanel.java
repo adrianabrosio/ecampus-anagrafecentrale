@@ -63,6 +63,8 @@ public class OperationPanel {
 
 	private ConnectionManager connectionManager;
 
+	private boolean isServiceStillLoading;
+
 	final static Logger logger = LogManager.getRootLogger();
 
 	/**
@@ -191,14 +193,20 @@ public class OperationPanel {
 		closeLoading();
 	}
 
+	/**
+	 * this method initialize the service panel
+	 */
 	private FilterableResourcePanel initServicePanel() {
 		FilterableResourcePanel servicePanel = new FilterableResourcePanel();
 		servicePanel.addResource(new ServiceElement(this, "Service 1"));
 		servicePanel.addResource(new ServiceElement(this, "Inserisci utente", ServiceType.ADM_CREAZ_USR));
-		servicePanel.addResource(new ServiceElement(this, "Appuntamento Carta d'Identità", ServiceType.APP_CI));
+		servicePanel.addResource(new ServiceElement(this, "Appuntamento Carta d'Identitï¿½", ServiceType.APP_CI));
 		return servicePanel;
 	}
 
+	/**
+	 * this method initialize the report panel
+	 */
 	private FilterableResourcePanel initReportPanel() {
 		boolean demo=false;
 		FilterableResourcePanel reportPanel = new FilterableResourcePanel();
@@ -220,6 +228,9 @@ public class OperationPanel {
 		return new ShowProfileService(this);
 	}
 
+	/**
+	 * this method initialize the notification panel
+	 */
 	private FilterableResourcePanel initNotificationPanel() {
 		FilterableResourcePanel notificationPanel = new FilterableResourcePanel();
 		ImageIcon ic = null;
@@ -252,6 +263,9 @@ public class OperationPanel {
 		leftPanel.setSelected(abstractResourceElement);
 	}
 
+	/**
+	 * this method manage the loading of the services on the right panel
+	 */
 	public void openService(ServiceType serviceType){
 		openLoading();
 		// build right panel
@@ -267,22 +281,42 @@ public class OperationPanel {
 
 
 	private void closeLoading() {
+		isServiceStillLoading = false;
 		miniLoadingPanel.setVisible(false);
 	}
 
+	/**
+	 * this method shows a loading panel if the load operations is taking too long
+	 */
 	private void openLoading() {
-		miniLoadingPanel.setVisible(true);
-		miniLoadingPanel.setLocationRelativeTo(frame);
-		miniLoadingPanel.setAlwaysOnTop(true);
-		miniLoadingPanel.requestFocus();
+		isServiceStillLoading = true;
+		new Thread(new Runnable(){
+			@Override
+			public void run(){
+				Thread.sleep(2000);
+				if(isServiceStillLoading){
+					miniLoadingPanel.setVisible(true);
+					miniLoadingPanel.setLocationRelativeTo(frame);
+					miniLoadingPanel.setAlwaysOnTop(true);
+					miniLoadingPanel.requestFocus();
+				}
+			}
+		}).start();
 	}
 
+	/**
+	 * this method closes the current opened service (right panel)
+	 */
 	public void closeService(){
 		rightPanel = null;
 		splitPane.setRightComponent(rightPanel);
 		splitPane.setDividerSize(0);
 	}
 
+	/**
+	 * this method invoke the ServicePanelFactory to manage the generation of the service panel
+	 * based on the service called
+	 */
 	private GenericService generatePanelByService(ServiceType serviceType) throws UnsupportedServiceException {
 		logger.debug("Generating panel "+ serviceType);
 		switch(serviceType){
@@ -323,6 +357,9 @@ public class OperationPanel {
 		}
 	}
 
+	/**
+	 * returns a color based on the portal type passed as argument
+	 */
 	private Color getPortalBackgroundColor(PortalType portalType) {
 		switch(portalType){
 		case COMUNE:
@@ -336,6 +373,9 @@ public class OperationPanel {
 		}
 	}
 
+	/**
+	 * returns a title based on the portal type passed as argument 
+	 */
 	private String getPortalTitle(PortalType portalType) {
 		switch(portalType){
 		case COMUNE:
@@ -348,36 +388,62 @@ public class OperationPanel {
 			throw new IllegalArgumentException("Invalid Portal type");
 		}
 	}
+
+	/**
+	 * utility method to popup an ERROR message at the center of the UI and log the same message in 
+	 * the log file
+	 */
 	public void popupError(Exception e) {
 		JOptionPane.showMessageDialog(this.frame, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE );
 		statusLabel.setText("Error: "+e.getMessage());
 		logger.error(e.getMessage(), e);
 	}
 	
+	/**
+	 * utility method to popup an WARN message at the center of the UI and log the same message in 
+	 * the log file
+	 */
 	public void popupWarning(Exception e) {
 		JOptionPane.showMessageDialog(this.frame, e.getMessage(), "Attenzione", JOptionPane.WARNING_MESSAGE );
 		statusLabel.setText("WARN: "+e.getMessage());
 		logger.warn(e.getMessage(), e);
 	}
 	
+	/**
+	 * utility method to popup an info message at the center of the UI and log the same message in 
+	 * the log file
+	 */
 	public void popupInfo(String msg) {
 		JOptionPane.showMessageDialog(this.frame, msg, "Attenzione", JOptionPane.INFORMATION_MESSAGE );
 		statusLabel.setText("INFO: "+msg);
 		logger.info(msg);
 	}
 
+	/**
+	 * UI action to toggle the side menu
+	 */
 	public void openCloseSideMenu() {
 		sideMenuPanelManager.openCloseSideMenu();
 	}
 
+	/**
+	 * getter for side menu panel manager
+	 */
 	public SideMenuPanelManager getSideMenuPanelManager(){
 		return sideMenuPanelManager;
 	}
 
+	/**
+	 * getter for connection manager
+	 */
 	public ConnectionManager getConnectionManager() {
 		return connectionManager;
 	}
 
+	/**
+	 * this method is attached to the left menu bar.
+	 * It reset the UI closing any open panels and opens the notification panel
+	 */
 	public void openNotificationPanelAction(){
 
 		new SwingWorker<Integer, Integer>() {
@@ -401,6 +467,10 @@ public class OperationPanel {
 
 	}
 
+	/**
+	 * this method is attached to the left menu bar.
+	 * It reset the UI closing any open panels and opens the profile panel
+	 */
 	public void openProfilePanelAction() {
 		new SwingWorker<Integer, Integer>() {
 
@@ -424,6 +494,10 @@ public class OperationPanel {
 		}.execute();
 	}
 
+	/**
+	 * this method is attached to the left menu bar.
+	 * It reset the UI closing any open panels and opens the report panel
+	 */
 	public void openReportPanelAction() {
 		new SwingWorker<Integer, Integer>() {
 
@@ -445,6 +519,10 @@ public class OperationPanel {
 		}.execute();
 	}
 
+	/**
+	 * this method is attached to the left menu bar.
+	 * It reset the UI closing any open panels and opens the service panel
+	 */
 	public void openServicePanelAction() {
 		new SwingWorker<Integer, Integer>() {
 
@@ -466,6 +544,9 @@ public class OperationPanel {
 		}.execute();
 	}
 
+	/**
+	 * this method act on the UI. It changes the notification icon in case of new notifications
+	 */
 	public void setNewNotificationIcon(boolean isThereAnyNotification){
 
 		new SwingWorker<Integer, Integer>() {
@@ -484,10 +565,17 @@ public class OperationPanel {
 
 	}
 
+	/**
+	 * this method returns the portal type in string format
+	 */
 	public String getPortalType() {
 		return ""+portalType;
 	}
 
+	/**
+	 * this method generate a PDF file starting from a title and a content.
+	 * It uses PDFWriter class that is part of the Apache Pdfbox libs
+	 */
 	public void generateAndDownloadFile(String reportTitle, String reportContent) {
 		//throw new UnsupportedOperationException("downloadFile is not implemented yet");
 		JFileChooser fileChooser = new JFileChooser();
@@ -512,6 +600,31 @@ public class OperationPanel {
 
 	public void downloadFile(String fileName) {
 		throw new UnsupportedOperationException("downloadFile is not implemented yet");
+	}
+
+	/**
+	 * this method return a map that contains the attributes of the user and other users
+	 * related to him.
+	 * The map is composed using the tax_id_code as key and a sub Map for the users attributes.
+	 * 
+	 */
+	public Map<String, Map<String,String>> getRelationsData(){
+		operationPanel.getConnectionManager().refreshRelationsData();
+		String[] relations = operationPanel.getConnectionManager().getRelationsList();
+		Map<String, Map<String,String>> taxIdList = new HashMap<>();
+		
+		Map<String,String> tmpMap = new HashMap<>();
+		tmpMap.put("first_name", operationPanel.getConnectionManager().getUserAttribute("first_name"));
+		tmpMap.put("surname", operationPanel.getConnectionManager().getUserAttribute("surname"));
+		taxIdList.put(operationPanel.getConnectionManager().getUserAttribute("tax_id_code"), tmpMap);
+		for(String rel:relations){
+			Map<String,String> tmpMap2 = new HashMap<>();
+			tmpMap2.put("first_name", operationPanel.getConnectionManager().getRelationAttribute(rel, "first_name"));
+			tmpMap2.put("surname", operationPanel.getConnectionManager().getRelationAttribute(rel, "surname"));
+			taxIdList.put(operationPanel.getConnectionManager().getRelationAttribute(rel, "tax_id_code"), tmpMap2);
+		}
+
+		return taxIdList;
 	}
 
 }
