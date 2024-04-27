@@ -413,36 +413,37 @@ public class ServerOperationImpl implements ServerOperationIF {
 			//input
 			String username = commArgs[1];
 			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
+			String portalType = commArgs.length>=4 ? commArgs[3]:null;
 			String tmpQuery;
 			if(!isAdmin){
 				tmpQuery = 
 						"SELECT 1 "
 								+ "FROM User u INNER JOIN Request req on req.creator_user_id=u.id "
 								+ "INNER JOIN Notification n on n.request_id=req.id "
-								+ "WHERE u.id='!userid' AND n.unread=true "
+								+ "WHERE u.id='!userid' AND n.unread=true AND req.portal_type='!portal' "
 								+ "UNION ALL  "
 								+ "SELECT 1 "
 								+ "FROM User u INNER JOIN Report rep on rep.user_id=u.id "
 								+ "INNER JOIN Notification n on n.report_id=rep.id "
-								+ "WHERE u.id='!userid' AND n.unread=true ";
+								+ "WHERE u.id='!userid' AND n.unread=true AND rep.portal_type='!portal' ";
 			} else {
 				tmpQuery = 
 						"SELECT 1 "
 								+ "FROM User u INNER JOIN Request req on req.creator_user_id=u.id "
 								+ "INNER JOIN Notification n on n.request_id=req.id "
-								+ "WHERE u.id='!userid' AND n.unread=true "
+								+ "WHERE u.id='!userid' AND n.unread=true AND req.portal_type='!portal' "
 								+ "UNION ALL  "
 								+ "SELECT 1 "
 								+ "FROM User u INNER JOIN Report rep on rep.user_id=u.id "
 								+ "INNER JOIN Notification n on n.report_id=rep.id "
-								+ "WHERE u.id='!userid' AND n.unread=true "
+								+ "WHERE u.id='!userid' AND n.unread=true AND rep.portal_type='!portal' "
 								+ "UNION ALL  "
 								+ "SELECT 1 "
 								+ "FROM Request req "
 								+ "INNER JOIN Notification n on n.report_id=req.id "
-								+ "WHERE req.manager_user_id IS NULL AND n.unread=true ";
+								+ "WHERE req.manager_user_id IS NULL AND n.unread=true AND req.portal_type='!portal' ";
 			}
-			ResultSet rs = qm.getStatement().executeQuery(tmpQuery.replaceAll("!userid", username));
+			ResultSet rs = qm.getStatement().executeQuery(tmpQuery.replaceAll("!userid", username).replaceAll("!portal", portalType));
 			boolean notificationFound = rs.first();
 			return new String[]{ClientServerConstants.SERVER_RESP_OK, ""+notificationFound};
 		} catch (Exception e) {

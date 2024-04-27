@@ -35,7 +35,7 @@ public class GUIConstants {
 		public static final String lblCollapseBtnSide = "Chiudi";
 		public static final String lblUserCreationSrvTitle = "Creazione Utente";
 		public static final String lblCloseBtn = "Chiudi";
-		public static final Object userCreateConfirmMsg = "Per favore controlla i dati. Confermi di voler procedere alla creazione dell'utente?";
+		public static final String userCreateConfirmMsg = "Per favore controlla i dati. Confermi di voler procedere alla creazione dell'utente?";
 		public static final String userCreateConfirmTitle = "Creazione utente";
 		public static final String lbluserCreationUsername = "Username";
 		public static final String lbluserCreationFirstName = "Nome";
@@ -59,5 +59,30 @@ public class GUIConstants {
 		public static final String lbl_APP_CI_SrvTitle = "Appuntamento Carta d'identità";
 		public static final String lblAppointmentListUser = "Intestatario richiesta";
 		public static final String lbl_APP_CI_SrvText = "Gentile cittadino/a,\n\nPer richiedere il rilascio della carta d'identità elettronica è necessario prenotare un appuntamento.\n\nDocumenti da presentare:\n• Documento di identità valido (se disponibile)\n• Tessera sanitaria\n• Codice fiscale\n• Fototessera recente (formato 3x4 cm)\n\nDati anagrafici:";
+		public static final String lbluserCreationBirthTown = "Città di nascita";
+		public static final String lbluserCreationBirthState = "Stato di nascita";
+		public static final String lbluserCreationAddress = "Indirizzo";
+		public static final String lbluserCreationTown = "Città di residenza";
+		public static final String lbluserCreationProvince = "Provincia";
+		public static final String lbluserCreationState = "Stato";
+		public static final String lbluserCreationZipCode = "CAP";
+		public static final String lblErrorOnlyDigit = "Ammessi solo caratteri numerici";
+		public static final String lblServiceCreateUser = "Crea utente";
+		public static final String lblServiceAPP_CI = "Appuntamento Carta d'identità";
+		public static final String lblServiceCI_TEMP = "Carta d’identità temporanea";
+		public static final String lblServiceCAM_RES = "Cambio residenza";
+		public static final String lblServiceCOLL_INS = "Richiesta colloquio insegnanti";
+		public static final String lblServiceISCRIZ = "Domanda d'iscrizione";
+		public static final String lblServicePAG_MEN = "Pagamento mensa";
+		public static final String lblServicePAG_RET = "Pagamento retta";
+		public static final String lblServicePAG_TICK = "Pagamento ticket";
+		public static final String lblServicePREN_VIS = "Prenotazione visita";
+		public static final String lblServiceCAM_MED = "Cambio medico";
+		public static final String lblServiceSTAT_FAM = "Stato di famiglia";
+		public static final String lblServiceCERT_MATR = "Certificato di matrimonio";
+		public static final String lblServiceCERT_NASC = "Certificato di nascita";
+		public static final String lbl_COLL_INS_SrvText = "TODO";
+		public static final String lbl_COLL_INS_SrvTitle = "Colloquio insegnanti";
+		public static final String lblErrorUnableToCreateConnection = "Impossibile stabilire una connessione con il server, riprovare?";
 	}
 }

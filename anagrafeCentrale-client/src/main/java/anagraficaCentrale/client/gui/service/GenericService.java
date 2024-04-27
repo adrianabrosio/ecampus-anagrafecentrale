@@ -14,7 +14,7 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 
-public abstract class GenericService extends JPanel {
+public abstract class GenericService extends JPanel{
 
 	/**
 	 * 

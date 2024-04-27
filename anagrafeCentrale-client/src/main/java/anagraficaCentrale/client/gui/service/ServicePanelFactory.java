@@ -4,6 +4,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
@@ -30,7 +31,7 @@ public class ServicePanelFactory {
 	}
 
 	public static GenericService generateCIAppointmentPanel(OperationPanel operationPanel) {
-		return new AppointmentService(operationPanel, ServiceType.APP_CI);
+		return new CIAppointmentService(operationPanel);
 	}
 
 	public static GenericService generateCITempPanel(OperationPanel operationPanel) {
@@ -91,5 +92,9 @@ public class ServicePanelFactory {
 	public static GenericService generateSchoolRegistrationPanel(OperationPanel operationPanel) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public static GenericService generateTeacherInterviewPanel(OperationPanel operationPanel) {
+		return new TeacherInterviewAppointmentService(operationPanel);
 	}
 }

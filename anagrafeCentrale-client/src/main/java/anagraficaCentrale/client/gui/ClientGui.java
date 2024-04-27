@@ -478,7 +478,11 @@ public class ClientGui extends JFrame {
 
 	protected void closingOperations() {
 		logger.info("Closing the application..");
-		connectionManager.logout();
+		try{
+			connectionManager.logout();
+		}catch(Exception e){
+			logger.error(e);
+		}
 		logger.info("Total session time: " + (System.currentTimeMillis()-startTime) + "ms");
 		System.exit(0);
 	}

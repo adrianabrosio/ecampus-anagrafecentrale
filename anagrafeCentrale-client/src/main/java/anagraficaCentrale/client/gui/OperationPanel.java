@@ -37,8 +37,8 @@ import anagraficaCentrale.client.gui.resource.AbstractResourceElement;
 import anagraficaCentrale.client.gui.resource.FilterableResourcePanel;
 import anagraficaCentrale.client.gui.resource.NotificationElement;
 import anagraficaCentrale.client.gui.resource.ReportElement;
-import anagraficaCentrale.client.gui.resource.ServiceElement;
 import anagraficaCentrale.client.gui.service.GenericService;
+import anagraficaCentrale.client.gui.service.ServicePanel;
 import anagraficaCentrale.client.gui.service.ServicePanelFactory;
 import anagraficaCentrale.client.gui.service.ShowProfileService;
 import anagraficaCentrale.client.gui.service.UnsupportedServiceException;
@@ -132,9 +132,9 @@ public class OperationPanel {
 		frame.setMinimumSize(new Dimension(400, 400));
 
 		try {
-			frame.setIconImage(new ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
+			frame.setIconImage(new ImageIcon(ClassLoader.getSystemResource(connectionManager.isAdmin()?"iconAdmin.png":"icon.png")).getImage());
 		} catch (Exception e1) {
-			logger.error("Unable to load \"icon.png\" from resources", e1);
+			logger.error("Unable to load \""+(connectionManager.isAdmin()?"iconAdmin.png":"icon.png")+"\" from resources", e1);
 		}
 		connectionManager.refreshUserData();
 		frame.setTitle(GUIConstants.LANG.lblOperationPanelTitle + " - "+ getPortalTitle(portalType) +" - "+connectionManager.getUserAttribute("first_name")+" "+connectionManager.getUserAttribute("surname")+(connectionManager.isAdmin()?" [admin]":""));
@@ -197,10 +197,7 @@ public class OperationPanel {
 	 * this method initialize the service panel
 	 */
 	private FilterableResourcePanel initServicePanel() {
-		FilterableResourcePanel servicePanel = new FilterableResourcePanel();
-		servicePanel.addResource(new ServiceElement(this, "Service 1"));
-		servicePanel.addResource(new ServiceElement(this, "Inserisci utente", ServiceType.ADM_CREAZ_USR));
-		servicePanel.addResource(new ServiceElement(this, "Appuntamento Carta d'Identit�", ServiceType.APP_CI));
+		FilterableResourcePanel servicePanel = new ServicePanel(this, portalType, getConnectionManager().isAdmin());
 		return servicePanel;
 	}
 
@@ -271,7 +268,7 @@ public class OperationPanel {
 		// build right panel
 		try {
 			rightPanel = generatePanelByService(serviceType);
-		} catch (UnsupportedServiceException e) {
+		} catch (Exception e) {
 			popupError(e);
 		}
 		splitPane.setRightComponent(new AcScrollPane(rightPanel));
@@ -293,7 +290,11 @@ public class OperationPanel {
 		new Thread(new Runnable(){
 			@Override
 			public void run(){
-				Thread.sleep(2000);
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					logger.error(e);
+				}
 				if(isServiceStillLoading){
 					miniLoadingPanel.setVisible(true);
 					miniLoadingPanel.setLocationRelativeTo(frame);
@@ -349,7 +350,7 @@ public class OperationPanel {
 		case ISCRIZ    :
 			return ServicePanelFactory.generateSchoolRegistrationPanel(this);//TODO
 		case COLL_INS  :
-			return ServicePanelFactory.generateDummyPanel(this);//TODO
+			return ServicePanelFactory.generateTeacherInterviewPanel(this);//TODO
 		case ADM_CREAZ_USR:
 			return ServicePanelFactory.generateUserCreationPanel(this);
 		default:
@@ -394,8 +395,8 @@ public class OperationPanel {
 	 * the log file
 	 */
 	public void popupError(Exception e) {
-		JOptionPane.showMessageDialog(this.frame, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE );
-		statusLabel.setText("Error: "+e.getMessage());
+		JOptionPane.showMessageDialog(this.frame, e.getClass()+": ["+e.getMessage()+"]", "Errore", JOptionPane.ERROR_MESSAGE );
+		statusLabel.setText("Error: "+e.getClass()+": "+e.getMessage());
 		logger.error(e.getMessage(), e);
 	}
 	
@@ -404,8 +405,8 @@ public class OperationPanel {
 	 * the log file
 	 */
 	public void popupWarning(Exception e) {
-		JOptionPane.showMessageDialog(this.frame, e.getMessage(), "Attenzione", JOptionPane.WARNING_MESSAGE );
-		statusLabel.setText("WARN: "+e.getMessage());
+		JOptionPane.showMessageDialog(this.frame, e.getClass()+": ["+e.getMessage()+"]", "Attenzione", JOptionPane.WARNING_MESSAGE );
+		statusLabel.setText("WARN: "+e.getClass()+": "+e.getMessage());
 		logger.warn(e.getMessage(), e);
 	}
 	
@@ -564,12 +565,12 @@ public class OperationPanel {
 		}.execute();
 
 	}
-
+	
 	/**
-	 * this method returns the portal type in string format
+	 * this method returns the portal type
 	 */
-	public String getPortalType() {
-		return ""+portalType;
+	public PortalType getPortalType() {
+		return portalType;
 	}
 
 	/**
@@ -600,31 +601,6 @@ public class OperationPanel {
 
 	public void downloadFile(String fileName) {
 		throw new UnsupportedOperationException("downloadFile is not implemented yet");
-	}
-
-	/**
-	 * this method return a map that contains the attributes of the user and other users
-	 * related to him.
-	 * The map is composed using the tax_id_code as key and a sub Map for the users attributes.
-	 * 
-	 */
-	public Map<String, Map<String,String>> getRelationsData(){
-		operationPanel.getConnectionManager().refreshRelationsData();
-		String[] relations = operationPanel.getConnectionManager().getRelationsList();
-		Map<String, Map<String,String>> taxIdList = new HashMap<>();
-		
-		Map<String,String> tmpMap = new HashMap<>();
-		tmpMap.put("first_name", operationPanel.getConnectionManager().getUserAttribute("first_name"));
-		tmpMap.put("surname", operationPanel.getConnectionManager().getUserAttribute("surname"));
-		taxIdList.put(operationPanel.getConnectionManager().getUserAttribute("tax_id_code"), tmpMap);
-		for(String rel:relations){
-			Map<String,String> tmpMap2 = new HashMap<>();
-			tmpMap2.put("first_name", operationPanel.getConnectionManager().getRelationAttribute(rel, "first_name"));
-			tmpMap2.put("surname", operationPanel.getConnectionManager().getRelationAttribute(rel, "surname"));
-			taxIdList.put(operationPanel.getConnectionManager().getRelationAttribute(rel, "tax_id_code"), tmpMap2);
-		}
-
-		return taxIdList;
 	}
 
 }

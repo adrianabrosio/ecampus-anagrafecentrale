@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,6 +33,7 @@ public class AcTextField extends JPanel {
 	private JLabel error;
 	private boolean isMandatory;
 	private Border textDefaultBorder;
+	private boolean isDigitOnly;
 
 	public AcTextField(){
 		this(false);
@@ -39,6 +42,7 @@ public class AcTextField extends JPanel {
 	public AcTextField(boolean isMandatory){
 		super();
 		this.isMandatory = isMandatory;
+		this.isDigitOnly = false;
 		setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		setLayout(new GridLayout(0, 1, 0, 5));
 		text = new JTextField();
@@ -64,12 +68,23 @@ public class AcTextField extends JPanel {
 		});
 	}
 
-	public void fieldValidation() {
+	public boolean fieldValidation() {
 		if(isMandatory){
 			if(getText().equals("")){
 				setError(GUIConstants.LANG.lblErrorMandatoryField);
+				return false;
 			}
 		}
+		if(isDigitOnly){
+			String CF_REGEX = "\\d*";
+			Pattern CF_PATTERN = Pattern.compile(CF_REGEX);
+			Matcher matcher = CF_PATTERN.matcher(getText());
+		    if(!matcher.matches()){
+		    	setError(GUIConstants.LANG.lblErrorOnlyDigit);
+		    	return false;
+		    }
+		}
+		return true;
 	}
 
 	public void setText(String s){
@@ -116,4 +131,9 @@ public class AcTextField extends JPanel {
 	public void setEditable(boolean b) {
 		text.setEditable(b);
 	}
+
+	public void setDigitOnly(boolean b) {
+		isDigitOnly  = b;
+	}
+
 }

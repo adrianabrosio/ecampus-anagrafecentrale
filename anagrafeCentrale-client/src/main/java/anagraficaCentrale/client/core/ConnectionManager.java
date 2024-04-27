@@ -253,8 +253,8 @@ public class ConnectionManager {
 		}
 	}
 
-	public boolean checkNewNotification() {
-		String[] respComm = serverCall(ServerAction.CHECK_NEW_NOTIFICATION, username, ""+isAdmin());
+	public boolean checkNewNotification(PortalType pt) {
+		String[] respComm = serverCall(ServerAction.CHECK_NEW_NOTIFICATION, username, ""+isAdmin(), ""+pt.getValue());
 		if(checkIfErrorAndParse(respComm)){
 			throw new AcServerRuntimeException(lastError);
 		}
@@ -383,5 +383,24 @@ public class ConnectionManager {
 	
 	public String[] getRelationsList(){
 		return relationsAttributes.keySet().toArray(new String[0]);
+	}
+
+	/**
+	 * this method return a map that contains the attributes of the user and other users
+	 * related to him.
+	 * The map is composed using the tax_id_code as key and a sub Map for the users attributes.
+	 * 
+	 */
+	public Map<String, Map<String,String>> getRelationsData(){
+		refreshRelationsData();
+		String[] relations = getRelationsList();
+		Map<String, Map<String,String>> taxIdList = new HashMap<>();
+		for(String rel:relations){
+			Map<String,String> tmpMap2 = new HashMap<>();
+			tmpMap2.put("first_name", getRelationAttribute(rel, "first_name"));
+			tmpMap2.put("surname", getRelationAttribute(rel, "surname"));
+			taxIdList.put(getRelationAttribute(rel, "tax_id_code"), tmpMap2);
+		}
+		return taxIdList;
 	}
 }

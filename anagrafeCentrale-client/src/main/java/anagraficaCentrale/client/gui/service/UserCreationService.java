@@ -8,8 +8,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +29,9 @@ import anagraficaCentrale.client.core.ConnectionManager;
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcCheckBoxGroup;
-import anagraficaCentrale.client.gui.component.AcIconButton;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.exception.AcServerRuntimeException;
-import anagraficaCentrale.utils.ClientServerConstants;
 import anagraficaCentrale.utils.ScriptUtils;
 
 public class UserCreationService extends GenericService {
@@ -41,6 +39,13 @@ public class UserCreationService extends GenericService {
 	private AcTextField textField_1;
 	private AcTextField textField_2;
 	private AcTextField textField_5;
+	private AcTextField textField_6;
+	private AcTextField textField_7;
+	private AcTextField textField_8;
+	private AcTextField textField_9;
+	private AcTextField textField_10;
+	private AcTextField textField_11;
+	private AcTextField textField_12;
 	private DatePicker datePicker1;
 	private JComboBox<String> genderList;
 	private AcCheckBoxGroup authGroup;
@@ -107,11 +112,11 @@ public class UserCreationService extends GenericService {
 	    dateSettings.setFirstDayOfWeek(DayOfWeek.MONDAY);
 	    dateSettings.setLocale(Locale.ITALIAN);
 	    dateSettings.setAllowEmptyDates(false);
-	    //final LocalDate today = LocalDate.now();
-	    //dateSettings.setDateRangeLimits(LocalDate.MIN, today);
 	    dateSettings.setColor(DateArea.CalendarBackgroundSelectedDate, GUIConstants.BACKGROUND_COLOR_1);
 	    dateSettings.setFormatForDatesCommonEra("dd/MM/yyyy");
 		datePicker1 = new DatePicker(dateSettings);
+	    final LocalDate today = LocalDate.now();
+	    dateSettings.setDateRangeLimits(LocalDate.MIN, today);
 
 		gbc.gridx = 1;
 		attrPanel.add(datePicker1, gbc);
@@ -143,13 +148,78 @@ public class UserCreationService extends GenericService {
 		attrPanel.add(textField_5, gbc);
 		textField_5.setMaximumCharacterSize(16);
 		
+		JLabel lblBirthTown = new JLabel(GUIConstants.LANG.lbluserCreationBirthTown + "*");
+		gbc.gridy++;
+		gbc.gridx = 0;
+		attrPanel.add(lblBirthTown, gbc);
+		
+		textField_6 = new AcTextField(true);
+		gbc.gridx = 1;
+		attrPanel.add(textField_6, gbc);
+		
+		JLabel lblBirthState = new JLabel(GUIConstants.LANG.lbluserCreationBirthState + "*");
+		gbc.gridy++;
+		gbc.gridx = 0;
+		attrPanel.add(lblBirthState, gbc);
+		
+		textField_7 = new AcTextField(true);
+		gbc.gridx = 1;
+		attrPanel.add(textField_7, gbc);
+		
+		JLabel lblAddress = new JLabel(GUIConstants.LANG.lbluserCreationAddress + "*");
+		gbc.gridy++;
+		gbc.gridx = 0;
+		attrPanel.add(lblAddress, gbc);
+		
+		textField_8 = new AcTextField(true);
+		gbc.gridx = 1;
+		attrPanel.add(textField_8, gbc);
+		
+		JLabel lblTown = new JLabel(GUIConstants.LANG.lbluserCreationTown + "*");
+		gbc.gridy++;
+		gbc.gridx = 0;
+		attrPanel.add(lblTown, gbc);
+		
+		textField_9 = new AcTextField(true);
+		gbc.gridx = 1;
+		attrPanel.add(textField_9, gbc);
+		
+		JLabel lblProvince = new JLabel(GUIConstants.LANG.lbluserCreationProvince + "*");
+		gbc.gridy++;
+		gbc.gridx = 0;
+		attrPanel.add(lblProvince, gbc);
+		
+		textField_10 = new AcTextField(true);
+		gbc.gridx = 1;
+		attrPanel.add(textField_10, gbc);
+		textField_10.setMaximumCharacterSize(2);
+		
+		JLabel lblState = new JLabel(GUIConstants.LANG.lbluserCreationState + "*");
+		gbc.gridy++;
+		gbc.gridx = 0;
+		attrPanel.add(lblState, gbc);
+		
+		textField_11 = new AcTextField(true);
+		gbc.gridx = 1;
+		attrPanel.add(textField_11, gbc);
+		
+		JLabel lblZipCode = new JLabel(GUIConstants.LANG.lbluserCreationZipCode + "*");
+		gbc.gridy++;
+		gbc.gridx = 0;
+		attrPanel.add(lblZipCode, gbc);
+		
+		textField_12 = new AcTextField(true);
+		gbc.gridx = 1;
+		attrPanel.add(textField_12, gbc);
+		textField_12.setMaximumCharacterSize(5);
+		textField_12.setDigitOnly(true);
+		
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(new JLabel(GUIConstants.LANG.lbluserCreationAuthorization + "*") , gbc);
 		gbc.gridx = 1;
 		authGroup = new AcCheckBoxGroup(new String[]{GUIConstants.LANG.lblComuneTitle, GUIConstants.LANG.lblOspedaleTitle, GUIConstants.LANG.lblScuolaTitle}) ;
 		attrPanel.add(authGroup, gbc);
-
 
 		AcServiceButton createUserButton = new AcServiceButton(GUIConstants.LANG.lbluserCreationCreateUserBtn);
 		createUserButton.setBorder(new MatteBorder(2, 3, 2, 3, operationPanel.guiBackgroundColor));
@@ -182,6 +252,13 @@ public class UserCreationService extends GenericService {
 				userProps.add(new String[]{"birthdate", sqlDateFormated});
 				userProps.add(new String[]{"gender", (String) genderList.getSelectedItem()});
 				userProps.add(new String[]{"tax_id_code", textField_5.getText()});
+				userProps.add(new String[]{"birth_town", textField_6.getText()});
+				userProps.add(new String[]{"birth_state", textField_7.getText()});
+				userProps.add(new String[]{"address", textField_8.getText()});
+				userProps.add(new String[]{"town", textField_9.getText()});
+				userProps.add(new String[]{"province", textField_10.getText()});
+				userProps.add(new String[]{"state", textField_11.getText()});
+				userProps.add(new String[]{"zip_code", textField_12.getText()});
 				userProps.add(new String[]{"authorization", authGroup.getCheckBoxString()});
 
 				try{
@@ -218,6 +295,13 @@ public class UserCreationService extends GenericService {
 		textField_1.setText("");
 		textField_2.setText("");
 		textField_5.setText("");
+		textField_6.setText("");
+		textField_7.setText("");
+		textField_8.setText("");
+		textField_9.setText("");
+		textField_10.setText("");
+		textField_11.setText("");
+		textField_12.setText("");
 		datePicker1.setDateToToday();
 		genderList.setSelectedIndex(0);
 		authGroup.clear();
@@ -226,28 +310,24 @@ public class UserCreationService extends GenericService {
 	protected boolean isFormValid() {
 		//validation
 		boolean formIncomplete = false;
-		if(textField.getText() == null || textField.getText().equals("")){
+		if(textField.fieldValidation()){
 			formIncomplete = true;
-			textField.fieldValidation();
 		}
 		
-		if(textField_1.getText() == null || textField_1.getText().equals("")){
+		if(textField_1.fieldValidation()){
 			formIncomplete = true;
-			textField_1.fieldValidation();
 		}
 		
-		if(textField_2.getText() == null || textField_2.getText().equals("")){
+		if(textField_2.fieldValidation()){
 			formIncomplete = true;
-			textField_2.fieldValidation();
 		}
 		
 		if(datePicker1.getText() == null || datePicker1.getText().equals("") || !datePicker1.isTextFieldValid()){
 			formIncomplete = true;
 		}
 		
-		if(textField_5.getText() == null || textField_5.getText().equals("")){
+		if(textField_5.fieldValidation()){
 			formIncomplete = true;
-			textField_5.fieldValidation();
 		} else {
 			//CF validation
 			textField_5.setText(textField_5.getText().toUpperCase());
@@ -256,6 +336,34 @@ public class UserCreationService extends GenericService {
 				textField_5.setError(GUIConstants.LANG.lblTaxIdWrongSize);
 			}
 			
+		}
+		
+		if(textField_6.fieldValidation()){
+			formIncomplete = true;
+		}
+		
+		if(textField_7.fieldValidation()){
+			formIncomplete = true;
+		}
+		
+		if(textField_8.fieldValidation()){
+			formIncomplete = true;
+		}
+		
+		if(textField_9.fieldValidation()){
+			formIncomplete = true;
+		}
+		
+		if(textField_10.fieldValidation()){
+			formIncomplete = true;
+		}
+		
+		if(textField_11.fieldValidation()){
+			formIncomplete = true;
+		}
+		
+		if(textField_12.fieldValidation()){
+			formIncomplete = true;
 		}
 		return !formIncomplete;
 	}

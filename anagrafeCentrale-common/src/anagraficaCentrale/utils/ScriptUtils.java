@@ -54,8 +54,6 @@ public class ScriptUtils {
 		return plainText;
 	}
 	
-	
-
 	public static boolean isValidTaxId(String codiceFiscale) {
 		String CF_REGEX = "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$";
 		Pattern CF_PATTERN = Pattern.compile(CF_REGEX);

@@ -43,7 +43,7 @@ public class NotificationPollingManager implements Runnable{
 
 			//check for new notif
 			try{
-				boolean newNotification = operationPanel.getConnectionManager().checkNewNotification();
+				boolean newNotification = operationPanel.getConnectionManager().checkNewNotification(operationPanel.getPortalType());
 				logger.debug("Updating notification status: " + newNotification);
 				operationPanel.setNewNotificationIcon(newNotification);
 			} catch(AcServerRuntimeException e){
