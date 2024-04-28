@@ -25,4 +25,9 @@ public class CIAppointmentService extends AppointmentService {
 		return GUIConstants.LANG.lbl_APP_CI_SrvText;
 	}
 
+	@Override
+	protected ServiceType getServiceType() {
+		return ServiceType.APP_CI;
+	}
+
 }

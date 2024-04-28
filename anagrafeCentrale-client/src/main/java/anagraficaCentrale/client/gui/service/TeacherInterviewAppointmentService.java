@@ -25,4 +25,9 @@ public class TeacherInterviewAppointmentService extends AppointmentService {
 		return GUIConstants.LANG.lbl_COLL_INS_SrvText;
 	}
 
+	@Override
+	protected ServiceType getServiceType() {
+		return ServiceType.COLL_INS;
+	}
+
 }

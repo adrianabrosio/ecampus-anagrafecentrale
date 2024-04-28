@@ -173,10 +173,10 @@ public abstract class AppointmentService extends GenericService {
 				userProps.add(new String[]{"tax_id_code", (String) userList.getSelectedItem()});
 				String sqlDateFormated = datePicker1.getDate().format(DateTimeFormatter.ISO_DATE);
 				userProps.add(new String[]{"appointmentDate", sqlDateFormated});
-				userProps.add(new String[]{"request_type", ""+serviceType});
+				userProps.add(new String[]{"request_type", ""+getServiceType()});
 
 				try{
-					operationPanel.getConnectionManager().createAppointment(serviceType, userProps);
+					operationPanel.getConnectionManager().createAppointment(getServiceType(), userProps);
 				}catch(AcServerRuntimeException | UnsupportedServiceException e){
 					operationPanel.popupError(e);
 					return;
@@ -207,6 +207,8 @@ public abstract class AppointmentService extends GenericService {
 	protected abstract int getUserListType();
 
 	protected abstract String getTextAreaContent();
+
+	protected abstract ServiceType getServiceType();
 
 	protected void clearForm() {
 		datePicker1.setDateToToday();

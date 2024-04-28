@@ -276,7 +276,6 @@ public class OperationPanel {
 		closeLoading();
 	}
 
-
 	private void closeLoading() {
 		isServiceStillLoading = false;
 		miniLoadingPanel.setVisible(false);
