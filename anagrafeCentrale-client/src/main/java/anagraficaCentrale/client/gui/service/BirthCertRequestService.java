@@ -4,31 +4,26 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
-public class CIAppointmentService extends AppointmentService {
+public class BirthCertRequestService extends SimpleRequestService {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CIAppointmentService(OperationPanel op) {
+	public BirthCertRequestService(OperationPanel op) {
 		super(op);
-		setTitle(GUIConstants.LANG.lbl_APP_CI_SrvTitle);
-	}
-
-	@Override
-	protected int getUserListType() {
-		return AppointmentService.USER_AND_RELATIONS;
+		setTitle(GUIConstants.LANG.lbl_CERT_NASC_SrvTitle);
 	}
 
 	@Override
 	protected String getTextAreaContent() {
-		return GUIConstants.LANG.lbl_APP_CI_SrvText;
+		return GUIConstants.LANG.lbl_CERT_NASC_SrvText;
 	}
 
 	@Override
 	protected ServiceType getServiceType() {
-		return ServiceType.APP_CI;
+		return ServiceType.CERT_NASC;
 	}
 
 }

@@ -177,7 +177,7 @@ public abstract class AppointmentService extends GenericService {
 
 				try{
 					operationPanel.getConnectionManager().createAppointment(getServiceType(), userProps);
-				}catch(AcServerRuntimeException | UnsupportedServiceException e){
+				}catch(Exception e){
 					operationPanel.popupError(e);
 					return;
 				}

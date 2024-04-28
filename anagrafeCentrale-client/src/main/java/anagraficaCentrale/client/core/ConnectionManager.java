@@ -337,6 +337,9 @@ public class ConnectionManager {
 		case APP_CI:
 			sa = ServerAction.CREATE_NEW_REQUEST;
 			break;
+		case COLL_INS:
+			sa = ServerAction.CREATE_NEW_REQUEST;
+			break;
 		default:
 			throw new UnsupportedServiceException(serviceType);
 		}
@@ -402,5 +405,12 @@ public class ConnectionManager {
 			taxIdList.put(getRelationAttribute(rel, "tax_id_code"), tmpMap2);
 		}
 		return taxIdList;
+	}
+
+	public void createSimpleRequest(ServiceType serviceType, List<String[]> userProps) {
+		String[] respComm = serverCall(ServerAction.CREATE_NEW_REQUEST, username, ""+isAdmin(), ""+serviceType);
+		if(checkIfErrorAndParse(respComm)){
+			throw new AcServerRuntimeException(lastError);
+		}
 	}
 }

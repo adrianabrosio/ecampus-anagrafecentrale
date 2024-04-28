@@ -50,18 +50,15 @@ public class ServicePanelFactory {
 	}
 	
 	public static GenericService generateBirthCertPanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new BirthCertRequestService(operationPanel);
 	}
 
 	public static GenericService generateMarriageCertPanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new MarriageCertRequestService(operationPanel);
 	}
 
 	public static GenericService generateFamilyStatusPanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new FamilyStatusRequestService(operationPanel);
 	}
 
 	public static GenericService generateDoctorChangePanel(OperationPanel operationPanel) {

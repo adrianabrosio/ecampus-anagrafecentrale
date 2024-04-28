@@ -84,5 +84,13 @@ public class GUIConstants {
 		public static final String lbl_COLL_INS_SrvText = "TODO";
 		public static final String lbl_COLL_INS_SrvTitle = "Colloquio insegnanti";
 		public static final String lblErrorUnableToCreateConnection = "Impossibile stabilire una connessione con il server, riprovare?";
+		public static final String msgSimpleRequestSuccess = "Richiesta sottomessa con successo";
+		public static final String lblSimpleRequestCreateBtn = "Richiedi";
+		public static final String lbl_CERT_NASC_SrvTitle = "Richiesta certificato di nascita";
+		public static final String lbl_CERT_NASC_SrvText = "TODO";
+		public static final String lbl_CERT_MATR_SrvTitle = "Richiesta certificato di matrimonio";
+		public static final String lbl_CERT_MATR_SrvText = "TODO";
+		public static final String lbl_STAT_FAM_SrvTitle = "Richiesta stato di famiglia";
+		public static final String lbl_STAT_FAM_SrvText = "TODO";
 	}
 }

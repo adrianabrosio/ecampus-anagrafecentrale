@@ -2,6 +2,7 @@ package anagraficaCentrale.client.gui.service;
 
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
+import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 public class TeacherInterviewAppointmentService extends AppointmentService {
 
