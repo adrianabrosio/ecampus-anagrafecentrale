@@ -23,6 +23,7 @@ public class ShowProfileService extends GenericService {
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
+	private JTextField textField_6_1;
 	private JTextField textField_7;
 	private JTextField textField_8;
 	private JTextField textField_9;
@@ -92,6 +93,13 @@ public class ShowProfileService extends GenericService {
 		textField_6 = new JTextField(cm.getUserAttribute("birth_town"));
 		textField_6.setEditable(false);
 		innerPanel.add(textField_6);
+		
+		JLabel lblBirthProvince = new JLabel(GUIConstants.LANG.lbluserCreationBirthProvince);
+		innerPanel.add(lblBirthProvince);
+		
+		textField_6_1 = new JTextField(cm.getUserAttribute("birth_province"));
+		textField_6_1.setEditable(false);
+		innerPanel.add(textField_6_1);
 		
 		JLabel lblBirthState = new JLabel(GUIConstants.LANG.lbluserCreationBirthState);
 		innerPanel.add(lblBirthState);

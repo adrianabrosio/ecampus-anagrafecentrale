@@ -35,18 +35,11 @@ public class ServicePanelFactory {
 	}
 
 	public static GenericService generateCITempPanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public static GenericService generateChangeDomicilePanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new CITempRequestService(operationPanel);
 	}
 
 	public static GenericService generateChangeResidencePanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ResidenceChangeRequestService(operationPanel);
 	}
 	
 	public static GenericService generateBirthCertPanel(OperationPanel operationPanel) {
@@ -62,13 +55,11 @@ public class ServicePanelFactory {
 	}
 
 	public static GenericService generateDoctorChangePanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ChangeMedicRequestService(operationPanel);
 	}
 
 	public static GenericService generateMedicalAppointmentPanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new MedicalAppointmentService(operationPanel);
 	}
 
 	public static GenericService generateTicketPaymentPanel(OperationPanel operationPanel) {

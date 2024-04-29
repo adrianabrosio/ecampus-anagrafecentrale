@@ -1,14 +1,13 @@
 package anagraficaCentrale.client.gui.service;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JEditorPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.border.MatteBorder;
 
 import anagraficaCentrale.client.gui.GUIConstants;
@@ -22,7 +21,7 @@ public abstract class SimpleRequestService extends GenericService {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextArea textField;
+	private JEditorPane textField;
 
 	public SimpleRequestService(OperationPanel op) {
 		super(op);
@@ -32,9 +31,11 @@ public abstract class SimpleRequestService extends GenericService {
 	protected JPanel generateInnerPanel() {
 		JPanel innerPanel = new JPanel(new BorderLayout());
 
-		textField = new JTextArea(getTextAreaContent());
-		Font textAreaFont = new Font(textField.getFont().getFontName(), textField.getFont().getStyle(), 16);
-		textField.setFont(textAreaFont);
+
+		textField = new JEditorPane();
+		textField.setContentType("text/html");
+		textField.setText(getTextAreaContent());
+		textField.setEditable(false);
 		innerPanel.add(textField, BorderLayout.CENTER);
 
 		AcServiceButton createUserButton = new AcServiceButton(GUIConstants.LANG.lblSimpleRequestCreateBtn);
@@ -64,7 +65,7 @@ public abstract class SimpleRequestService extends GenericService {
 		innerPanel.add(createUserButton, BorderLayout.AFTER_LAST_LINE);
 		return innerPanel;
 	}
-	
+
 	protected abstract String getTextAreaContent();
 
 	protected abstract ServiceType getServiceType();

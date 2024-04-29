@@ -40,6 +40,7 @@ public class UserCreationService extends GenericService {
 	private AcTextField textField_2;
 	private AcTextField textField_5;
 	private AcTextField textField_6;
+	private AcTextField textField_6_1;
 	private AcTextField textField_7;
 	private AcTextField textField_8;
 	private AcTextField textField_9;
@@ -157,6 +158,16 @@ public class UserCreationService extends GenericService {
 		gbc.gridx = 1;
 		attrPanel.add(textField_6, gbc);
 		
+		JLabel lblBirthProvince = new JLabel(GUIConstants.LANG.lbluserCreationBirthProvince + "*");
+		gbc.gridy++;
+		gbc.gridx = 0;
+		attrPanel.add(lblBirthProvince, gbc);
+		
+		textField_6_1 = new AcTextField(true);
+		gbc.gridx = 1;
+		attrPanel.add(textField_6_1, gbc);
+		textField_6_1.setMaximumCharacterSize(2);
+		
 		JLabel lblBirthState = new JLabel(GUIConstants.LANG.lbluserCreationBirthState + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
@@ -253,6 +264,7 @@ public class UserCreationService extends GenericService {
 				userProps.add(new String[]{"gender", (String) genderList.getSelectedItem()});
 				userProps.add(new String[]{"tax_id_code", textField_5.getText()});
 				userProps.add(new String[]{"birth_town", textField_6.getText()});
+				userProps.add(new String[]{"birth_province", textField_6_1.getText()});
 				userProps.add(new String[]{"birth_state", textField_7.getText()});
 				userProps.add(new String[]{"address", textField_8.getText()});
 				userProps.add(new String[]{"town", textField_9.getText()});
@@ -296,6 +308,7 @@ public class UserCreationService extends GenericService {
 		textField_2.setText("");
 		textField_5.setText("");
 		textField_6.setText("");
+		textField_6_1.setText("");
 		textField_7.setText("");
 		textField_8.setText("");
 		textField_9.setText("");
@@ -339,6 +352,10 @@ public class UserCreationService extends GenericService {
 		}
 		
 		if(textField_6.fieldValidation()){
+			formIncomplete = true;
+		}
+		
+		if(textField_6_1.fieldValidation()){
 			formIncomplete = true;
 		}
 		

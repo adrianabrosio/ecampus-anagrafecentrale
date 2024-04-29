@@ -87,10 +87,24 @@ public class GUIConstants {
 		public static final String msgSimpleRequestSuccess = "Richiesta sottomessa con successo";
 		public static final String lblSimpleRequestCreateBtn = "Richiedi";
 		public static final String lbl_CERT_NASC_SrvTitle = "Richiesta certificato di nascita";
-		public static final String lbl_CERT_NASC_SrvText = "TODO";
+		public static final String lbl_CERT_NASC_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>l'emissione del certificato di Nascita</p></body></html>";
 		public static final String lbl_CERT_MATR_SrvTitle = "Richiesta certificato di matrimonio";
-		public static final String lbl_CERT_MATR_SrvText = "TODO";
+		public static final String lbl_CERT_MATR_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>l'emissione del certificato di Matrimonio</p></body></html>";
 		public static final String lbl_STAT_FAM_SrvTitle = "Richiesta stato di famiglia";
-		public static final String lbl_STAT_FAM_SrvText = "TODO";
+		public static final String lbl_STAT_FAM_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>l'emissione dello Stato di Famiglia</p></body></html>";
+		public static final String lbl_CAM_RES_SrvTitle = "Richiesta di cambio residenza";
+		public static final String lbl_CAM_RES_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>che l'attuale indirizzo di residenza venga modificato con il seguente</p></body></html>";
+		public static final String msgResidenceChangeSuccess = "Richiesta di cambio residenza inoltrata. Riceverai una notifica con il riscontro";
+		public static final String lbluserCreationBirthProvince = "Provincia di nascita";
+		public static final String msgCITempSuccess = "Carta d'identità temporanea richiesta con successo";
+		public static final String lblCI_TEMP_reason = "Motivo della richiesta";
+		public static final String lbl_CI_TEMP_SrvTitle = "Carta d'identità temporanea";
+		public static final String lbl_CI_TEMP_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>che venga rilasciato il documento temporaneo per i seguenti motivi</p></body></html>";
+		public static final String lblPREN_VIS_visit = "Visita";
+		public static final String lbl_PREN_VIS_SrvText = "Compila i seguenti dati per procedere alla prenotazione:";
+		public static final String lbl_PREN_VIS_SrvTitle = "Prenotazione visita";
+		public static final String msgCAM_MEDSuccess = "Richiesta di cambio medico inoltrata. Riceverai una notifica con il riscontro";
+		public static final String lbl_CAM_MED_SrvTitle = "Richiesta cambio medico";
+		public static final String lbl_CAM_MED_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>che l'attuale medico venga modificato con il seguente</p></body></html>";
 	}
 }

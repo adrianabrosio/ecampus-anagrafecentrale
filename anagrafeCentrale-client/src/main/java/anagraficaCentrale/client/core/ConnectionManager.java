@@ -236,7 +236,7 @@ public class ConnectionManager {
 	}
 
 	public String getUserAttribute(String attrName){
-		return userAttributes.get(attrName);
+		return userAttributes.get(attrName) != null? userAttributes.get(attrName) : "";
 	}
 
 	public void markNotificationAsRead(String id) {
@@ -412,5 +412,15 @@ public class ConnectionManager {
 		if(checkIfErrorAndParse(respComm)){
 			throw new AcServerRuntimeException(lastError);
 		}
+	}
+
+	public void createResidenceChangeRequest(ServiceType camRes, List<String[]> userProps) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void createMedicChangeRequest(ServiceType camMed, List<String[]> userProps) {
+		// TODO Auto-generated method stub
+		
 	}
 }

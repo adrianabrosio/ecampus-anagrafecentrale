@@ -317,7 +317,7 @@ public class OperationPanel {
 	 * this method invoke the ServicePanelFactory to manage the generation of the service panel
 	 * based on the service called
 	 */
-	private GenericService generatePanelByService(ServiceType serviceType) throws UnsupportedServiceException {
+	private GenericService generatePanelByService(ServiceType serviceType) throws Exception {
 		logger.debug("Generating panel "+ serviceType);
 		switch(serviceType){
 		case DUMMY:
@@ -326,8 +326,6 @@ public class OperationPanel {
 			return ServicePanelFactory.generateCIAppointmentPanel(this);//TODO
 		case CI_TEMP   :
 			return ServicePanelFactory.generateCITempPanel(this);//TODO
-		case CAM_DOM   :
-			return ServicePanelFactory.generateChangeDomicilePanel(this);//TODO
 		case CAM_RES   :
 			return ServicePanelFactory.generateChangeResidencePanel(this);//TODO
 		case CERT_NASC :

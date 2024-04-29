@@ -23,12 +23,13 @@ CREATE TABLE `User` (
   `active` bit NOT NULL DEFAULT true,
   `authorization` VARCHAR(6) NOT NULL DEFAULT '000000' COMMENT 'Campo utile a gestire le autorizzazioni di accesso ai serviz',
   `birth_town` VARCHAR(50) NULL DEFAULT NULL,
+  `birth_province` VARCHAR(2) NULL,
   `birth_state` VARCHAR(30) NULL DEFAULT NULL,
   `address` VARCHAR(100) NULL DEFAULT NULL,
   `town` VARCHAR(50) NULL DEFAULT NULL,
   `province` VARCHAR(30) NULL DEFAULT NULL,
   `state` VARCHAR(30) NULL DEFAULT NULL,
-  `zip_code` INT(5) ZEROFILL NULL DEFAULT NULL ,
+  `zip_code` VARCHAR(5) NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`tax_id_code`)
 ) COMMENT 'contains all data related to the users';
@@ -66,7 +67,7 @@ CREATE TABLE `Request` (
   `request_type` VARCHAR(10) NOT NULL,
   `request_name` VARCHAR(50) NOT NULL,
   `request_description` VARCHAR(200) NULL DEFAULT NULL,
-  `request_parameters` MEDIUMTEXT NULL,
+  `request_parameters` MEDIUMTEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) COMMENT 'tabella che gestisce le richieste da parte degli utenti';
 
@@ -113,7 +114,7 @@ ALTER TABLE `Request` ADD FOREIGN KEY (creator_user_id) REFERENCES `User` (`id`)
 ALTER TABLE `Request` ADD FOREIGN KEY (manager_user_id) REFERENCES `User` (`id`);
 ALTER TABLE `Notification` ADD FOREIGN KEY (request_id) REFERENCES `Request` (`id`);
 ALTER TABLE `Notification` ADD FOREIGN KEY (report_id) REFERENCES `Report` (`id`);
-ALTER TABLE `Relationship` ADD FOREIGN KEY (`primary`) REFERENCES `User` (`id`);
+ALTER TABLE `Relationship` ADD FOREIGN KEY (primary) REFERENCES `User` (`id`);
 ALTER TABLE `Relationship` ADD FOREIGN KEY (secondary) REFERENCES `User` (`id`);
 
 -- ---
@@ -130,8 +131,8 @@ ALTER TABLE `Relationship` ADD FOREIGN KEY (secondary) REFERENCES `User` (`id`);
 -- Test Data
 -- ---
 
--- INSERT INTO `User` (`id`,`password`,`first_name`,`surname`,`tax_id_code`,`birthdate`,`gender`,`active`,`authorization`,`birth_town`,`birth_state`,`address`,`town`,`province`,`state`,`zip_code`) VALUES
--- ('','','','','','','','','','','','','','','','');
+-- INSERT INTO `User` (`id`,`password`,`first_name`,`surname`,`tax_id_code`,`birthdate`,`gender`,`active`,`authorization`,`birth_town`,`birth_province`,`birth_state`,`address`,`town`,`province`,`state`,`zip_code`) VALUES
+-- ('','','','','','','','','','','','','','','','','');
 -- INSERT INTO `Report` (`id`,`user_id`,`portal_type`,`file_path`,`file_display_name`,`file_title`,`file_content`) VALUES
 -- ('','','','','','','');
 -- INSERT INTO `Request` (`id`,`portal_type`,`creator_user_id`,`manager_user_id`,`request_type`,`request_name`,`request_description`,`request_parameters`) VALUES
