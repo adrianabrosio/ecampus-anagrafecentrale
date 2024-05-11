@@ -106,5 +106,22 @@ public class GUIConstants {
 		public static final String msgCAM_MEDSuccess = "Richiesta di cambio medico inoltrata. Riceverai una notifica con il riscontro";
 		public static final String lbl_CAM_MED_SrvTitle = "Richiesta cambio medico";
 		public static final String lbl_CAM_MED_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>che l'attuale medico venga modificato con il seguente</p></body></html>";
+		public static final String lblTicketPaymentNumber = "#Ticket";
+		public static final String lblTicketPaymentCard = "Numero carta";
+		public static final String lblPayBtn = "Paga";
+		public static final String lbl_PAG_TICK_SrvText = "Compila il modulo inserendo il numero ticket e il numero di carta";
+		public static final String msgTicketPaymentSuccess = "Pagamento completato con successo";
+		public static final String errInvalidCardNumber = "Il numero di carta deve contenere almeno 15 cifre";
+		public static final String lblSchoolFee = "Quota (senza decimali)";
+		public static final String lbl_PAG_RET_SrvTitle = "Pagamento Retta";
+		public static final String[] monthValues = new String[]{"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"};
+		public static final String lbl_PAG_RET_SrvText = "Compila il modulo inserendo il mese di competenza e la quota della retta da pagare";
+		public static final String lblTicketPaymentUser = "Codice Fiscale";
+		public static final String lbl_PAG_TICK_SrvTitle = "Pagamento Ticket Ospedaliero";
+		public static final String lbl_PAG_MEN_SrvTitle = "Pagamento Mensa Scolastica";
+		public static final String lbl_PAG_MEN_SrvText = "Compila il modulo inserendo il mese di competenza e la quota relativa al servizio mensa da pagare";
+		public static final String lblMonth = "Mese competenza";
+		public static final String lbl_ISCRIZ_SrvTitle = "Iscrizione";
+		public static final String lbl_ISCRIZ_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>l'iscrizione del/la proprio/a figlio/a $first_name $surname, nato/a a $birth_town, $birth_province il $birthdate, CF $tax_id_code per l'anno scolastico 2024/2025</p></body></html>";
 	}
 }

@@ -4,9 +4,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
-import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 public class ServicePanelFactory {
 
@@ -63,23 +61,19 @@ public class ServicePanelFactory {
 	}
 
 	public static GenericService generateTicketPaymentPanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new TicketPaymentService(operationPanel);	
 	}
 
 	public static GenericService generateSchoolFeePaymentPanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SchoolFeePaymentService(operationPanel);
 	}
 
 	public static GenericService generateCanteenPaymentPanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new CanteenPaymentService(operationPanel);
 	}
 
 	public static GenericService generateSchoolRegistrationPanel(OperationPanel operationPanel) {
-		// TODO Auto-generated method stub
-		return null;
+		return new SchoolRegistrationService(operationPanel);
 	}
 
 	public static GenericService generateTeacherInterviewPanel(OperationPanel operationPanel) {

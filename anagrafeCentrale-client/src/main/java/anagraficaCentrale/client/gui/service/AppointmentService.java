@@ -31,13 +31,11 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
-import anagraficaCentrale.exception.AcServerRuntimeException;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 public abstract class AppointmentService extends GenericService {
 	private JTextArea textField;
 	private DatePicker datePicker1;
-	private ServiceType serviceType;
 
 	private int userListType;
 	public static final int USER_ONLY=0;

@@ -423,4 +423,9 @@ public class ConnectionManager {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void createPaymentRequest(ServiceType pagTick, List<String[]> userProps) {
+		// TODO Auto-generated method stub
+		
+	}
 }
