@@ -82,44 +82,33 @@ public class ServerOperationImpl implements ServerOperationIF {
 	public String[] createAccountOperation(String[] commArgs) {
 		try {
 			//input
-			//String username = commArgs[1];
+			String username = commArgs.length>=2? commArgs[1]:null; //could be useful for future logging system
 			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
-			String paramListString = commArgs.length>=4? commArgs[3] : "";
-			
+			Map<String,String> userProps = parseUserProps(commArgs.length>=4? commArgs[3] : null);
+
 			//check admin
 			if(!isAdmin)
 				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgCommandForAdminOnly};
-			//extract param list
 
-			Map<String,String> userProps = new HashMap<>();
-			for(String token : paramListString.split(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR)){
-				String[] param = token.split("=");
-				if(param.length != 2){
-					logger.warn("param skipped: "+token);
-					continue;
-				}
-				userProps.put(param[0], param[1]);
-			}
-			
 			//verify if user exists
 			ResultSet rs = qm.getStatement().executeQuery("SELECT * FROM User WHERE id='" + userProps.get("id") + "'");
 			if(rs.first()){
 				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgUserAlreadyExists};
 			}
-			
+
 			//verify if tax id code already used
 			rs = qm.getStatement().executeQuery("SELECT * FROM User WHERE tax_id_code='" + userProps.get("tax_id_code") + "'");
 			if(rs.first()){
 				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgTaxIdCodeAlreadyExists};
 			}
-			
+
 			String tableName = "User";
 			String colString = Strings.join(userProps.keySet(), ',');
 			String paramString = Strings.join(userProps.values(), ',');
 			paramString = "'" + paramString.replace(",", "','") + "'";
-			
+
 			String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, colString, paramString);
-			
+
 			logger.debug("create user query: ["+sql+"]");
 			qm.getStatement().execute(sql);
 
@@ -135,7 +124,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 	@Override
 	public String[] markNotificationAsReadOperation(String[] commArgs) {
 		logger.info("marking notification as read..");
-		String notificationID = commArgs[1];
+		String notificationID = commArgs.length>=2? commArgs[1]:null;
 		ResultSet rs;
 		try {
 			rs = qm.getStatement().executeQuery("SELECT * FROM Notification WHERE id='" + notificationID + "'");
@@ -144,9 +133,9 @@ public class ServerOperationImpl implements ServerOperationIF {
 			} else {
 				qm.getStatement().executeUpdate("UPDATE Notification SET unread=false WHERE id='" + notificationID + "'");
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
 		}
 		return new String[]{ClientServerConstants.SERVER_RESP_OK};
 	}
@@ -154,7 +143,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 	@Override
 	public String[] deleteNotificationOperation(String[] commArgs) {
 		logger.info("deleting notification..");
-		String notificationID = commArgs[1];
+		String notificationID = commArgs.length>=2? commArgs[1]:null;
 		ResultSet rs;
 		try {
 			rs = qm.getStatement().executeQuery("SELECT * FROM Notification WHERE id='" + notificationID + "'");
@@ -163,9 +152,9 @@ public class ServerOperationImpl implements ServerOperationIF {
 			} else {
 				qm.getStatement().executeUpdate("DELETE FROM Notification WHERE id='" + notificationID + "'");
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
 		}
 		return new String[]{ClientServerConstants.SERVER_RESP_OK};
 	}
@@ -179,20 +168,93 @@ public class ServerOperationImpl implements ServerOperationIF {
 	@Override
 	public String[] createNewRequestOperation(String[] commArgs) {
 		logger.info("creating new request..");
-		String notificationID = commArgs[1];
-		ResultSet rs;
+		String username = commArgs.length>=2? commArgs[1]:null;
+		boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
+		String serviceType = commArgs.length>=4? commArgs[3]:null;
+		Map<String,String> userProps = parseUserProps(commArgs.length>=5? commArgs[4] : null);
+
+		if(username == null || serviceType == null) {
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, };
+		}
+
+		//TODO finire di implementare
+		//record: id, portal_type, creator_user_id, manager_user_id, request_type, request_name, request_description, request_parameters
+
+		String tableName = "Request";
+		//String colString = Strings.join(userProps.keySet(), ',');
+		//String paramString = Strings.join(userProps.values(), ',');
+		//paramString = "'" + paramString.replace(",", "','") + "'";
+		StringBuilder colStringBuilder = new StringBuilder();
+		StringBuilder valueStringBuilder = new StringBuilder();
+		StringBuilder paramStringBuilder = new StringBuilder();
+		for (String key : userProps.keySet()) {
+			if(		   key.equals("portal_type") 
+					|| key.equals("creator_user_id") 
+					|| key.equals("request_type")
+					|| key.equals("request_name")
+					|| key.equals("request_description")
+					) {
+				colStringBuilder.append(key).append(",");
+				valueStringBuilder.append(userProps.get(key)).append("','");
+			}
+			else {
+				if(paramStringBuilder.length()>0) paramStringBuilder.append(',');
+				paramStringBuilder.append(key + "=" + userProps.get(key));
+			}
+		}
+		
+		colStringBuilder.append("request_name").append(",");
+		valueStringBuilder.append("','");
+		colStringBuilder.append("request_description").append(",");
+		valueStringBuilder.append("','");
+		
+		colStringBuilder.append("request_parameters");
+		valueStringBuilder.append(paramStringBuilder.toString());
+		
+		//request_description
+		
+		//request_parameters
+		
+		String colString = colStringBuilder.toString();
+		String valueString = "'" + valueStringBuilder.toString() + "'";
+		String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, colString, valueString);
 		try {
+			logger.debug("create request query: ["+sql+"]");
+			qm.getStatement().execute(sql);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
+		}
+		/*ResultSet rs;
+		try {
+
+
 			rs = qm.getStatement().executeQuery("SELECT * FROM Notification WHERE id='" + notificationID + "'");
 			if(!rs.first()){
 				logger.info("Notification with id " + notificationID + " not found");
 			} else {
 				qm.getStatement().executeUpdate("UPDATE Notification SET unread=false WHERE id='" + notificationID + "'");
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
+		}*/
 		return new String[]{ClientServerConstants.SERVER_RESP_OK};
+	}
+
+	private Map<String, String> parseUserProps(String toBeParsed) {
+		if(toBeParsed == null)
+			return new HashMap<String,String>();
+		HashMap<String,String> userParams = new HashMap<>();
+		for(String token : toBeParsed.split(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR)){
+			String[] param = token.split("=");
+			if(param.length != 2){
+				logger.warn("param skipped: "+token);
+				continue;
+			}
+			userParams.put(param[0], param[1]);
+		}
+		return userParams;
 	}
 
 	@Override
@@ -234,7 +296,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
 		}
 	}
-	
+
 	@Override
 	public String[] getRelationsDataOperation(String[] commArgs) {
 		try {
@@ -248,7 +310,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 			}
 			ArrayList<String> attrList = new ArrayList<>();
 			attrList.add(ClientServerConstants.SERVER_RESP_OK); //op return value
-			
+
 			rs.beforeFirst();
 			while(rs.next()){
 				attrList.add(rs.getString("secondary"));
@@ -265,7 +327,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 	public String[] getNotificationListOperation(String[] commArgs) {
 		try {
 			//input
-			String username = commArgs[1];
+			String username = commArgs.length>=2? commArgs[1]:null;
 			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
 			String portalType = commArgs.length>=4 ? commArgs[3]:null;
 
@@ -329,7 +391,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 	public String[] getRequestListOperation(String[] commArgs) {
 		try {
 			//input
-			String username = commArgs[1];
+			String username = commArgs.length>=2? commArgs[1]:null;
 			@SuppressWarnings("unused")
 			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
 			String portalType = commArgs.length>=4 ? commArgs[3]:null;

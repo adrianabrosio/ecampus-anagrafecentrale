@@ -122,6 +122,6 @@ public class GUIConstants {
 		public static final String lbl_PAG_MEN_SrvText = "Compila il modulo inserendo il mese di competenza e la quota relativa al servizio mensa da pagare";
 		public static final String lblMonth = "Mese competenza";
 		public static final String lbl_ISCRIZ_SrvTitle = "Iscrizione";
-		public static final String lbl_ISCRIZ_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>l'iscrizione del/la proprio/a figlio/a $first_name $surname, nato/a a $birth_town, $birth_province il $birthdate, CF $tax_id_code per l'anno scolastico 2024/2025</p></body></html>";
+		public static final String lbl_ISCRIZ_SrvText = "<html><head><style>p { word-wrap: normal;}</style></head><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>l'iscrizione del/la proprio/a figlio/a &first_name &surname, nato/a a &birth_town, &birth_province il &birthdate,<br> CF &tax_id_code per l'anno scolastico 2024/2025</p></body></html>";
 	}
 }

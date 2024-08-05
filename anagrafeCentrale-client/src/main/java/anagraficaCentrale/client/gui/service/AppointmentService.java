@@ -67,6 +67,7 @@ public abstract class AppointmentService extends GenericService {
 		textField = new JTextArea(getTextAreaContent());
 		Font textAreaFont = new Font(textField.getFont().getFontName(), textField.getFont().getStyle(), 16);
 		textField.setFont(textAreaFont);
+		textField.setEditable(false);
 		attrPanel.add(textField, gbc);
 
 		//lista persone per appuntamento
@@ -168,10 +169,10 @@ public abstract class AppointmentService extends GenericService {
 
 				userProps.add(new String[]{"portal_type", ""+operationPanel.getPortalType().getValue()});
 				userProps.add(new String[]{"creator_user_id", operationPanel.getConnectionManager().getUserAttribute("id")});
+				userProps.add(new String[]{"request_type", ""+getServiceType()});
 				userProps.add(new String[]{"tax_id_code", (String) userList.getSelectedItem()});
 				String sqlDateFormated = datePicker1.getDate().format(DateTimeFormatter.ISO_DATE);
 				userProps.add(new String[]{"appointmentDate", sqlDateFormated});
-				userProps.add(new String[]{"request_type", ""+getServiceType()});
 
 				try{
 					operationPanel.getConnectionManager().createAppointment(getServiceType(), userProps);

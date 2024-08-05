@@ -114,8 +114,8 @@ ALTER TABLE `Request` ADD FOREIGN KEY (creator_user_id) REFERENCES `User` (`id`)
 ALTER TABLE `Request` ADD FOREIGN KEY (manager_user_id) REFERENCES `User` (`id`);
 ALTER TABLE `Notification` ADD FOREIGN KEY (request_id) REFERENCES `Request` (`id`);
 ALTER TABLE `Notification` ADD FOREIGN KEY (report_id) REFERENCES `Report` (`id`);
-ALTER TABLE `Relationship` ADD FOREIGN KEY (primary) REFERENCES `User` (`id`);
-ALTER TABLE `Relationship` ADD FOREIGN KEY (secondary) REFERENCES `User` (`id`);
+ALTER TABLE `Relationship` ADD FOREIGN KEY (`primary`) REFERENCES `User` (`id`);
+ALTER TABLE `Relationship` ADD FOREIGN KEY (`secondary`) REFERENCES `User` (`id`);
 
 -- ---
 -- Table Properties

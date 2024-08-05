@@ -245,7 +245,7 @@ public class ConnectionManager {
 			throw new AcServerRuntimeException(lastError);
 		}
 	}
-	
+
 	public void deleteNotification(String id) {
 		String[] respComm = serverCall(ServerAction.DELETE_NOTIFICATION, id);
 		if(checkIfErrorAndParse(respComm)){
@@ -331,7 +331,7 @@ public class ConnectionManager {
 		List<String> args = new ArrayList<>();
 		for(String[] prop : userProps)
 			args.add(prop[0]+"="+prop[1]);
-		
+
 		ServerAction sa;
 		switch(serviceType){
 		case APP_CI:
@@ -351,19 +351,19 @@ public class ConnectionManager {
 	}
 
 	public void refreshRelationsData() {
-		
+
 		String[] respComm = serverCall(ServerAction.GET_RELATIONS, username);
 		if(checkIfErrorAndParse(respComm)){
 			throw new AcServerRuntimeException(lastError);
 		}
-		
+
 		String[] relationList = respComm[1].split(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR);
 		if(relationsAttributes != null){
 			relationsAttributes.clear();
 		} else {
 			relationsAttributes = new HashMap<>();
 		}
-		
+
 		for(String user : relationList){
 			Map<String, String> tmpMap = new HashMap<>();
 			respComm = serverCall(ServerAction.GET_USER_DATA, user);
@@ -379,11 +379,19 @@ public class ConnectionManager {
 			relationsAttributes.put(tmpMap.get("id"), tmpMap);
 		}
 	}
-	
+
 	public String getRelationAttribute(String username, String attrName){
 		return relationsAttributes.get(username).get(attrName);
 	}
-	
+
+	public String getRelationUsernameFromAttribute(String attrName, String attrValue){
+		for(String key : getRelationsList()) {
+			if(attrValue.equals(getRelationAttribute(key, attrName)))
+				return key;
+		}
+		return null;
+	}
+
 	public String[] getRelationsList(){
 		return relationsAttributes.keySet().toArray(new String[0]);
 	}
@@ -408,7 +416,11 @@ public class ConnectionManager {
 	}
 
 	public void createSimpleRequest(ServiceType serviceType, List<String[]> userProps) {
-		String[] respComm = serverCall(ServerAction.CREATE_NEW_REQUEST, username, ""+isAdmin(), ""+serviceType);
+		List<String> args = new ArrayList<>();
+		for(String[] prop : userProps)
+			args.add(prop[0]+"="+prop[1]);
+
+		String[] respComm = serverCall(ServerAction.CREATE_NEW_REQUEST, username, ""+isAdmin(), ""+serviceType, String.join(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR, args.toArray(new String[0])));
 		if(checkIfErrorAndParse(respComm)){
 			throw new AcServerRuntimeException(lastError);
 		}
@@ -416,16 +428,16 @@ public class ConnectionManager {
 
 	public void createResidenceChangeRequest(ServiceType camRes, List<String[]> userProps) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void createMedicChangeRequest(ServiceType camMed, List<String[]> userProps) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void createPaymentRequest(ServiceType pagTick, List<String[]> userProps) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

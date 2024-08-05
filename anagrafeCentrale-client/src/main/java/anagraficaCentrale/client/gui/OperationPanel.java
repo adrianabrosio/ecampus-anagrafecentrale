@@ -600,4 +600,12 @@ public class OperationPanel {
 		throw new UnsupportedOperationException("downloadFile is not implemented yet");
 	}
 
+	public Dimension getRightPanelSize() {
+		Dimension d = new Dimension(400,400);
+		try {
+			d = splitPane.getRightComponent().getSize();
+		} catch(Exception e) {}
+		return d;
+	}
+
 }

@@ -53,11 +53,9 @@ public class ServerInstance extends Thread {
 		while(isAlive){
 
 			logger.debug("Waiting for input..");
-			// read the message with a buffer. Message end with \n
+			// read the message with a buffer
 			try {
-				//-- need to change EOL separator in COMM_EOL
-				//BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				//strToDecrypt = br.readLine();
+				//to avoid errors in the communication, the standard EOL ('\n') has been replaced with in COMM_EOL
 				InputStream is = socket.getInputStream();
 				StringBuilder sb = new StringBuilder();
 				byte[] buffer = new byte[1024];

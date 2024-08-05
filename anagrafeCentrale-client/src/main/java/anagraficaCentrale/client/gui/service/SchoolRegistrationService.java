@@ -37,7 +37,7 @@ public class SchoolRegistrationService extends GenericService {
 		JPanel innerPanel = new JPanel(new BorderLayout());
 
 		operationPanel.getConnectionManager().refreshUserData();
-		Map<String, Map<String,String>> usersList = new HashMap<>();
+		usersList = new HashMap<>();
 		usersList.putAll(operationPanel.getConnectionManager().getRelationsData());
 
 		JComboBox<String> userList = new JComboBox<>(usersList.keySet().toArray(new String[0]));
@@ -54,7 +54,13 @@ public class SchoolRegistrationService extends GenericService {
 		
 		String selection = (String) userList.getSelectedItem();
 
-		textField = new JEditorPane();
+		textField = new JEditorPane(); 
+		/*{
+			@Override
+			public Dimension getPreferredSize() {
+				return operationPanel.getRightPanelSize();
+			}
+		};*/
 		textField.setContentType("text/html");
 		textField.setText(getTextAreaContent(selection));
 		textField.setEditable(false);
@@ -94,8 +100,10 @@ public class SchoolRegistrationService extends GenericService {
 		String[] prorToReplace = new String[]{"first_name" , "surname", "birth_town", "birth_province", "birthdate", "tax_id_code", "address", "town", "province", "zip_code"};
 		for(String attrName : prorToReplace)
 			text = text.replaceAll("!"+attrName, operationPanel.getConnectionManager().getUserAttribute(attrName));
+		
+		String selectionUsername = operationPanel.getConnectionManager().getRelationUsernameFromAttribute("tax_id_code", selection);
 		for(String attrName : prorToReplace)
-			text = text.replaceAll("&"+attrName, usersList.get(selection).get(attrName));
+			text = text.replaceAll("&"+attrName, operationPanel.getConnectionManager().getRelationAttribute(selectionUsername, attrName));
 		return text;
 	}
 
