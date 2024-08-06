@@ -192,7 +192,7 @@ public class CanteenPaymentService extends GenericService {
 		//validation
 		boolean formIncomplete = false;
 		
-		if(feeText.fieldValidation()){
+		if(feeText.fieldIsValid()){
 			formIncomplete = true;
 		}
 		

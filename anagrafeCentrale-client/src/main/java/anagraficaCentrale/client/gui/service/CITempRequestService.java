@@ -130,7 +130,7 @@ public class CITempRequestService extends GenericService {
 		//validation
 		boolean formIncomplete = false;
 
-		if(reasonText.fieldValidation()){
+		if(!reasonText.fieldIsValid()){
 			formIncomplete = true;
 		}
 		

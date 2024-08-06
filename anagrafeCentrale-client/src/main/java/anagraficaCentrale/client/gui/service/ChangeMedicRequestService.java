@@ -142,11 +142,11 @@ public class ChangeMedicRequestService extends GenericService {
 		//validation
 		boolean formIncomplete = false;
 
-		if(textFirstName.fieldValidation()){
+		if(textFirstName.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(textSurname.fieldValidation()){
+		if(textSurname.fieldIsValid()){
 			formIncomplete = true;
 		}
 		

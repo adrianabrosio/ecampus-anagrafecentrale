@@ -165,11 +165,11 @@ public class TicketPaymentService extends GenericService {
 		//validation
 		boolean formIncomplete = false;
 
-		if(ticketNumberText.fieldValidation()){
+		if(ticketNumberText.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(cardNumberText.fieldValidation()){
+		if(cardNumberText.fieldIsValid()){
 			formIncomplete = true;
 		}else if(cardNumberText.getText().length()<15){
 			cardNumberText.setError(GUIConstants.LANG.errInvalidCardNumber);

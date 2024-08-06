@@ -2,7 +2,6 @@ package anagraficaCentrale.server.core;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -305,9 +304,10 @@ public class ServerOperationImpl implements ServerOperationIF {
 			//output
 			//verify if user exists
 			ResultSet rs = qm.getStatement().executeQuery("SELECT * FROM Relationship WHERE `primary`='" + username + "' AND degree IN ('madre', 'padre')");
-			if(!rs.first()){
-				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgLoginUserNotExists, "false"};
-			}
+			//fix - a user may not have relations
+			//if(!rs.first()){
+			//	return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgLoginUserNotExists, "false"};
+			//}
 			ArrayList<String> attrList = new ArrayList<>();
 			attrList.add(ClientServerConstants.SERVER_RESP_OK); //op return value
 

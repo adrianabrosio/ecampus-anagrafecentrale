@@ -356,8 +356,8 @@ public class ConnectionManager {
 		if(checkIfErrorAndParse(respComm)){
 			throw new AcServerRuntimeException(lastError);
 		}
-
-		String[] relationList = respComm[1].split(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR);
+		//the user may not have any relation. In any case, clear the relations attributes 
+		String[] relationList = respComm.length>=2? respComm[1].split(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR) : new String[0];
 		if(relationsAttributes != null){
 			relationsAttributes.clear();
 		} else {

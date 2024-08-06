@@ -216,7 +216,7 @@ public class MedicalAppointmentService extends GenericService {
 		//validation
 		boolean formIncomplete = false;
 		
-		if(!visitText.fieldValidation())
+		if(!visitText.fieldIsValid())
 			formIncomplete = true;
 
 		if(datePicker1.getText() == null || datePicker1.getText().equals("") || !datePicker1.isTextFieldValid() || datePicker1.getDate().isBefore(LocalDate.now())){

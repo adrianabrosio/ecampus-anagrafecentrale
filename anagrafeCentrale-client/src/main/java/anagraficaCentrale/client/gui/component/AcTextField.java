@@ -57,7 +57,7 @@ public class AcTextField extends JPanel {
 			@Override
 			public void focusLost(FocusEvent e) {
 				logger.debug("focus lost");
-				fieldValidation();
+				fieldIsValid();
 			}
 
 			@Override
@@ -68,7 +68,7 @@ public class AcTextField extends JPanel {
 		});
 	}
 
-	public boolean fieldValidation() {
+	public boolean fieldIsValid() {
 		if(isMandatory){
 			if(getText().equals("")){
 				setError(GUIConstants.LANG.lblErrorMandatoryField);
@@ -76,9 +76,9 @@ public class AcTextField extends JPanel {
 			}
 		}
 		if(isDigitOnly){
-			String CF_REGEX = "\\d*";
-			Pattern CF_PATTERN = Pattern.compile(CF_REGEX);
-			Matcher matcher = CF_PATTERN.matcher(getText());
+			String digitRegex = "\\d*";
+			Pattern digitPattern = Pattern.compile(digitRegex);
+			Matcher matcher = digitPattern.matcher(getText());
 		    if(!matcher.matches()){
 		    	setError(GUIConstants.LANG.lblErrorOnlyDigit);
 		    	return false;

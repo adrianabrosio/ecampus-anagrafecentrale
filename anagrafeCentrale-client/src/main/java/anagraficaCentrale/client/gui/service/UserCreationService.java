@@ -323,15 +323,15 @@ public class UserCreationService extends GenericService {
 	protected boolean isFormValid() {
 		//validation
 		boolean formIncomplete = false;
-		if(textField.fieldValidation()){
+		if(!textField.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(textField_1.fieldValidation()){
+		if(!textField_1.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(textField_2.fieldValidation()){
+		if(!textField_2.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
@@ -339,7 +339,7 @@ public class UserCreationService extends GenericService {
 			formIncomplete = true;
 		}
 		
-		if(textField_5.fieldValidation()){
+		if(!textField_5.fieldIsValid()){
 			formIncomplete = true;
 		} else {
 			//CF validation
@@ -351,35 +351,35 @@ public class UserCreationService extends GenericService {
 			
 		}
 		
-		if(textField_6.fieldValidation()){
+		if(!textField_6.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(textField_6_1.fieldValidation()){
+		if(!textField_6_1.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(textField_7.fieldValidation()){
+		if(!textField_7.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(textField_8.fieldValidation()){
+		if(!textField_8.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(textField_9.fieldValidation()){
+		if(!textField_9.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(textField_10.fieldValidation()){
+		if(!textField_10.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(textField_11.fieldValidation()){
+		if(!textField_11.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(textField_12.fieldValidation()){
+		if(!textField_12.fieldIsValid()){
 			formIncomplete = true;
 		}
 		return !formIncomplete;
