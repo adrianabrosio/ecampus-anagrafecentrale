@@ -335,8 +335,7 @@ public class ConnectionManager {
 		ServerAction sa;
 		switch(serviceType){
 		case APP_CI:
-			sa = ServerAction.CREATE_NEW_REQUEST;
-			break;
+		case PREN_VIS:
 		case COLL_INS:
 			sa = ServerAction.CREATE_NEW_REQUEST;
 			break;

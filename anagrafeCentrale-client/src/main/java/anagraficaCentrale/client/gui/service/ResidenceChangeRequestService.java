@@ -169,19 +169,19 @@ public class ResidenceChangeRequestService extends GenericService {
 		//validation
 		boolean formIncomplete = false;
 
-		if(newAddress.fieldIsValid()){
+		if(!newAddress.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(newTown.fieldIsValid()){
+		if(!newTown.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(newProvince.fieldIsValid()){
+		if(!newProvince.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(newZipCode.fieldIsValid()){
+		if(!newZipCode.fieldIsValid()){
 			formIncomplete = true;
 		}
 		

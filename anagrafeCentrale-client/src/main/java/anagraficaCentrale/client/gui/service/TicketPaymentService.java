@@ -19,6 +19,7 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
+import anagraficaCentrale.client.utils.FakeBankTransactionPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 public class TicketPaymentService extends GenericService {
@@ -124,13 +125,22 @@ public class TicketPaymentService extends GenericService {
 				userProps.add(new String[]{"request_type", ""+ServiceType.PAG_TICK});
 
 				try{
-					operationPanel.getConnectionManager().createPaymentRequest(ServiceType.PAG_TICK, userProps);
+					new FakeBankTransactionPanel() {
+
+						@Override
+						public void callback() {
+							operationPanel.getConnectionManager().createPaymentRequest(ServiceType.PAG_TICK, userProps);
+							operationPanel.popupInfo(GUIConstants.LANG.msgTicketPaymentSuccess);
+							clearForm();
+						}
+						
+					};
+					
 				}catch(Exception e){
 					operationPanel.popupError(e);
 					return;
 				}
-				operationPanel.popupInfo(GUIConstants.LANG.msgTicketPaymentSuccess);
-				clearForm();
+				
 			}
 
 		});
@@ -146,7 +156,6 @@ public class TicketPaymentService extends GenericService {
 		lowerPanel.setLayout(new GridLayout(0,1));
 		lowerPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		lowerPanel.add(createUserButton);
-		//lowerPanel.add(new JLabel(""));
 
 		innerPanel.add(lowerPanel, BorderLayout.AFTER_LAST_LINE);
 		return innerPanel;
@@ -165,11 +174,11 @@ public class TicketPaymentService extends GenericService {
 		//validation
 		boolean formIncomplete = false;
 
-		if(ticketNumberText.fieldIsValid()){
+		if(!ticketNumberText.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
-		if(cardNumberText.fieldIsValid()){
+		if(!cardNumberText.fieldIsValid()){
 			formIncomplete = true;
 		}else if(cardNumberText.getText().length()<15){
 			cardNumberText.setError(GUIConstants.LANG.errInvalidCardNumber);

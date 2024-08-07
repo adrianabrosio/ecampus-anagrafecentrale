@@ -22,6 +22,7 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
+import anagraficaCentrale.client.utils.FakeBankTransactionPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 public class SchoolFeePaymentService extends GenericService {
@@ -151,13 +152,21 @@ public class SchoolFeePaymentService extends GenericService {
 				userProps.add(new String[]{"request_type", ""+ServiceType.PAG_RET});
 
 				try{
-					operationPanel.getConnectionManager().createPaymentRequest(ServiceType.PAG_RET, userProps);
+					new FakeBankTransactionPanel() {
+
+						@Override
+						public void callback() {
+							operationPanel.getConnectionManager().createPaymentRequest(ServiceType.PAG_RET, userProps);
+							operationPanel.popupInfo(GUIConstants.LANG.msgTicketPaymentSuccess);
+							clearForm();
+						}
+						
+					};
+					
 				}catch(Exception e){
 					operationPanel.popupError(e);
 					return;
 				}
-				operationPanel.popupInfo(GUIConstants.LANG.msgTicketPaymentSuccess);
-				clearForm();
 			}
 
 		});
@@ -184,7 +193,7 @@ public class SchoolFeePaymentService extends GenericService {
 	}
 
 	protected void clearForm() {
-		monthText.setSelectedIndex(1);
+		monthText.setSelectedIndex(0);
 		feeText.setText("");
 	}
 
@@ -192,7 +201,7 @@ public class SchoolFeePaymentService extends GenericService {
 		//validation
 		boolean formIncomplete = false;
 		
-		if(feeText.fieldIsValid()){
+		if(!feeText.fieldIsValid()){
 			formIncomplete = true;
 		}
 		
