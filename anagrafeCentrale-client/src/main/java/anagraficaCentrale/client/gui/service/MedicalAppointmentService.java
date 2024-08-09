@@ -174,9 +174,9 @@ public class MedicalAppointmentService extends GenericService {
 				userProps.add(new String[]{"portal_type", ""+operationPanel.getPortalType().getValue()});
 				userProps.add(new String[]{"creator_user_id", operationPanel.getConnectionManager().getUserAttribute("id")});
 				userProps.add(new String[]{"tax_id_code", (String) userList.getSelectedItem()});
-				userProps.add(new String[]{"visit", visitText.getText()});
+				userProps.add(new String[]{"medical_examination", visitText.getText()});
 				String sqlDateFormated = datePicker1.getDate().format(DateTimeFormatter.ISO_DATE);
-				userProps.add(new String[]{"appointmentDate", sqlDateFormated});
+				userProps.add(new String[]{"appointment_date", sqlDateFormated});
 				userProps.add(new String[]{"request_type", ""+ServiceType.PREN_VIS});
 
 				try{

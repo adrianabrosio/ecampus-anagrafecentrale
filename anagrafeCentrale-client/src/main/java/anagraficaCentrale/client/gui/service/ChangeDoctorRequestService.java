@@ -21,7 +21,7 @@ import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
-public class ChangeMedicRequestService extends GenericService {
+public class ChangeDoctorRequestService extends GenericService {
 	private JEditorPane textField;
 	private AcTextField textFirstName;
 	private AcTextField textSurname;
@@ -30,7 +30,7 @@ public class ChangeMedicRequestService extends GenericService {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ChangeMedicRequestService(OperationPanel op) {
+	public ChangeDoctorRequestService(OperationPanel op) {
 		super(op);
 		setTitle(GUIConstants.LANG.lbl_CAM_MED_SrvTitle);
 	}
@@ -96,7 +96,7 @@ public class ChangeMedicRequestService extends GenericService {
 				userProps.add(new String[]{"request_type", ""+ServiceType.CAM_MED});
 
 				try{
-					operationPanel.getConnectionManager().createMedicChangeRequest(ServiceType.CAM_MED, userProps);
+					operationPanel.getConnectionManager().createDoctorChangeRequest(ServiceType.CAM_MED, userProps);
 				}catch(Exception e){
 					operationPanel.popupError(e);
 					return; 

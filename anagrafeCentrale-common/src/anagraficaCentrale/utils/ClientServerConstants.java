@@ -33,10 +33,10 @@ public class ClientServerConstants {
 	 * <table border="1">
 	 * 	<tr><th>Portal</th>	<th>Servizio</th><th>Tecnico</th></tr>
 	 * 	<tr><td>Comune</td>		<td>Appuntamento Carta d’Identità</td>	<td>APP_CI</td></tr>
-	 * 	<tr><td>Comune</td>		<td>Carta d’Identità temporanea</td>		<td>CI_TEMP</td></tr>
+	 * 	<tr><td>Comune</td>		<td>Carta d’Identità temporanea</td>	<td>CI_TEMP</td></tr>
 	 * 	<tr><td>Comune</td>		<td>Cambio domicilio</td> 				<td>CAM_DOM</td></tr>
 	 * 	<tr><td>Comune</td>		<td>Cambio residenza</td> 				<td>CAM_RES</td></tr>
-	 * 	<tr><td>Comune</td>		<td>Certificato di Nascita</td> 			<td>CERT_NASC</td></tr>
+	 * 	<tr><td>Comune</td>		<td>Certificato di Nascita</td> 		<td>CERT_NASC</td></tr>
 	 * 	<tr><td>Comune</td>		<td>Certificato di matrimonio</td> 		<td>CERT_MATR</td></tr>
 	 * 	<tr><td>Comune</td>		<td>Stato di famiglia</td> 				<td>STAT_FAM</td></tr>
 	 * 	<tr><td>Ospedale</td>	<td>Cambio medico</td> 					<td>CAM_MED</td></tr>
@@ -46,11 +46,12 @@ public class ClientServerConstants {
 	 * 	<tr><td>Scuola</td>		<td>Pagamento servizio mensa</td> 		<td>PAG_MEN</td></tr>
 	 * 	<tr><td>Scuola</td>		<td>Iscrizione</td>						<td>ISCRIZ</td></tr>
 	 * 	<tr><td>Scuola</td>		<td>Colloquio Insegnanti</td>			<td>COLL_INS</td></tr>
-	 * 	<tr><td>Comune</td>		<td>Admin: creazione utente</td>			<td>ADM_CREAZ_USR</td></tr>
+	 * 	<tr><td>Comune</td>		<td>Admin: creazione utente</td>		<td>ADM_CREAZ_USR</td></tr>
+	 * 	<tr><td>Comune</td>		<td>Admin: modifica utente</td>			<td>ADM_MOD_USR</td></tr>
 	 * </table>
 	 *
 	 */
-	public enum ServiceType {DUMMY, APP_CI, CI_TEMP, CAM_DOM, CAM_RES, CERT_NASC, CERT_MATR, STAT_FAM, CAM_MED, PREN_VIS, PAG_TICK, PAG_RET, PAG_MEN, ISCRIZ, COLL_INS, ADM_CREAZ_USR};
+	public enum ServiceType {DUMMY, APP_CI, CI_TEMP, CAM_DOM, CAM_RES, CERT_NASC, CERT_MATR, STAT_FAM, CAM_MED, PREN_VIS, PAG_TICK, PAG_RET, PAG_MEN, ISCRIZ, COLL_INS, ADM_CREAZ_USR, ADM_MOD_USR};
 
 	public enum ServerAction {
 		/**LOGOUT
@@ -64,25 +65,25 @@ public class ClientServerConstants {
 		 */
 		LOGIN(2),
 		
-		/**TODO CREATE_ACCOUNT
-		 * request: username, password
+		/**CREATE_ACCOUNT
+		 * request: username, <user data>
 		 * response: result[OK|KO], message
 		 */
 		CREATE_ACCOUNT(3),
 		
-		/**TODO MARK_NOTIFICATION_AS_READ
+		/**MARK_NOTIFICATION_AS_READ
 		 * request: Notification.ID
 		 * response: result[OK|KO], message
 		 */
 		MARK_NOTIFICATION_AS_READ(4),
 		
-		/**TODO DOWNLOAD_FILE
+		/**DOWNLOAD_FILE
 		 * request: username
 		 * response: result[OK|KO], message
 		 */
 		DOWNLOAD_FILE(5),
 		
-		/**TODO CREATE_NEW_REQUEST
+		/**CREATE_NEW_REQUEST
 		 * request: username
 		 * response: result[OK|KO], message
 		 */
@@ -94,7 +95,7 @@ public class ClientServerConstants {
 		 */
 		CREATE_NEW_REPORT(7),
 		
-		/**TODO GET_REQUEST_DATA
+		/**GET_REQUEST_DATA
 		 * request: username
 		 * response: result[OK|KO], message
 		 */
@@ -106,25 +107,25 @@ public class ClientServerConstants {
 		 */
 		GET_USER_DATA(9),
 		
-		/**TODO GET_NOTIFICATION_LIST
+		/**GET_NOTIFICATION_LIST
 		 * request: username
 		 * response: result[OK|KO], 
 		 */
 		GET_NOTIFICATION_LIST(10),
 		
-		/**TODO GET_REQUEST_LIST
+		/** GET_REQUEST_LIST
 		 * request: username
 		 * response: result[OK|KO], 
 		 */
 		GET_REQUEST_LIST(11),
 		
-		/**TODO GET_REPORT_LIST
+		/** GET_REPORT_LIST
 		 * request: username
 		 * response: result[OK|KO], 
 		 */
 		GET_REPORT_LIST(12), 
 		
-		/**TODO CHECK_NEW_NOTIFICATION - look for new notification on the server
+		/** CHECK_NEW_NOTIFICATION - look for new notification on the server
 		 * request: 
 		 * response: result[OK|KO], new notification[true|false]
 		 */
@@ -134,11 +135,16 @@ public class ClientServerConstants {
 		 * response: result[OK|KO], message
 		 */
 		DELETE_NOTIFICATION(14), 
-		/**TODO DELETE_NOTIFICATION
+		/**GET_RELATIONS
 		 * request: username
 		 * response: result[OK|KO], <relations list>
 		 */
-		GET_RELATIONS(15)
+		GET_RELATIONS(15), 
+		/**EDIT_ACCOUNT
+		 * request: username, <user data>
+		 * response: result[OK|KO], message
+		 */
+		EDIT_ACCOUNT(16)
 		;
 
 		private static Map<Integer, ServerAction> internalMap = new HashMap<>();

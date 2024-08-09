@@ -78,6 +78,7 @@ public class SchoolRegistrationService extends GenericService {
 				userProps.add(new String[]{"portal_type", ""+operationPanel.getPortalType().getValue()});
 				userProps.add(new String[]{"creator_user_id", operationPanel.getConnectionManager().getUserAttribute("id")});
 				userProps.add(new String[]{"request_type", ""+getServiceType()});
+				userProps.add(new String[]{"tax_id_code", (String) userList.getSelectedItem()});
 
 				try{
 					operationPanel.getConnectionManager().createSimpleRequest(getServiceType(), userProps);

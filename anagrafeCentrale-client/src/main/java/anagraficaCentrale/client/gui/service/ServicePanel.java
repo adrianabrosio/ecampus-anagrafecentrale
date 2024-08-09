@@ -45,6 +45,7 @@ public class ServicePanel extends FilterableResourcePanel {
 				addResource(new ServiceElement(op, GUIConstants.LANG.lblServiceSTAT_FAM, ServiceType.STAT_FAM));
 			} else {
 				addResource(new ServiceElement(op, GUIConstants.LANG.lblServiceCreateUser, ServiceType.ADM_CREAZ_USR));
+				addResource(new ServiceElement(op, GUIConstants.LANG.lblServiceEditUser, ServiceType.ADM_MOD_USR));
 			}
 			break;
 		case OSPEDALE:

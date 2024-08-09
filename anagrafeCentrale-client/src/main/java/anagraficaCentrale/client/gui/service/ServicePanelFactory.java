@@ -53,7 +53,7 @@ public class ServicePanelFactory {
 	}
 
 	public static GenericService generateDoctorChangePanel(OperationPanel operationPanel) {
-		return new ChangeMedicRequestService(operationPanel);
+		return new ChangeDoctorRequestService(operationPanel);
 	}
 
 	public static GenericService generateMedicalAppointmentPanel(OperationPanel operationPanel) {
@@ -78,5 +78,9 @@ public class ServicePanelFactory {
 
 	public static GenericService generateTeacherInterviewPanel(OperationPanel operationPanel) {
 		return new TeacherInterviewAppointmentService(operationPanel);
+	}
+
+	public static GenericService generateUserEditPanel(OperationPanel operationPanel) {
+		return new UserCreationService(operationPanel, true);
 	}
 }

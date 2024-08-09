@@ -79,7 +79,9 @@ public class ServerInstance extends Thread {
 				action = ServerAction.castIntToEnum(Integer.parseInt(commArgs[0]));
 				username = commArgs.length>=1? commArgs[1] : "NULL";
 
-				logger.info(this.getName() + " - Action: " + action + ", username: " + username );
+				if(action != ServerAction.CHECK_NEW_NOTIFICATION || logger.isDebugEnabled()) {
+					logger.info(this.getName() + " - Action: " + action + ", username: " + username );
+				}
 				// Do the action
 				switch ( action ){
 				case LOGIN:

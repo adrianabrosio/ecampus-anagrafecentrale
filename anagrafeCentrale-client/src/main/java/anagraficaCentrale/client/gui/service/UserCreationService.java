@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -50,14 +51,29 @@ public class UserCreationService extends GenericService {
 	private DatePicker datePicker1;
 	private JComboBox<String> genderList;
 	private AcCheckBoxGroup authGroup;
+	private AcServiceButton createUserButton, searchUserButton;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private boolean editMode;
+	
 	public UserCreationService(OperationPanel op) {
 		super(op);
 		setTitle(GUIConstants.LANG.lblUserCreationSrvTitle);
+		editMode = false;
+	}
+	
+	public UserCreationService(OperationPanel op, boolean edit) {
+		super(op);
+		setTitle(edit? GUIConstants.LANG.lblServiceEditUser :GUIConstants.LANG.lblUserCreationSrvTitle);
+		editMode = edit;
+		if(editMode) {
+			//searchUserButton visible
+			createUserButton.setVisible(false);
+			initFields(true);
+		}
 	}
 
 	@Override
@@ -232,7 +248,7 @@ public class UserCreationService extends GenericService {
 		authGroup = new AcCheckBoxGroup(new String[]{GUIConstants.LANG.lblComuneTitle, GUIConstants.LANG.lblOspedaleTitle, GUIConstants.LANG.lblScuolaTitle}) ;
 		attrPanel.add(authGroup, gbc);
 
-		AcServiceButton createUserButton = new AcServiceButton(GUIConstants.LANG.lbluserCreationCreateUserBtn);
+		createUserButton = new AcServiceButton(GUIConstants.LANG.lbluserCreationCreateUserBtn);
 		createUserButton.setBorder(new MatteBorder(2, 3, 2, 3, operationPanel.guiBackgroundColor));
 		createUserButton.addActionListener(new ActionListener(){
 
@@ -242,7 +258,16 @@ public class UserCreationService extends GenericService {
 				if(!isFormValid())
 					return;
 				
-				int choice = JOptionPane.showConfirmDialog(UserCreationService.this, GUIConstants.LANG.userCreateConfirmMsg,  GUIConstants.LANG.userCreateConfirmTitle, JOptionPane.WARNING_MESSAGE);
+				String msg, titl;
+				if(!editMode) {
+					msg = GUIConstants.LANG.userCreateConfirmMsg;
+					titl = GUIConstants.LANG.userCreateConfirmTitle;
+				} else {
+					msg = GUIConstants.LANG.userEditConfirmMsg;
+					titl = GUIConstants.LANG.userEditConfirmTitle;
+				}
+				
+				int choice = JOptionPane.showConfirmDialog(UserCreationService.this, msg,  titl, JOptionPane.WARNING_MESSAGE);
 				if(choice != JOptionPane.OK_OPTION)
 					return;
 				
@@ -274,15 +299,32 @@ public class UserCreationService extends GenericService {
 				userProps.add(new String[]{"authorization", authGroup.getCheckBoxString()});
 
 				try{
-					operationPanel.getConnectionManager().createUser(userProps);
+					if(!editMode) {
+						operationPanel.getConnectionManager().createUser(userProps);
+						operationPanel.popupInfo(GUIConstants.LANG.msgUserCreateSuccess);
+					} else {
+						operationPanel.getConnectionManager().editUser(userProps);
+						operationPanel.popupInfo(GUIConstants.LANG.msgUserEditSuccess);
+					}					
+					clearForm();
 				}catch(AcServerRuntimeException e){
 					operationPanel.popupError(e);
 					return;
 				}
-				operationPanel.popupInfo(GUIConstants.LANG.msgUserCreateSuccess);
-				clearForm();
+				
 			}
 
+		});
+		
+		searchUserButton = new AcServiceButton(GUIConstants.LANG.lbluserCreationSearchUserBtn);
+		searchUserButton.setBorder(new MatteBorder(2, 3, 2, 3, operationPanel.guiBackgroundColor));
+		searchUserButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				setFields(textField.getText());
+			}
+		
 		});
 		
 		attrPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
@@ -296,10 +338,58 @@ public class UserCreationService extends GenericService {
 		lowerPanel.setLayout(new GridLayout(0,1));
 		lowerPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		lowerPanel.add(createUserButton);
+		lowerPanel.add(searchUserButton);
 		//lowerPanel.add(new JLabel(""));
 		
 		innerPanel.add(lowerPanel, BorderLayout.AFTER_LAST_LINE);
+		
 		return innerPanel;
+	}
+
+	private void initFields(boolean init) {
+		textField.setEnabled(init); //id
+		textField_1.setEnabled(!init); //first_name
+		textField_2.setEnabled(!init); //surname
+		datePicker1.setEnabled(!init); //birthdate
+		genderList.setEnabled(!init);//gender
+		textField_5.setEnabled(!init);//tax_id_code
+		textField_6.setEnabled(!init);//birth_town
+		textField_6_1.setEnabled(!init);//birth_province
+		textField_7.setEnabled(!init);//birth_state
+		textField_8.setEnabled(!init);//address
+		textField_9.setEnabled(!init);//town
+		textField_10.setEnabled(!init);//province
+		textField_11.setEnabled(!init);//state
+		textField_12.setEnabled(!init);//zip_code
+		authGroup.setEnabled(!init);//authorization
+	}
+	
+	private void setFields(String user) {
+		Map<String,String> userMap;
+		try {
+			userMap = operationPanel.getConnectionManager().getOtherUserData(user);
+		} catch(UserNotFoundException e) {
+			operationPanel.popupError(e);
+			return;
+		}
+		searchUserButton.setVisible(false);
+		createUserButton.setVisible(true);
+		initFields(false);
+		textField.setText(userMap.get("id")); //id
+		textField_1.setText(userMap.get("first_name")); //first_name
+		textField_2.setText(userMap.get("surname")); //surname
+		datePicker1.setDate(LocalDate.parse(userMap.get("birthdate"))); //birthdate
+		genderList.setSelectedItem(userMap.get("gender"));//gender
+		textField_5.setText(userMap.get("tax_id_code"));//tax_id_code
+		textField_6.setText(userMap.get("birth_town"));//birth_town
+		textField_6_1.setText(userMap.get("birth_province"));//birth_province
+		textField_7.setText(userMap.get("birth_state"));//birth_state
+		textField_8.setText(userMap.get("address"));//address
+		textField_9.setText(userMap.get("town"));//town
+		textField_10.setText(userMap.get("province"));//province
+		textField_11.setText(userMap.get("state"));//state
+		textField_12.setText(userMap.get("zip_code"));//zip_code
+		authGroup.setCheckBoxString(userMap.get("authorization"));//authorization
 	}
 
 	protected void clearForm() {

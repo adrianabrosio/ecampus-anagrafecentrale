@@ -43,18 +43,18 @@ INSERT INTO `Report` (`user_id`,`portal_type`,`file_path`,`file_display_name`,`f
 ('federicaDP',0,'','Test PDF 1','Test PDF','Contenuto test pdf');
 
 INSERT INTO `Report` (`user_id`,`portal_type`,`file_path`,`file_display_name`,`file_title`,`file_content`) VALUES
-('federicaDP',0,'','Scarica la tua carta d''identità provvisioria','CI Provvisoria','Nome:Federica Dataprep\nCognome:Bonzano\n\nQuesto documento non è valido per l''espatrio ');
+('federicaDP',0,'','Scarica la tua carta d''identitï¿½ provvisioria','CI Provvisoria','Nome:Federica Dataprep\nCognome:Bonzano\n\nQuesto documento non ï¿½ valido per l''espatrio ');
 
 INSERT INTO `Report` (`user_id`,`portal_type`,`file_path`,`file_display_name`,`file_title`,`file_content`) VALUES
 ('federicaDP',1,'','Test PDF ospedale','Referto','Sano come un pesce');
 
 --sample requests
 INSERT INTO `Request` (`portal_type`,`creator_user_id`,`manager_user_id`,`request_name`,`request_description`,`request_type`,`request_parameters`) VALUES
-(0,'federicaDP',null,'Richiesta di test','Descrizione richiesta di test','APP_CI','appointmentDate=2024-11-01 09:00');
+(0,'federicaDP',null,'Richiesta di test','Descrizione richiesta di test','APP_CI','appointment_date=2024-11-01 09:00');
 
 --sample notifications
 INSERT INTO `Notification` (`portal_type`, `report_id`, `notification_name`, `notification_description`, `notification_type`) VALUES 
-(0, 1, 'Test Report', 'Il report è pronto per il download', 'report');
+(0, 1, 'Test Report', 'Il report ï¿½ pronto per il download', 'report');
 INSERT INTO `Notification` (`portal_type`, `request_id`, `notification_name`, `notification_description`, `notification_type`) VALUES 
 (0, 1, 'Risultato richiesta 1 di federicaDP', ': NO', 'request');
 INSERT INTO `Notification` (`portal_type`, `request_id`, `notification_name`, `notification_description`, `notification_type`) VALUES 

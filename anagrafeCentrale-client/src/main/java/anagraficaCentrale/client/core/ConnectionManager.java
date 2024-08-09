@@ -24,6 +24,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import anagraficaCentrale.client.gui.service.UnsupportedServiceException;
+import anagraficaCentrale.client.gui.service.UserNotFoundException;
 import anagraficaCentrale.exception.AcServerRuntimeException;
 import anagraficaCentrale.utils.ClientServerConstants;
 import anagraficaCentrale.utils.ClientServerConstants.PortalType;
@@ -300,6 +301,17 @@ public class ConnectionManager {
 			throw new AcServerRuntimeException(lastError);
 		}
 	}
+	
+	public void editUser(List<String[]> userProps) {
+		List<String> args = new ArrayList<>();
+		for(String[] prop : userProps)
+			args.add(prop[0]+"="+prop[1]);
+
+		String[] respComm = serverCall(ServerAction.EDIT_ACCOUNT, username, ""+isAdmin(), String.join(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR, args.toArray(new String[0])));
+		if(checkIfErrorAndParse(respComm)){
+			throw new AcServerRuntimeException(lastError);
+		}
+	}
 
 	public ArrayList<Map<String,String>> getReportList(PortalType portalType) {
 		String[] respComm = serverCall(ServerAction.GET_REPORT_LIST, username, ""+isAdmin(), ""+portalType.getValue());
@@ -426,17 +438,31 @@ public class ConnectionManager {
 	}
 
 	public void createResidenceChangeRequest(ServiceType camRes, List<String[]> userProps) {
-		// TODO Auto-generated method stub
-
+		createSimpleRequest(camRes, userProps);
 	}
 
-	public void createMedicChangeRequest(ServiceType camMed, List<String[]> userProps) {
-		// TODO Auto-generated method stub
-
+	public void createDoctorChangeRequest(ServiceType camMed, List<String[]> userProps) {
+		createSimpleRequest(camMed, userProps);
 	}
 
 	public void createPaymentRequest(ServiceType pagTick, List<String[]> userProps) {
-		// TODO Auto-generated method stub
+		/*FAKE OPERATION*/
 
+	}
+
+	public Map<String, String> getOtherUserData(String user) throws UserNotFoundException{
+		String[] respComm = serverCall(ServerAction.GET_USER_DATA, user);
+		if(checkIfErrorAndParse(respComm)){
+			logger.error(lastError);
+			throw new UserNotFoundException();
+		}
+		HashMap<String,String> othersUserData = new HashMap<>();
+		for(String ret : respComm){
+			if(ret.contains("=")){
+				String[] tokens = ret.split("=", 2);
+				othersUserData.put(tokens[0], tokens[1]);
+			}
+		}
+		return othersUserData;
 	}
 }

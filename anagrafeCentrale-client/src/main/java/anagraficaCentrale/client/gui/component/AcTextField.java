@@ -131,6 +131,11 @@ public class AcTextField extends JPanel {
 	public void setEditable(boolean b) {
 		text.setEditable(b);
 	}
+	
+	@Override
+	public void setEnabled(boolean b) {
+		text.setEnabled(b);
+	}
 
 	public void setDigitOnly(boolean b) {
 		isDigitOnly  = b;

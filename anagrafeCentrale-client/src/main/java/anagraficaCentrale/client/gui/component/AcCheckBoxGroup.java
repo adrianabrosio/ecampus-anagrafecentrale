@@ -81,10 +81,27 @@ public class AcCheckBoxGroup extends JPanel {
     	return checkboxString.toString();
     }
     
+    public String setCheckBoxString(String checkboxString){
+    	for(int i = 0; i < checkBoxes.size(); i++) {
+    		try {
+    			boolean selected = checkboxString.charAt(i*2+1) == '1';
+    			checkBoxes.get(i).setSelected(selected);
+    		}catch(Exception e) {}
+    	}
+    	return checkboxString.toString();
+    }
 
 	public void clear() {
 		for(JCheckBox jcb : checkBoxes){
 			jcb.setSelected(false);
+    	}
+	}
+	
+	@Override
+	public void setEnabled(boolean status) {
+		all.setEnabled(status);
+		for(JCheckBox jcb : checkBoxes){
+			jcb.setEnabled(status);
     	}
 	}
 

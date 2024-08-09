@@ -513,4 +513,46 @@ public class ServerOperationImpl implements ServerOperationIF {
 			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
 		}
 	}
+
+	@Override
+	public String[] editAccountOperation(String[] commArgs) {
+		try {
+			//input
+			String username = commArgs.length>=2? commArgs[1]:null; //could be useful for future logging system
+			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
+			Map<String,String> userProps = parseUserProps(commArgs.length>=4? commArgs[3] : null);
+			String updateParams = commArgs.length>=4? commArgs[3] : null;
+
+			//check admin
+			if(!isAdmin)
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgCommandForAdminOnly};
+
+			//verify if user exists
+			ResultSet rs = qm.getStatement().executeQuery("SELECT * FROM User WHERE id='" + userProps.get("id") + "'");
+			if(!rs.first()){
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgUserNotExists};
+			}
+			
+			if(updateParams == null) {
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgInvalidUpdateParams};
+			}
+
+			String tableName = "User";
+			//String colString = Strings.join(userProps.keySet(), ',');
+			//String paramString = Strings.join(userProps.values(), ',');
+			//paramString = "'" + paramString.replace(",", "','") + "'";
+
+			String sql = String.format("UPDATE %s SET (%s) WHERE id='" + userProps.get("id") + "'", tableName, updateParams);
+
+			logger.debug("update user query: ["+sql+"]");
+			qm.getStatement().execute(sql);
+
+			return new String[]{ClientServerConstants.SERVER_RESP_OK, ServerConstants.LANG.msgUpdateUserSuccessful};
+
+
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + ServerConstants.LANG.msgInvalidUpdateParams + '\n'+ e.toString()};
+		}
+	}
 }

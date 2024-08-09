@@ -22,6 +22,7 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
+import anagraficaCentrale.client.utils.FakeBankTransactionPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 public class CanteenPaymentService extends GenericService {
@@ -150,14 +151,23 @@ public class CanteenPaymentService extends GenericService {
 				userProps.add(new String[]{"fee", feeText.getText()});
 				userProps.add(new String[]{"request_type", ""+ServiceType.PAG_MEN});
 
+				
 				try{
-					operationPanel.getConnectionManager().createPaymentRequest(ServiceType.PAG_MEN, userProps);
+					new FakeBankTransactionPanel() {
+
+						@Override
+						public void callback() {
+							operationPanel.getConnectionManager().createPaymentRequest(ServiceType.PAG_MEN, userProps);
+							operationPanel.popupInfo(GUIConstants.LANG.msgTicketPaymentSuccess);
+							clearForm();
+						}
+						
+					};
+					
 				}catch(Exception e){
 					operationPanel.popupError(e);
 					return;
 				}
-				operationPanel.popupInfo(GUIConstants.LANG.msgTicketPaymentSuccess);
-				clearForm();
 			}
 
 		});

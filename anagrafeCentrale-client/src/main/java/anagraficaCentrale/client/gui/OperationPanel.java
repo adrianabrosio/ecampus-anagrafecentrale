@@ -323,33 +323,35 @@ public class OperationPanel {
 		case DUMMY:
 			return ServicePanelFactory.generateDummyPanel(this);
 		case APP_CI    :
-			return ServicePanelFactory.generateCIAppointmentPanel(this);//TODO
+			return ServicePanelFactory.generateCIAppointmentPanel(this);
 		case CI_TEMP   :
-			return ServicePanelFactory.generateCITempPanel(this);//TODO
+			return ServicePanelFactory.generateCITempPanel(this);
 		case CAM_RES   :
-			return ServicePanelFactory.generateChangeResidencePanel(this);//TODO
+			return ServicePanelFactory.generateChangeResidencePanel(this);
 		case CERT_NASC :
-			return ServicePanelFactory.generateBirthCertPanel(this);//TODO
+			return ServicePanelFactory.generateBirthCertPanel(this);
 		case CERT_MATR :
-			return ServicePanelFactory.generateMarriageCertPanel(this);//TODO
+			return ServicePanelFactory.generateMarriageCertPanel(this);
 		case STAT_FAM  :
-			return ServicePanelFactory.generateFamilyStatusPanel(this);//TODO
+			return ServicePanelFactory.generateFamilyStatusPanel(this);
 		case CAM_MED   :
-			return ServicePanelFactory.generateDoctorChangePanel(this);//TODO
+			return ServicePanelFactory.generateDoctorChangePanel(this);
 		case PREN_VIS  :
-			return ServicePanelFactory.generateMedicalAppointmentPanel(this);//TODO
+			return ServicePanelFactory.generateMedicalAppointmentPanel(this);
 		case PAG_TICK  :
-			return ServicePanelFactory.generateTicketPaymentPanel(this);//TODO
+			return ServicePanelFactory.generateTicketPaymentPanel(this);
 		case PAG_RET   :
-			return ServicePanelFactory.generateSchoolFeePaymentPanel(this);//TODO
+			return ServicePanelFactory.generateSchoolFeePaymentPanel(this);
 		case PAG_MEN   :
-			return ServicePanelFactory.generateCanteenPaymentPanel(this);//TODO
+			return ServicePanelFactory.generateCanteenPaymentPanel(this);
 		case ISCRIZ    :
-			return ServicePanelFactory.generateSchoolRegistrationPanel(this);//TODO
+			return ServicePanelFactory.generateSchoolRegistrationPanel(this);
 		case COLL_INS  :
-			return ServicePanelFactory.generateTeacherInterviewPanel(this);//TODO
+			return ServicePanelFactory.generateTeacherInterviewPanel(this);
 		case ADM_CREAZ_USR:
 			return ServicePanelFactory.generateUserCreationPanel(this);
+		case ADM_MOD_USR:
+			return ServicePanelFactory.generateUserEditPanel(this);
 		default:
 			throw new UnsupportedServiceException(serviceType);
 		}
@@ -392,9 +394,9 @@ public class OperationPanel {
 	 * the log file
 	 */
 	public void popupError(Exception e) {
-		JOptionPane.showMessageDialog(this.frame, e.getClass()+": ["+e.getMessage()+"]", "Errore", JOptionPane.ERROR_MESSAGE );
 		statusLabel.setText("Error: "+e.getClass()+": "+e.getMessage());
 		logger.error(e.getMessage(), e);
+		JOptionPane.showMessageDialog(this.frame, e.getClass()+": ["+e.getMessage()+"]", "Errore", JOptionPane.ERROR_MESSAGE );
 	}
 	
 	/**
@@ -402,9 +404,9 @@ public class OperationPanel {
 	 * the log file
 	 */
 	public void popupWarning(Exception e) {
-		JOptionPane.showMessageDialog(this.frame, e.getClass()+": ["+e.getMessage()+"]", "Attenzione", JOptionPane.WARNING_MESSAGE );
 		statusLabel.setText("WARN: "+e.getClass()+": "+e.getMessage());
 		logger.warn(e.getMessage(), e);
+		JOptionPane.showMessageDialog(this.frame, e.getClass()+": ["+e.getMessage()+"]", "Attenzione", JOptionPane.WARNING_MESSAGE );
 	}
 	
 	/**
@@ -412,9 +414,9 @@ public class OperationPanel {
 	 * the log file
 	 */
 	public void popupInfo(String msg) {
-		JOptionPane.showMessageDialog(this.frame, msg, "Attenzione", JOptionPane.INFORMATION_MESSAGE );
 		statusLabel.setText("INFO: "+msg);
 		logger.info(msg);
+		JOptionPane.showMessageDialog(this.frame, msg, "Attenzione", JOptionPane.INFORMATION_MESSAGE );
 	}
 
 	/**

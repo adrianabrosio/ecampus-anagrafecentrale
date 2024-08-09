@@ -95,4 +95,10 @@ public interface ServerOperationIF {
 	 * response: result[OK|KO], <usernames of related users>
 	 */
 	public String[] getRelationsDataOperation(String[] commArgs);
+	
+	/**TODO EDIT_ACCOUNT
+	 * request: username, password
+	 * response: result[OK|KO], message
+	 */
+	public String[] editAccountOperation(String[] commArgs);
 }
