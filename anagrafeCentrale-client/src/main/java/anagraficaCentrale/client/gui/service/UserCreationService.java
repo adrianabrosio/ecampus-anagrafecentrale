@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.security.NoSuchAlgorithmException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -58,13 +60,11 @@ public class UserCreationService extends GenericService {
 	private static final long serialVersionUID = 1L;
 
 	private boolean editMode;
-	
+
 	public UserCreationService(OperationPanel op) {
-		super(op);
-		setTitle(GUIConstants.LANG.lblUserCreationSrvTitle);
-		editMode = false;
+		this(op, false);
 	}
-	
+
 	public UserCreationService(OperationPanel op, boolean edit) {
 		super(op);
 		setTitle(edit? GUIConstants.LANG.lblServiceEditUser :GUIConstants.LANG.lblUserCreationSrvTitle);
@@ -73,6 +73,7 @@ public class UserCreationService extends GenericService {
 			//searchUserButton visible
 			createUserButton.setVisible(false);
 			initFields(true);
+			textField.setPlaceholder(GUIConstants.LANG.lbluserCreationSearchUserPlaceholder);
 		}
 	}
 
@@ -83,13 +84,13 @@ public class UserCreationService extends GenericService {
 		//attrPanel.setLayout(new GridLayout(0, 2, 20, 20));
 		attrPanel.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.NORTH;
-        //gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.insets = new Insets(5, 15, 5, 15);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.anchor = GridBagConstraints.NORTH;
+		//gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.insets = new Insets(5, 15, 5, 15);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 1;
 
 		JLabel lblId = new JLabel(GUIConstants.LANG.lbluserCreationUsername + "*");
 		attrPanel.add(lblId, gbc);
@@ -98,6 +99,21 @@ public class UserCreationService extends GenericService {
 		gbc.gridx = 1;
 		attrPanel.add(textField, gbc);
 		textField.setMaximumCharacterSize(20);
+		textField.addKeyListenerToTextArea(new KeyListener(){
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar()==KeyEvent.VK_ENTER){
+					if(editMode) {
+						setFields(textField.getText());
+					}
+				}
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {}
+			@Override
+			public void keyReleased(KeyEvent e) {}
+
+		});
 
 		JLabel lblFirstName = new JLabel(GUIConstants.LANG.lbluserCreationFirstName + "*");
 		gbc.gridy++;
@@ -126,18 +142,18 @@ public class UserCreationService extends GenericService {
 
 		// Create a date picker with some custom settings.
 		DatePickerSettings dateSettings = new DatePickerSettings();
-	    dateSettings.setFirstDayOfWeek(DayOfWeek.MONDAY);
-	    dateSettings.setLocale(Locale.ITALIAN);
-	    dateSettings.setAllowEmptyDates(false);
-	    dateSettings.setColor(DateArea.CalendarBackgroundSelectedDate, GUIConstants.BACKGROUND_COLOR_1);
-	    dateSettings.setFormatForDatesCommonEra("dd/MM/yyyy");
+		dateSettings.setFirstDayOfWeek(DayOfWeek.MONDAY);
+		dateSettings.setLocale(Locale.ITALIAN);
+		dateSettings.setAllowEmptyDates(false);
+		dateSettings.setColor(DateArea.CalendarBackgroundSelectedDate, GUIConstants.BACKGROUND_COLOR_1);
+		dateSettings.setFormatForDatesCommonEra("dd/MM/yyyy");
 		datePicker1 = new DatePicker(dateSettings);
-	    final LocalDate today = LocalDate.now();
-	    dateSettings.setDateRangeLimits(LocalDate.MIN, today);
+		final LocalDate today = LocalDate.now();
+		dateSettings.setDateRangeLimits(LocalDate.MIN, today);
 
 		gbc.gridx = 1;
 		attrPanel.add(datePicker1, gbc);
-		
+
 		gbc.gridy++;
 		attrPanel.add(new JLabel(), gbc);//empty space
 
@@ -151,7 +167,7 @@ public class UserCreationService extends GenericService {
 		genderList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		gbc.gridx = 1;
 		attrPanel.add(genderList, gbc);
-		
+
 		gbc.gridy++;
 		attrPanel.add(new JLabel(), gbc);//empty space
 
@@ -164,83 +180,83 @@ public class UserCreationService extends GenericService {
 		gbc.gridx = 1;
 		attrPanel.add(textField_5, gbc);
 		textField_5.setMaximumCharacterSize(16);
-		
+
 		JLabel lblBirthTown = new JLabel(GUIConstants.LANG.lbluserCreationBirthTown + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblBirthTown, gbc);
-		
+
 		textField_6 = new AcTextField(true);
 		gbc.gridx = 1;
 		attrPanel.add(textField_6, gbc);
-		
+
 		JLabel lblBirthProvince = new JLabel(GUIConstants.LANG.lbluserCreationBirthProvince + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblBirthProvince, gbc);
-		
+
 		textField_6_1 = new AcTextField(true);
 		gbc.gridx = 1;
 		attrPanel.add(textField_6_1, gbc);
 		textField_6_1.setMaximumCharacterSize(2);
-		
+
 		JLabel lblBirthState = new JLabel(GUIConstants.LANG.lbluserCreationBirthState + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblBirthState, gbc);
-		
+
 		textField_7 = new AcTextField(true);
 		gbc.gridx = 1;
 		attrPanel.add(textField_7, gbc);
-		
+
 		JLabel lblAddress = new JLabel(GUIConstants.LANG.lbluserCreationAddress + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblAddress, gbc);
-		
+
 		textField_8 = new AcTextField(true);
 		gbc.gridx = 1;
 		attrPanel.add(textField_8, gbc);
-		
+
 		JLabel lblTown = new JLabel(GUIConstants.LANG.lbluserCreationTown + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblTown, gbc);
-		
+
 		textField_9 = new AcTextField(true);
 		gbc.gridx = 1;
 		attrPanel.add(textField_9, gbc);
-		
+
 		JLabel lblProvince = new JLabel(GUIConstants.LANG.lbluserCreationProvince + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblProvince, gbc);
-		
+
 		textField_10 = new AcTextField(true);
 		gbc.gridx = 1;
 		attrPanel.add(textField_10, gbc);
 		textField_10.setMaximumCharacterSize(2);
-		
+
 		JLabel lblState = new JLabel(GUIConstants.LANG.lbluserCreationState + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblState, gbc);
-		
+
 		textField_11 = new AcTextField(true);
 		gbc.gridx = 1;
 		attrPanel.add(textField_11, gbc);
-		
+
 		JLabel lblZipCode = new JLabel(GUIConstants.LANG.lbluserCreationZipCode + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblZipCode, gbc);
-		
+
 		textField_12 = new AcTextField(true);
 		gbc.gridx = 1;
 		attrPanel.add(textField_12, gbc);
 		textField_12.setMaximumCharacterSize(5);
 		textField_12.setDigitOnly(true);
-		
+
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(new JLabel(GUIConstants.LANG.lbluserCreationAuthorization + "*") , gbc);
@@ -254,10 +270,10 @@ public class UserCreationService extends GenericService {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				if(!isFormValid())
 					return;
-				
+
 				String msg, titl;
 				if(!editMode) {
 					msg = GUIConstants.LANG.userCreateConfirmMsg;
@@ -266,11 +282,11 @@ public class UserCreationService extends GenericService {
 					msg = GUIConstants.LANG.userEditConfirmMsg;
 					titl = GUIConstants.LANG.userEditConfirmTitle;
 				}
-				
+
 				int choice = JOptionPane.showConfirmDialog(UserCreationService.this, msg,  titl, JOptionPane.WARNING_MESSAGE);
 				if(choice != JOptionPane.OK_OPTION)
 					return;
-				
+
 				String hashedPassword = null;
 				try {
 					hashedPassword = ConnectionManager.hash(textField.getText().toCharArray());
@@ -278,7 +294,7 @@ public class UserCreationService extends GenericService {
 					operationPanel.popupError(e1);
 					return;
 				}
-				
+
 				List<String[]> userProps = new ArrayList<>();
 				userProps.add(new String[]{"id", textField.getText()});
 				userProps.add(new String[]{"password", hashedPassword});
@@ -311,11 +327,11 @@ public class UserCreationService extends GenericService {
 					operationPanel.popupError(e);
 					return;
 				}
-				
+
 			}
 
 		});
-		
+
 		searchUserButton = new AcServiceButton(GUIConstants.LANG.lbluserCreationSearchUserBtn);
 		searchUserButton.setBorder(new MatteBorder(2, 3, 2, 3, operationPanel.guiBackgroundColor));
 		searchUserButton.addActionListener(new ActionListener(){
@@ -324,25 +340,25 @@ public class UserCreationService extends GenericService {
 			public void actionPerformed(ActionEvent arg0) {
 				setFields(textField.getText());
 			}
-		
+
 		});
-		
+
 		attrPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 
 		JPanel innerPanel = new JPanel();
 		innerPanel.setLayout(new BorderLayout());
 		innerPanel.add(attrPanel, BorderLayout.CENTER);
-		
-		
+
+
 		JPanel lowerPanel = new JPanel();
 		lowerPanel.setLayout(new GridLayout(0,1));
 		lowerPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		lowerPanel.add(createUserButton);
 		lowerPanel.add(searchUserButton);
 		//lowerPanel.add(new JLabel(""));
-		
+
 		innerPanel.add(lowerPanel, BorderLayout.AFTER_LAST_LINE);
-		
+
 		return innerPanel;
 	}
 
@@ -363,7 +379,7 @@ public class UserCreationService extends GenericService {
 		textField_12.setEnabled(!init);//zip_code
 		authGroup.setEnabled(!init);//authorization
 	}
-	
+
 	private void setFields(String user) {
 		Map<String,String> userMap;
 		try {
@@ -416,19 +432,19 @@ public class UserCreationService extends GenericService {
 		if(!textField.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(!textField_1.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(!textField_2.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(datePicker1.getText() == null || datePicker1.getText().equals("") || !datePicker1.isTextFieldValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(!textField_5.fieldIsValid()){
 			formIncomplete = true;
 		} else {
@@ -438,37 +454,37 @@ public class UserCreationService extends GenericService {
 				formIncomplete = true;
 				textField_5.setError(GUIConstants.LANG.lblTaxIdWrongSize);
 			}
-			
+
 		}
-		
+
 		if(!textField_6.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(!textField_6_1.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(!textField_7.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(!textField_8.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(!textField_9.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(!textField_10.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(!textField_11.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
 		if(!textField_12.fieldIsValid()){
 			formIncomplete = true;
 		}

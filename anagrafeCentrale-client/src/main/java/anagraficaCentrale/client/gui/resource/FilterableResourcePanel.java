@@ -55,7 +55,7 @@ public class FilterableResourcePanel extends JPanel {
 		filterPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		filterPanel.add(new JLabel(GUIConstants.LANG.lblCerca));
 		filterTextBox = new PlaceholderTextField();
-		filterTextBox.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true));
+
 		// Aggiungi un listener al text box
 		filterTextBox.addCaretListener(new CaretListener() {
 			@Override

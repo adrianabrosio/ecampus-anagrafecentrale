@@ -74,11 +74,11 @@ public class ClientGui extends JFrame {
 	private MatteBorder loginPanelBorder;
 
 	private long startTime;
-	
+
 	private String loginErrorMessage;
-	
+
 	private boolean isReady;
-	
+
 	private PortalType portalType;
 
 	private ConnectionManager connectionManager;
@@ -98,18 +98,18 @@ public class ClientGui extends JFrame {
 				ClientGui.this.setVisible(true);
 			}
 		}).start();*/
-		
+
 		isReady = true;
 	}
 
 	private void initAndShowLoginGui() {
-		
+
 		try {
 			setIconImage(new ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
 		} catch (Exception e1) {
 			logger.error("Unable to load \"icon.png\" from resources", e1);
 		}
-		
+
 		framePanel = new JPanel();
 		framePanel.setLayout(new BoxLayout(framePanel, BoxLayout.Y_AXIS));
 
@@ -143,19 +143,19 @@ public class ClientGui extends JFrame {
 		passwordTextField.setPreferredSize(textFieldMinDimension);
 		passwordTextField.setMaximumSize(textFieldMaxDimension);
 		passwordTextField.addKeyListener(new KeyListener(){
-            @Override
-            public void keyTyped(KeyEvent e) {
-            	if(e.getKeyChar()==KeyEvent.VK_ENTER){
-            		ClientGui.this.loginOperations();
-                }
-            }
-            @Override
-            public void keyPressed(KeyEvent e) {}
-            @Override
-            public void keyReleased(KeyEvent e) {}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyChar()==KeyEvent.VK_ENTER){
+					ClientGui.this.loginOperations();
+				}
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {}
+			@Override
+			public void keyReleased(KeyEvent e) {}
 
-    });
-
+		});
+		
 		loginButton = initLoginButton();
 		exitButton = initExitButton();
 		toolbarPanel.add(exitButton, BorderLayout.EAST);
@@ -463,7 +463,7 @@ public class ClientGui extends JFrame {
 							errorMessageLabel.setText(loginErrorMessage);
 							loginErrorMessage = "";
 						} else {
-							
+
 							ClientGui.this.setVisible(false);
 							ClientGui.this.dispose();
 						}
@@ -495,27 +495,39 @@ public class ClientGui extends JFrame {
 		}
 		@Override
 		public Component getComponentAfter(final Container focusCycleRoot, final Component aComponent) {
-			return componentOrder.get((componentOrder.indexOf(aComponent) + 1) % componentOrder.size());
+			Component nextComponent = componentOrder.get((componentOrder.indexOf(aComponent) + 1) % componentOrder.size());
+			applyCustomLogic(nextComponent);
+			return nextComponent;
 		}
 		@Override
 		public Component getComponentBefore(final Container focusCycleRoot, final Component aComponent) {
 			final int currentIndex = componentOrder.indexOf(aComponent);
-			return componentOrder.get(currentIndex > 0 ? currentIndex - 1 : componentOrder.size() - 1);
+			Component nextComponent = componentOrder.get(currentIndex > 0 ? currentIndex - 1 : componentOrder.size() - 1);
+			applyCustomLogic(nextComponent);
+			return nextComponent;
 		}
 		@Override
 		public Component getFirstComponent(final Container focusCycleRoot) {
-			return componentOrder.get(0);
+			Component nextComponent = componentOrder.get(0);
+			applyCustomLogic(nextComponent);
+			return nextComponent;
 		}
 		@Override
 		public Component getLastComponent(final Container focusCycleRoot) {
-			return componentOrder.get(componentOrder.size() - 1);
+			Component nextComponent = componentOrder.get(componentOrder.size() - 1);
+			applyCustomLogic(nextComponent);
+			return nextComponent;
 		}
 		@Override
 		public Component getDefaultComponent(final Container focusCycleRoot) {
 			return getFirstComponent(focusCycleRoot);
 		}
 
-
+		private void applyCustomLogic(Component component) {
+			if(component.equals(passwordTextField)){
+				passwordTextField.selectAll();
+			}
+		}
 	}
 
 	public boolean isReady() {

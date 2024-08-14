@@ -129,5 +129,6 @@ public class GUIConstants {
 		public static final String msgUserEditSuccess = "Utente modificato con successo";
 		public static final String userEditConfirmMsg = "Per favore controlla i dati. Confermi di voler procedere alla modifica dell'utente?";
 		public static final String userEditConfirmTitle = "Modifica utente";
+		public static final String lbluserCreationSearchUserPlaceholder = "Scrivi l'utente da ricercare e premi invio";
 	}
 }
