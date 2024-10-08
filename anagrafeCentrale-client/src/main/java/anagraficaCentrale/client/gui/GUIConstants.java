@@ -47,29 +47,29 @@ public class GUIConstants {
 		public static final String lbluserCreationAuthorization = "Autorizzazioni";
 		public static final String lblErrorMandatoryField = "Campo obbligatorio";
 		public static final String lblTaxIdWrongSize = "Formato errato";
-		public static final String errFileCreationNameInvalid = "è necessario inserire il path completo del file";
+		public static final String errFileCreationNameInvalid = "ï¿½ necessario inserire il path completo del file";
 		public static final String lblApplyFilterNoResults = "Nessun risultato";
 		public static final String tooltipDeleteReadNotifBtn = "Cancella tutte le notifiche lette";
 		public static final String lblExpandBtnSide = "Espandi/collassa menu";
 		public static final String lblDeleteReadNotifBtn = "Cancella notifiche lette";
-		public static final String msgUserCreateSuccess = "Utente creato con successo. Ricorda che la password iniziale è uguale allo user id!";
+		public static final String msgUserCreateSuccess = "Utente creato con successo. Ricorda che la password iniziale ï¿½ uguale allo user id!";
 		public static final String lblAppointmentDate = "Data appuntamento";
 		public static final String lblAppointmentCreateBtn = "Prenota";
 		public static final String msgAppointmentSuccess = "Appuntamento richiesto con successo. Una volta confermata la data, riceverai una notifica.";
-		public static final String lbl_APP_CI_SrvTitle = "Appuntamento Carta d'identità";
+		public static final String lbl_APP_CI_SrvTitle = "Appuntamento Carta d'identitï¿½";
 		public static final String lblAppointmentListUser = "Intestatario richiesta";
-		public static final String lbl_APP_CI_SrvText = "Gentile cittadino/a,\n\nPer richiedere il rilascio della carta d'identità elettronica è necessario prenotare un appuntamento.\n\nDocumenti da presentare:\n• Documento di identità valido (se disponibile)\n• Tessera sanitaria\n• Codice fiscale\n• Fototessera recente (formato 3x4 cm)\n\nDati anagrafici:";
-		public static final String lbluserCreationBirthTown = "Città di nascita";
+		public static final String lbl_APP_CI_SrvText = "Gentile cittadino/a,\n\nPer richiedere il rilascio della carta d'identitï¿½ elettronica ï¿½ necessario prenotare un appuntamento.\n\nDocumenti da presentare:\nï¿½ Documento di identitï¿½ valido (se disponibile)\nï¿½ Tessera sanitaria\nï¿½ Codice fiscale\nï¿½ Fototessera recente (formato 3x4 cm)\n\nDati anagrafici:";
+		public static final String lbluserCreationBirthTown = "Cittï¿½ di nascita";
 		public static final String lbluserCreationBirthState = "Stato di nascita";
 		public static final String lbluserCreationAddress = "Indirizzo";
-		public static final String lbluserCreationTown = "Città di residenza";
+		public static final String lbluserCreationTown = "Cittï¿½ di residenza";
 		public static final String lbluserCreationProvince = "Provincia";
 		public static final String lbluserCreationState = "Stato";
 		public static final String lbluserCreationZipCode = "CAP";
 		public static final String lblErrorOnlyDigit = "Ammessi solo caratteri numerici";
 		public static final String lblServiceCreateUser = "Crea utente";
-		public static final String lblServiceAPP_CI = "Appuntamento Carta d'identità";
-		public static final String lblServiceCI_TEMP = "Carta d’identità temporanea";
+		public static final String lblServiceAPP_CI = "Appuntamento Carta d'identitï¿½";
+		public static final String lblServiceCI_TEMP = "Carta dï¿½identitï¿½ temporanea";
 		public static final String lblServiceCAM_RES = "Cambio residenza";
 		public static final String lblServiceCOLL_INS = "Richiesta colloquio insegnanti";
 		public static final String lblServiceISCRIZ = "Domanda d'iscrizione";
@@ -96,9 +96,9 @@ public class GUIConstants {
 		public static final String lbl_CAM_RES_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>che l'attuale indirizzo di residenza venga modificato con il seguente</p></body></html>";
 		public static final String msgResidenceChangeSuccess = "Richiesta di cambio residenza inoltrata. Riceverai una notifica con il riscontro";
 		public static final String lbluserCreationBirthProvince = "Provincia di nascita";
-		public static final String msgCITempSuccess = "Carta d'identità temporanea richiesta con successo";
+		public static final String msgCITempSuccess = "Carta d'identitï¿½ temporanea richiesta con successo";
 		public static final String lblCI_TEMP_reason = "Motivo della richiesta";
-		public static final String lbl_CI_TEMP_SrvTitle = "Carta d'identità temporanea";
+		public static final String lbl_CI_TEMP_SrvTitle = "Carta d'identitï¿½ temporanea";
 		public static final String lbl_CI_TEMP_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>che venga rilasciato il documento temporaneo per i seguenti motivi</p></body></html>";
 		public static final String lblPREN_VIS_visit = "Visita";
 		public static final String lbl_PREN_VIS_SrvText = "Compila i seguenti dati per procedere alla prenotazione:";
@@ -130,5 +130,7 @@ public class GUIConstants {
 		public static final String userEditConfirmMsg = "Per favore controlla i dati. Confermi di voler procedere alla modifica dell'utente?";
 		public static final String userEditConfirmTitle = "Modifica utente";
 		public static final String lbluserCreationSearchUserPlaceholder = "Scrivi l'utente da ricercare e premi invio";
+        public static final String lblAdminSupportButtonBtnSide = "Gestione richieste";
+		public static final String lblAdminSupport = "Gestione richieste";
 	}
 }

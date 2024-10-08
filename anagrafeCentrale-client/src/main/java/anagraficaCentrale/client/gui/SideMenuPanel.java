@@ -62,14 +62,24 @@ public class SideMenuPanel extends JPanel {
 		sideButtonList.add(accountButton);
 		buttonNameMap.put(accountButton, GUIConstants.LANG.lblAccountBtnSide);
 		mainPanel.add(accountButton, gbc);
+
 		JButton serviceButton = generateServiceButton(operationPanel);
 		sideButtonList.add(serviceButton);
 		buttonNameMap.put(serviceButton, GUIConstants.LANG.lblServiceBtnSide);
 		mainPanel.add(serviceButton, gbc);
+
+		if(operationPanel.getConnectionManager().isAdmin()){
+			JButton adminSupportButton = generateAdminSupportButton(operationPanel);
+			sideButtonList.add(adminSupportButton);
+			buttonNameMap.put(adminSupportButton, GUIConstants.LANG.lblAdminSupportButtonBtnSide);
+			mainPanel.add(adminSupportButton, gbc);
+		}
+
 		notificationButton = generateNotificationButton(operationPanel);
 		sideButtonList.add(notificationButton);
 		buttonNameMap.put(notificationButton, GUIConstants.LANG.lblNotificationBtnSide);
 		mainPanel.add(notificationButton, gbc);
+
 		JButton reportButton = generateReportButton(operationPanel);
 		sideButtonList.add(reportButton);
 		buttonNameMap.put(reportButton, GUIConstants.LANG.lblReportBtnSide);
@@ -87,6 +97,31 @@ public class SideMenuPanel extends JPanel {
 		add(lowerPanel, BorderLayout.AFTER_LAST_LINE);
 	}
 
+	private JButton generateAdminSupportButton(OperationPanel operationPanel) {
+		ImageIcon adminSupportIcon = null;
+		try {
+			BufferedImage bi = ImageIO.read(ClassLoader.getSystemResourceAsStream("adminsupport0.png"));
+			adminSupportIcon = new ImageIcon(bi.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		} catch (Exception e1) {
+			logger.error("Unable to load \"adminsupport0.png\" from resources", e1);
+		}
+		AcIconButton adminSupportButton = new AcIconButton(adminSupportIcon);
+		if(debugButtonBorder)
+			adminSupportButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+		adminSupportButton.setBorderPainted(true);
+		adminSupportButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+		adminSupportButton.setToolTipText(GUIConstants.LANG.lblServiceBtnSide);
+		adminSupportButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				closePanel(operationPanel.getSideMenuPanelManager().getMinWidth());
+				operationPanel.getSideMenuPanelManager().closeMenu();
+				operationPanel.openAdminSupportPanelAction();
+			}
+		});
+		return adminSupportButton;
+	}
+
 	private JButton generateNotificationButton(OperationPanel operationPanel) {
 		ImageIcon notificationIcon = null;
 		try {
@@ -101,7 +136,6 @@ public class SideMenuPanel extends JPanel {
 		notificationButton.setBorderPainted(true);
 		notificationButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 		notificationButton.setToolTipText(GUIConstants.LANG.lblNotificationBtnSide);
-		// Aggiungi un listener al bottone
 		notificationButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -128,7 +162,6 @@ public class SideMenuPanel extends JPanel {
 		reportButton.setBorderPainted(true);
 		reportButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 		reportButton.setToolTipText(GUIConstants.LANG.lblReportBtnSide);
-		// Aggiungi un listener al bottone
 		reportButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -149,14 +182,13 @@ public class SideMenuPanel extends JPanel {
 		} catch (Exception e1) {
 			logger.error("Unable to load \"service0.png\" from resources", e1);
 		}
-		AcIconButton accountButton = new AcIconButton(serviceIcon);
+		AcIconButton serviceButton = new AcIconButton(serviceIcon);
 		if(debugButtonBorder)
-			accountButton.setBorder(BorderFactory.createLineBorder(Color.RED));
-		accountButton.setBorderPainted(true);
-		accountButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-		accountButton.setToolTipText(GUIConstants.LANG.lblServiceBtnSide);
-		// Aggiungi un listener al bottone
-		accountButton.addActionListener(new ActionListener() {
+			serviceButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+		serviceButton.setBorderPainted(true);
+		serviceButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+		serviceButton.setToolTipText(GUIConstants.LANG.lblServiceBtnSide);
+		serviceButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				closePanel(operationPanel.getSideMenuPanelManager().getMinWidth());
@@ -164,7 +196,7 @@ public class SideMenuPanel extends JPanel {
 				operationPanel.openServicePanelAction();
 			}
 		});
-		return accountButton;
+		return serviceButton;
 	}
 
 	private JButton generateAccountButton(OperationPanel operationPanel) {

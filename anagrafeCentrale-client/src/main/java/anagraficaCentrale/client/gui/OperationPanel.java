@@ -38,7 +38,7 @@ import anagraficaCentrale.client.gui.resource.FilterableResourcePanel;
 import anagraficaCentrale.client.gui.resource.NotificationElement;
 import anagraficaCentrale.client.gui.resource.ReportElement;
 import anagraficaCentrale.client.gui.service.GenericService;
-import anagraficaCentrale.client.gui.service.ServicePanel;
+import anagraficaCentrale.client.gui.service.AdminSupportPanel;
 import anagraficaCentrale.client.gui.service.ServicePanelFactory;
 import anagraficaCentrale.client.gui.service.ShowProfileService;
 import anagraficaCentrale.client.gui.service.UnsupportedServiceException;
@@ -197,7 +197,7 @@ public class OperationPanel {
 	 * this method initialize the service panel
 	 */
 	private FilterableResourcePanel initServicePanel() {
-		FilterableResourcePanel servicePanel = new ServicePanel(this, portalType, getConnectionManager().isAdmin());
+		FilterableResourcePanel servicePanel = new AdminSupportPanel(this, portalType, getConnectionManager().isAdmin());
 		return servicePanel;
 	}
 
@@ -223,6 +223,11 @@ public class OperationPanel {
 
 	private GenericService initProfilePanel() {
 		return new ShowProfileService(this);
+	}
+
+	protected FilterableResourcePanel initAdminSupportPanel() {
+		FilterableResourcePanel adminSupportPanel = new AdminSupportPanel(this, portalType, getConnectionManager().isAdmin());
+		return adminSupportPanel;
 	}
 
 	/**
@@ -533,6 +538,27 @@ public class OperationPanel {
 				leftPanel = initServicePanel();
 				splitPane.setLeftComponent(leftPanel);
 				subMenuLabel.setText(GUIConstants.LANG.lblService);
+
+				return 100;
+			}
+
+			@Override
+			protected void done() {
+				closeLoading();
+			}
+		}.execute();
+	}
+
+	public void openAdminSupportPanelAction() {
+		new SwingWorker<Integer, Integer>() {
+
+			@Override
+			protected Integer doInBackground() throws Exception {
+				openLoading();
+				closeService();
+				leftPanel = initAdminSupportPanel();
+				splitPane.setLeftComponent(leftPanel);
+				subMenuLabel.setText(GUIConstants.LANG.lblAdminSupport);
 
 				return 100;
 			}
