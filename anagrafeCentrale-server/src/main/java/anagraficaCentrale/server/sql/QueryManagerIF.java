@@ -6,10 +6,10 @@ import java.sql.Statement;
 
 public interface QueryManagerIF {
 
-	public Statement getStatement();
+	public Statement getStatement() throws DatabaseException;
 
-	public void installDatabase() throws SQLException, IOException;
+	public void installDatabase() throws SQLException, IOException, DatabaseException;
 
-	public void dropAlltables();
+	public void dropAlltables() throws DatabaseException;
 
 }

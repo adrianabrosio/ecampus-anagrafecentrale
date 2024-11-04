@@ -1,6 +1,7 @@
 package anagraficaCentrale.utils;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,16 +50,27 @@ public class ScriptUtils {
 	public static String decrypt (String plainText) {
 		return plainText;
 	}
-	
+
 	public static String encrypt (String plainText) {
 		return plainText;
 	}
-	
+
 	public static boolean isValidTaxId(String codiceFiscale) {
 		String CF_REGEX = "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$";
 		Pattern CF_PATTERN = Pattern.compile(CF_REGEX);
 		Matcher matcher = CF_PATTERN.matcher(codiceFiscale);
-	    return matcher.matches();
+		return matcher.matches();
+	}
+	
+	public static Map<String, String> convertParamStringToMap(String mapToBeConverted, String separator) {
+		String[] entries = mapToBeConverted.split(separator);
+		HashMap<String, String> map = new HashMap<>();
+		for (String entry : entries)
+			if(entry.contains("=")) {
+				String[] keyValue = entry.split("=", 2);
+				map.put(keyValue[0], keyValue[1]);
+			}
+		return map;
 	}
 
 

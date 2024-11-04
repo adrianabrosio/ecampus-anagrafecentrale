@@ -110,7 +110,7 @@ public class SideMenuPanel extends JPanel {
 			adminSupportButton.setBorder(BorderFactory.createLineBorder(Color.RED));
 		adminSupportButton.setBorderPainted(true);
 		adminSupportButton.setAlignmentX(Component.LEFT_ALIGNMENT);
-		adminSupportButton.setToolTipText(GUIConstants.LANG.lblServiceBtnSide);
+		adminSupportButton.setToolTipText(GUIConstants.LANG.lblAdminSupportButtonBtnSide);
 		adminSupportButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

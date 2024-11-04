@@ -11,6 +11,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
+import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
@@ -37,8 +39,9 @@ import anagraficaCentrale.client.gui.resource.AbstractResourceElement;
 import anagraficaCentrale.client.gui.resource.FilterableResourcePanel;
 import anagraficaCentrale.client.gui.resource.NotificationElement;
 import anagraficaCentrale.client.gui.resource.ReportElement;
-import anagraficaCentrale.client.gui.service.GenericService;
 import anagraficaCentrale.client.gui.service.AdminSupportPanel;
+import anagraficaCentrale.client.gui.service.GenericService;
+import anagraficaCentrale.client.gui.service.ServicePanel;
 import anagraficaCentrale.client.gui.service.ServicePanelFactory;
 import anagraficaCentrale.client.gui.service.ShowProfileService;
 import anagraficaCentrale.client.gui.service.UnsupportedServiceException;
@@ -197,7 +200,7 @@ public class OperationPanel {
 	 * this method initialize the service panel
 	 */
 	private FilterableResourcePanel initServicePanel() {
-		FilterableResourcePanel servicePanel = new AdminSupportPanel(this, portalType, getConnectionManager().isAdmin());
+		FilterableResourcePanel servicePanel = new ServicePanel(this, portalType, getConnectionManager().isAdmin());
 		return servicePanel;
 	}
 
@@ -256,7 +259,7 @@ public class OperationPanel {
 		notificationPanel.addActionButton(deleteReadNotification);
 		//notificationPanel.addResource(new NotificationElement(this, "1", "notif name", "demo desc 1"));
 		for(Map<String,String> record : connectionManager.getNewNotificationList(portalType)){
-			notificationPanel.addResource(new NotificationElement(this, record.get("id"), record.get("notification_name"), record.get("notification_description"), "1".equalsIgnoreCase(record.get("unread"))));
+			notificationPanel.addResource(new NotificationElement(this, record));
 		}
 		return notificationPanel;
 	}
@@ -264,15 +267,19 @@ public class OperationPanel {
 	public void selectOperation(AbstractResourceElement abstractResourceElement) {
 		leftPanel.setSelected(abstractResourceElement);
 	}
+	
+	public void openService(ServiceType serviceType) {
+		openService(serviceType, null);
+	}
 
 	/**
 	 * this method manage the loading of the services on the right panel
 	 */
-	public void openService(ServiceType serviceType){
+	public void openService(ServiceType serviceType, Map<String, String> serviceData){
 		openLoading();
 		// build right panel
 		try {
-			rightPanel = generatePanelByService(serviceType);
+			rightPanel = generatePanelByService(serviceType, serviceData);
 		} catch (Exception e) {
 			popupError(e);
 		}
@@ -321,9 +328,12 @@ public class OperationPanel {
 	/**
 	 * this method invoke the ServicePanelFactory to manage the generation of the service panel
 	 * based on the service called
+	 * @param serviceData 
 	 */
-	private GenericService generatePanelByService(ServiceType serviceType) throws Exception {
+	private GenericService generatePanelByService(ServiceType serviceType, Map<String, String> serviceData) throws Exception {
 		logger.debug("Generating panel "+ serviceType);
+		if(serviceData != null && logger.isDebugEnabled())
+			logger.debug("service data: "+ serviceData);
 		switch(serviceType){
 		case DUMMY:
 			return ServicePanelFactory.generateDummyPanel(this);
@@ -357,6 +367,8 @@ public class OperationPanel {
 			return ServicePanelFactory.generateUserCreationPanel(this);
 		case ADM_MOD_USR:
 			return ServicePanelFactory.generateUserEditPanel(this);
+		case ADM_REQ_MNG:
+			return ServicePanelFactory.generateAdminRequestManagementPanel(this, serviceData);
 		default:
 			throw new UnsupportedServiceException(serviceType);
 		}
@@ -459,7 +471,7 @@ public class OperationPanel {
 				closeService();
 				leftPanel = initNotificationPanel();
 				splitPane.setLeftComponent(leftPanel);
-				subMenuLabel.setText(GUIConstants.LANG.lblNotifiche);
+				subMenuLabel.setText(GUIConstants.LANG.lblNotication);
 
 				return 100;
 			}
@@ -614,9 +626,10 @@ public class OperationPanel {
 			try{
 				PDFWriter pdfWriter = new PDFWriter(file.getAbsolutePath());
 				pdfWriter.createPdfFile();
-				pdfWriter.addPage(reportTitle, new StringBuffer(reportContent), null, null);
-				pdfWriter.saveAndClose();
-				JOptionPane.showMessageDialog(this.frame, "PDF generato in " + file.getAbsolutePath());
+				URL imageURL = ClassLoader.getSystemResource("CityLogo.png");
+				pdfWriter.addPage(reportTitle, new StringBuffer(reportContent), "", Arrays.asList(imageURL.getFile()));
+				String fullPathFileName = pdfWriter.saveAndClose();
+				JOptionPane.showMessageDialog(this.frame, "Il file PDF è stato salvato: " + fullPathFileName);
 			}catch(Exception e){
 				logger.error("Errore nella generazione del file", e);
 				JOptionPane.showMessageDialog(this.frame, "Errore durante la generazione del file " + file.getAbsolutePath()+"\nErrore: " + e.getClass()+" - "+e.getMessage());

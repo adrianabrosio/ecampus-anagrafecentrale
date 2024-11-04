@@ -30,7 +30,7 @@ public class CITempRequestService extends GenericService {
 	private static final long serialVersionUID = 1L;
 
 	public CITempRequestService(OperationPanel op) {
-		super(op);
+		super(op, null);
 		setTitle(GUIConstants.LANG.lbl_CI_TEMP_SrvTitle);
 	}
 

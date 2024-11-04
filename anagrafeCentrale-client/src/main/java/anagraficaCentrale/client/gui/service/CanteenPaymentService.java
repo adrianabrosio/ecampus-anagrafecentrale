@@ -1,6 +1,7 @@
 package anagraficaCentrale.client.gui.service;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -31,13 +32,15 @@ public class CanteenPaymentService extends GenericService {
 	private AcTextField surnameText;
 	private JComboBox<String> monthText;
 	private AcTextField feeText;
+	private JComboBox<String> userList = null;
+	private boolean panelIsInvalid = false;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	public CanteenPaymentService(OperationPanel op) {
-		super(op);
+		super(op, null);
 		setTitle(GUIConstants.LANG.lbl_PAG_MEN_SrvTitle);
 	}
 
@@ -59,7 +62,7 @@ public class CanteenPaymentService extends GenericService {
 		textField.setText(getTextAreaContent());
 		textField.setEditable(false);
 		attrPanel.add(textField, gbc);
-		
+
 		//lista persone per appuntamento
 		Map<String, Map<String,String>> usersList = new HashMap<>();
 		usersList.putAll(operationPanel.getConnectionManager().getRelationsData());
@@ -72,61 +75,70 @@ public class CanteenPaymentService extends GenericService {
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblFirstName, gbc);
-		
+
 		firstNameText = new AcTextField(true);
 		firstNameText.setEditable(false);
 		firstNameText.setText(operationPanel.getConnectionManager().getUserAttribute("first_name"));
 		gbc.gridx = 1;
 		attrPanel.add(firstNameText, gbc);
-		
+
 		JLabel lblSurname = new JLabel(GUIConstants.LANG.lbluserCreationSurname + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblSurname, gbc);
-		
+
 		surnameText = new AcTextField(true);
 		surnameText.setEditable(false);
 		surnameText.setText(operationPanel.getConnectionManager().getUserAttribute("surname"));
 		gbc.gridx = 1;
 		attrPanel.add(surnameText, gbc);
-		
+
 		JLabel lblUser = new JLabel(GUIConstants.LANG.lblTicketPaymentUser + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblUser, gbc);
 
-		JComboBox<String> userList = new JComboBox<>(usersList.keySet().toArray(new String[0]));
-		userList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
-		userList.addActionListener(new ActionListener() {
+		String[] users = usersList.keySet().toArray(new String[0]);
+		if(users != null && users.length > 0) {
+			userList = new JComboBox<>(users);
+			userList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
+			userList.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String selection = (String) userList.getSelectedItem();
-				firstNameText.setText(usersList.get(selection).get("first_name"));
-				surnameText.setText(usersList.get(selection).get("surname"));
-			}
-		});
-		gbc.gridx = 1;
-		attrPanel.add(userList, gbc);
-		
-		String selection = (String) userList.getSelectedItem();
-		firstNameText.setText(usersList.get(selection).get("first_name"));
-		surnameText.setText(usersList.get(selection).get("surname"));
-		
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String selection = (String) userList.getSelectedItem();
+					firstNameText.setText(usersList.get(selection).get("first_name"));
+					surnameText.setText(usersList.get(selection).get("surname"));
+				}
+			});
+			gbc.gridx = 1;
+			attrPanel.add(userList, gbc);
+
+			String selection = (String) userList.getSelectedItem();
+			firstNameText.setText(usersList.get(selection).get("first_name"));
+			surnameText.setText(usersList.get(selection).get("surname"));
+		} else {
+			JLabel lblUserError = new JLabel(GUIConstants.LANG.errorNoRelationFound);
+			lblUserError.setForeground(Color.RED);
+			panelIsInvalid = true;
+			gbc.gridx = 1;
+			attrPanel.add(lblUserError, gbc);
+		}
+
 		JLabel lblTicketNumber = new JLabel(GUIConstants.LANG.lblMonth + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblTicketNumber, gbc);
-		
+
 		monthText = new JComboBox<>(GUIConstants.LANG.monthValues);
 		gbc.gridx = 1;
 		attrPanel.add(monthText, gbc);
-		
+
 		JLabel lblSchoolFee = new JLabel(GUIConstants.LANG.lblSchoolFee + "*");
 		gbc.gridy++;
 		gbc.gridx = 0;
 		attrPanel.add(lblSchoolFee, gbc);
-		
+
 		feeText = new AcTextField(true);
 		gbc.gridx = 1;
 		attrPanel.add(feeText, gbc);
@@ -151,7 +163,7 @@ public class CanteenPaymentService extends GenericService {
 				userProps.add(new String[]{"fee", feeText.getText()});
 				userProps.add(new String[]{"request_type", ""+ServiceType.PAG_MEN});
 
-				
+
 				try{
 					new FakeBankTransactionPanel() {
 
@@ -161,9 +173,9 @@ public class CanteenPaymentService extends GenericService {
 							operationPanel.popupInfo(GUIConstants.LANG.msgTicketPaymentSuccess);
 							clearForm();
 						}
-						
+
 					};
-					
+
 				}catch(Exception e){
 					operationPanel.popupError(e);
 					return;
@@ -201,11 +213,16 @@ public class CanteenPaymentService extends GenericService {
 	protected boolean isFormValid() {
 		//validation
 		boolean formIncomplete = false;
-		
+
 		if(!feeText.fieldIsValid()){
 			formIncomplete = true;
 		}
-		
+
+		if(!panelIsInvalid){
+			operationPanel.popupInfo(GUIConstants.LANG.errorNoRelationFound);
+			formIncomplete = true;
+		}
+
 		return !formIncomplete;
 	}
 

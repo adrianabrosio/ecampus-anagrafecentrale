@@ -171,6 +171,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 		boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
 		String serviceType = commArgs.length>=4? commArgs[3]:null;
 		Map<String,String> userProps = parseUserProps(commArgs.length>=5? commArgs[4] : null);
+		logger.debug("Request params:\nusername: " + username + "\nisAdmin: " + isAdmin + "\nserviceType: " + serviceType + "\nuserProps: " + userProps);
 
 		if(username == null || serviceType == null) {
 			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, };
@@ -201,19 +202,20 @@ public class ServerOperationImpl implements ServerOperationIF {
 				paramStringBuilder.append(key + "=" + userProps.get(key));
 			}
 		}
-		
-		colStringBuilder.append("request_name").append(",");
-		valueStringBuilder.append("','");
-		colStringBuilder.append("request_description").append(",");
-		valueStringBuilder.append("','");
-		
+
+		if(!colStringBuilder.toString().contains("request_name")) {
+			colStringBuilder.append("request_name").append(",");
+			valueStringBuilder.append("','");
+		}
+
+		if(!colStringBuilder.toString().contains("request_description")) {
+			colStringBuilder.append("request_description").append(",");
+			valueStringBuilder.append("','");
+		}
+
 		colStringBuilder.append("request_parameters");
 		valueStringBuilder.append(paramStringBuilder.toString());
-		
-		//request_description
-		
-		//request_parameters
-		
+
 		String colString = colStringBuilder.toString();
 		String valueString = "'" + valueStringBuilder.toString() + "'";
 		String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, colString, valueString);
@@ -224,20 +226,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 			logger.error(e.getMessage(), e);
 			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
 		}
-		/*ResultSet rs;
-		try {
 
-
-			rs = qm.getStatement().executeQuery("SELECT * FROM Notification WHERE id='" + notificationID + "'");
-			if(!rs.first()){
-				logger.info("Notification with id " + notificationID + " not found");
-			} else {
-				qm.getStatement().executeUpdate("UPDATE Notification SET unread=false WHERE id='" + notificationID + "'");
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
-		}*/
 		return new String[]{ClientServerConstants.SERVER_RESP_OK};
 	}
 
@@ -258,14 +247,51 @@ public class ServerOperationImpl implements ServerOperationIF {
 
 	@Override
 	public String[] createNewReportOperation(String[] commArgs) {
-		// TODO Auto-generated method stub
-		return null;
+		return getGenericDataOperation(commArgs, "Report");
 	}
 
 	@Override
 	public String[] getRequestDataOperation(String[] commArgs) {
-		// TODO Auto-generated method stub
-		return null;
+		return getGenericDataOperation(commArgs, "Request");
+	}
+	
+	public String[] getGenericDataOperation(String[] commArgs, String tableName) {
+		try {
+			@SuppressWarnings("unused")
+			String username = commArgs[1];
+			@SuppressWarnings("unused")
+			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
+			String id = commArgs.length>=4 ? commArgs[3]:null;
+			
+			//getRequestData
+			ResultSet rs = qm.getStatement().executeQuery("SELECT * FROM " + tableName + " WHERE id='" + id + "'");
+			if(!rs.first()){
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgElementNotExists};
+			}
+			
+			ArrayList<String> attrList = new ArrayList<>();
+			attrList.add(ClientServerConstants.SERVER_RESP_OK); //op return value
+			
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			rs.beforeFirst();
+			while(rs.next()){
+				StringBuilder sb = new StringBuilder();
+				for (int i = 1; i <= columnsNumber; i++) {
+					String columnValue = rs.getString(i);
+					sb.append(rsmd.getColumnName(i) + "=" + columnValue);
+					if(i < columnsNumber)
+						sb.append(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR);
+				}
+				attrList.add(sb.toString());
+			}
+
+			return attrList.toArray(new String[0]);
+			
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
+		}
 	}
 
 	@Override
@@ -275,7 +301,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 			String username = commArgs[1];
 			//output
 			//verify if user exists
-			ResultSet rs = qm.getStatement().executeQuery("SELECT * FROM User WHERE id='" + username + "'");
+			ResultSet rs = qm.getStatement().executeQuery("SELECT * FROM User WHERE id='" + username + "' OR tax_id_code='" + username + "'");
 			if(!rs.first()){
 				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgLoginUserNotExists, "false"};
 			}
@@ -518,6 +544,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 	public String[] editAccountOperation(String[] commArgs) {
 		try {
 			//input
+			@SuppressWarnings("unused")
 			String username = commArgs.length>=2? commArgs[1]:null; //could be useful for future logging system
 			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
 			Map<String,String> userProps = parseUserProps(commArgs.length>=4? commArgs[3] : null);
@@ -532,7 +559,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 			if(!rs.first()){
 				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgUserNotExists};
 			}
-			
+
 			if(updateParams == null) {
 				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgInvalidUpdateParams};
 			}
@@ -553,6 +580,93 @@ public class ServerOperationImpl implements ServerOperationIF {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + ServerConstants.LANG.msgInvalidUpdateParams + '\n'+ e.toString()};
+		}
+	}
+
+	@Override
+	public String[] getAllAdminSupportRequestsOperation(String[] commArgs) {
+		try {
+			//input
+			String username = commArgs[1];
+			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
+			String portalType = commArgs.length>=4 ? commArgs[3]:null;
+
+			if(!isAdmin) {
+				logger.warn("\"getAllAdminSupportRequestsOperation\" request sent from user without administration permission. Possible programming error.");
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "User unauthorized"};
+			}
+
+			String tmpQuery =  "SELECT * "
+					+ "FROM Request req "
+					+ "WHERE req.manager_user_id IS NULL AND req.portal_type='!portal' "; //req.manager_user_id IS NULL means that request is not managed
+
+			ResultSet rs = qm.getStatement().executeQuery(tmpQuery.replaceAll("!userid", username).replaceAll("!portal", portalType));
+			ArrayList<String> attrList = new ArrayList<>();
+			attrList.add(ClientServerConstants.SERVER_RESP_OK); //op return value
+
+			ResultSetMetaData rsmd = rs.getMetaData();
+			int columnsNumber = rsmd.getColumnCount();
+			rs.beforeFirst();
+			while(rs.next()){
+				StringBuilder sb = new StringBuilder();
+				for (int i = 1; i <= columnsNumber; i++) {
+					String columnValue = rs.getString(i);
+					sb.append(rsmd.getColumnName(i) + "=" + columnValue);
+					if(i < columnsNumber)
+						sb.append(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR);
+				}
+				attrList.add(sb.toString());
+			}
+
+			return attrList.toArray(new String[0]);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
+		}
+	}
+
+	@Override
+	public String[] manageRequestOperation(String[] commArgs) {
+		try {
+			String username = commArgs[1];
+			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
+			String requestID = commArgs.length>=4 ? commArgs[3]:null;
+			boolean acceptRequest = commArgs.length>=5 && commArgs[4].equalsIgnoreCase("true");
+			
+			//check admin
+			if(!isAdmin)
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgCommandForAdminOnly};
+
+			//verify if user exists
+			ResultSet rs = qm.getStatement().executeQuery("SELECT * FROM Request WHERE id='" + requestID + "'");
+			if(!rs.first()){
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgUserNotExists};
+			}
+			String requestId = rs.getString("id");
+			String requestType = rs.getString("request_type");
+			String portalType = rs.getString("portal_type");
+
+			//update request
+			String sql = "UPDATE Request SET manager_user_id='" + username + "' WHERE id='" + requestID + "'";
+
+			logger.debug("update user query: ["+sql+"]");
+			qm.getStatement().execute(sql);
+			
+			//send notification to the user
+			String tableName = "Notification";
+			String colString = "portal_type, request_id, notification_type, notification_name, notification_description";
+			String paramString = portalType + ',' + requestId + ',' + requestType + ',' + "" + ',' + "accepted=" + (acceptRequest?"Y":"N");
+			paramString = "'" + paramString.replace(",", "','") + "'";
+
+			String sql2 = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, colString, paramString);
+
+			logger.debug("create user query: ["+sql2+"]");
+			qm.getStatement().execute(sql2);
+			
+			return new String[]{ClientServerConstants.SERVER_RESP_OK};
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
 		}
 	}
 }

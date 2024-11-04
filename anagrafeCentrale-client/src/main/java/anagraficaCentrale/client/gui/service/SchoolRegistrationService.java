@@ -1,6 +1,7 @@
 package anagraficaCentrale.client.gui.service;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
@@ -26,9 +28,11 @@ public class SchoolRegistrationService extends GenericService {
 	private static final long serialVersionUID = 1L;
 	private JEditorPane textField;
 	private Map<String, Map<String,String>> usersList;
-	
+	private JComboBox<String> userList = null;
+	private boolean panelIsInvalid = false;
+
 	public SchoolRegistrationService(OperationPanel op) {
-		super(op);
+		super(op, null);
 		setTitle(GUIConstants.LANG.lbl_ISCRIZ_SrvTitle);
 	}
 
@@ -40,31 +44,41 @@ public class SchoolRegistrationService extends GenericService {
 		usersList = new HashMap<>();
 		usersList.putAll(operationPanel.getConnectionManager().getRelationsData());
 
-		JComboBox<String> userList = new JComboBox<>(usersList.keySet().toArray(new String[0]));
-		userList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
-		userList.addActionListener(new ActionListener() {
+		String[] users = usersList.keySet().toArray(new String[0]);
+		if(users != null && users.length > 0) {
+			userList = new JComboBox<>(users);
+			userList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
+			userList.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String selection = (String) userList.getSelectedItem();
-				textField.setText(getTextAreaContent(selection));
-			}
-		});
-		innerPanel.add(userList, BorderLayout.NORTH);
-		
-		String selection = (String) userList.getSelectedItem();
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String selection = (String) userList.getSelectedItem();
+					textField.setText(getTextAreaContent(selection));
+				}
+			});
+			innerPanel.add(userList, BorderLayout.NORTH);
 
-		textField = new JEditorPane(); 
-		/*{
+
+			String selection = (String) userList.getSelectedItem();
+
+			textField = new JEditorPane(); 
+			/*{
 			@Override
 			public Dimension getPreferredSize() {
 				return operationPanel.getRightPanelSize();
 			}
 		};*/
-		textField.setContentType("text/html");
-		textField.setText(getTextAreaContent(selection));
-		textField.setEditable(false);
-		innerPanel.add(textField, BorderLayout.CENTER);
+			textField.setContentType("text/html");
+			textField.setText(getTextAreaContent(selection));
+			textField.setEditable(false);
+			innerPanel.add(textField, BorderLayout.CENTER);
+
+		} else {
+			JLabel lblUserError = new JLabel(GUIConstants.LANG.errorNoRelationFound);
+			lblUserError.setForeground(Color.RED);
+			panelIsInvalid = true;
+			innerPanel.add(lblUserError, BorderLayout.CENTER);
+		}
 
 		AcServiceButton createUserButton = new AcServiceButton(GUIConstants.LANG.lblSimpleRequestCreateBtn);
 		createUserButton.setBorder(new MatteBorder(2, 3, 2, 3, operationPanel.guiBackgroundColor));
@@ -72,6 +86,9 @@ public class SchoolRegistrationService extends GenericService {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+
+				if(!isFormValid())
+					return;
 
 				List<String[]> userProps = new ArrayList<>();
 
@@ -96,12 +113,12 @@ public class SchoolRegistrationService extends GenericService {
 	}
 
 	protected String getTextAreaContent(String selection) {
-		
+
 		String text = GUIConstants.LANG.lbl_ISCRIZ_SrvText;
 		String[] prorToReplace = new String[]{"first_name" , "surname", "birth_town", "birth_province", "birthdate", "tax_id_code", "address", "town", "province", "zip_code"};
 		for(String attrName : prorToReplace)
 			text = text.replaceAll("!"+attrName, operationPanel.getConnectionManager().getUserAttribute(attrName));
-		
+
 		String selectionUsername = operationPanel.getConnectionManager().getRelationUsernameFromAttribute("tax_id_code", selection);
 		for(String attrName : prorToReplace)
 			text = text.replaceAll("&"+attrName, operationPanel.getConnectionManager().getRelationAttribute(selectionUsername, attrName));
@@ -110,5 +127,17 @@ public class SchoolRegistrationService extends GenericService {
 
 	protected ServiceType getServiceType() {
 		return ServiceType.ISCRIZ;
+	}
+
+	protected boolean isFormValid() {
+		//validation
+		boolean formIncomplete = false;
+
+		if(!panelIsInvalid){
+			operationPanel.popupInfo(GUIConstants.LANG.errorNoRelationFound);
+			formIncomplete = true;
+		}
+
+		return !formIncomplete;
 	}
 }

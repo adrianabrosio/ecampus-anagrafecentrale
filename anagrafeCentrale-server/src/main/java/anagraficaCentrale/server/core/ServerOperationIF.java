@@ -18,7 +18,7 @@ public interface ServerOperationIF {
 	 */
 	public String[] loginOperation(String[] commArgs);
 	
-	/**TODO CREATE_ACCOUNT
+	/**CREATE_ACCOUNT
 	 * request: username, password
 	 * response: result[OK|KO], message
 	 */
@@ -60,7 +60,7 @@ public interface ServerOperationIF {
 	 */
 	public String[] getUserDataOperation(String[] commArgs);
 	
-	/**TODO GET_NOTIFICATION_LIST
+	/**GET_NOTIFICATION_LIST
 	 * request: username
 	 * response: result[OK|KO], 
 	 */
@@ -78,7 +78,7 @@ public interface ServerOperationIF {
 	 */
 	public String[] getReportListOperation(String[] commArgs);
 
-	/**TODO CHECK_NEW_NOTIFICATION - look for new notification on the server
+	/**CHECK_NEW_NOTIFICATION - look for new notification on the server
 	 * request: username
 	 * response: result[OK|KO], new notification[true|false]
 	 */
@@ -96,9 +96,21 @@ public interface ServerOperationIF {
 	 */
 	public String[] getRelationsDataOperation(String[] commArgs);
 	
-	/**TODO EDIT_ACCOUNT
+	/**EDIT_ACCOUNT
 	 * request: username, password
 	 * response: result[OK|KO], message
 	 */
 	public String[] editAccountOperation(String[] commArgs);
+	
+	/**GET_ALL_ADM_VAL_REQ
+	 * request: username
+	 * response: result[OK|KO], <list of records related to admin support requests>
+	 */
+	public String[] getAllAdminSupportRequestsOperation(String[] commArgs);
+
+	/**ADM_MNG_REQ
+	 * request: username, isAdmin, id, acceptRequest
+	 * response: result[OK|KO], message
+	 */
+	public String[] manageRequestOperation(String[] commArgs);
 }

@@ -28,7 +28,7 @@ public class Main {
 		QueryManager qm = null;
 		try {
 			qm = new QueryManager();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e);
 			return;
 		}
@@ -37,7 +37,7 @@ public class Main {
 			try {
 				qm.installDatabase();
 				qm.populateDatabase();
-			} catch (SQLException | IOException e) {
+			} catch (Exception e) {
 				logger.error("Error during DB installation", e);
 			}
 		}

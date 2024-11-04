@@ -119,11 +119,12 @@ public class PDFWriter {
 			if(imageFileNames != null){
 				float scale = 1f;
 				for (String attachmentName : imageFileNames) {
+					logger.debug("Adding image: " + imageDirectory + attachmentName);
 					PDImageXObject pdImage = PDImageXObject.createFromFile(imageDirectory + attachmentName, doc);
-					scale = width/pdImage.getWidth();
+					//scale = width/pdImage.getWidth();
 					yOffset-=(pdImage.getHeight()*scale);
 					if (yOffset <= 0) {
-						System.out.println("Starting a new page");
+						logger.debug("Starting a new page");
 						try {
 							if (contents != null) contents.close();
 						} catch (IOException e) {
@@ -135,40 +136,41 @@ public class PDFWriter {
 						contents = new PDPageContentStream(doc, page);
 						yOffset = startY-(pdImage.getHeight()*scale);
 					}
-					System.out.println("yOffset: " + yOffset);
-					System.out.println("page width: " + width + "  imageWidth: " + pdImage.getWidth() + " imageHeight: " + (pdImage.getHeight()*scale) + " scale: " + scale);
+					logger.debug("yOffset: " + yOffset);
+					logger.debug("page width: " + width + "  imageWidth: " + pdImage.getWidth() + " imageHeight: " + (pdImage.getHeight()*scale) + " scale: " + scale);
 					contents.drawImage(pdImage, startX, yOffset, width, pdImage.getHeight()*scale);
 				}
 			}
 			ok = true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 			ok = false;
 		} finally {
 			try {
 				if (contents != null) contents.close();
 			} catch (IOException e) {
 				ok = false;
-				e.printStackTrace();
+				logger.error(e);
 			}
 		}
 
 		return ok;
 	}
 
-	public void saveAndClose() {
+	public String saveAndClose() {
 		try {
 			doc.save(pdfOutputDirectory + pdfFileName);
+			return pdfOutputDirectory + pdfFileName;
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 		} finally {
 			try {
 				doc.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e);
 			}
 		}
+		return null;
 	}
 
 	private void parseIndividualLines(StringBuffer wholeLetter, List<String> lines, float fontSize, PDFont pdfFont, float width) throws IOException {

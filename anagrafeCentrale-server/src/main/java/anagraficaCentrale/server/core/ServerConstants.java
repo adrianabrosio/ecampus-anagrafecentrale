@@ -17,5 +17,6 @@ public class ServerConstants {
 		public static final String msgCommandForAdminOnly = "Permessi insufficienti per eseguire la richiesta. Contatta l'amministrazione";
 		public static final String msgInvalidUpdateParams = "Aggiornamento utente non riuscito";
 		public static final String msgUpdateUserSuccessful = "Utente aggiornato con successo";
+		public static final String msgElementNotExists = "Elemento non trovato";
 	}
 }

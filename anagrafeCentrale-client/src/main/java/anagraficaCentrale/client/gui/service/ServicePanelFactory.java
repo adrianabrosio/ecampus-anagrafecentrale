@@ -1,5 +1,7 @@
 package anagraficaCentrale.client.gui.service;
 
+import java.util.Map;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -9,7 +11,7 @@ import anagraficaCentrale.client.gui.OperationPanel;
 public class ServicePanelFactory {
 
 	public static GenericService generateDummyPanel(OperationPanel operationPanel){
-		return new GenericService(operationPanel){
+		return new GenericService(operationPanel, null){
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -82,5 +84,9 @@ public class ServicePanelFactory {
 
 	public static GenericService generateUserEditPanel(OperationPanel operationPanel) {
 		return new UserCreationService(operationPanel, true);
+	}
+
+	public static GenericService generateAdminRequestManagementPanel(OperationPanel operationPanel, Map<String, String> requestData) {
+		return new RequestManagementService(operationPanel, requestData);
 	}
 }

@@ -34,7 +34,7 @@ public class TicketPaymentService extends GenericService {
 	private static final long serialVersionUID = 1L;
 
 	public TicketPaymentService(OperationPanel op) {
-		super(op);
+		super(op, null);
 		setTitle(GUIConstants.LANG.lbl_PAG_TICK_SrvTitle);
 	}
 

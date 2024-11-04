@@ -34,7 +34,7 @@ public class ShowProfileService extends GenericService {
 	 * Create the panel.
 	 */
 	public ShowProfileService(OperationPanel op) {
-		super(op);
+		super(op, null);
 		this.setBorder(new EmptyBorder(20, 20, 20, 20));
 	}
 	@Override

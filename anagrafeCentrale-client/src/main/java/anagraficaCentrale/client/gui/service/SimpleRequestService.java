@@ -24,7 +24,7 @@ public abstract class SimpleRequestService extends GenericService {
 	private JEditorPane textField;
 
 	public SimpleRequestService(OperationPanel op) {
-		super(op);
+		super(op, null);
 	}
 
 	@Override

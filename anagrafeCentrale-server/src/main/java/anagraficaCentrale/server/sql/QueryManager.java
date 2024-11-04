@@ -35,7 +35,7 @@ public class QueryManager implements QueryManagerIF{
 
 	private Statement statement;
 
-	public QueryManager() throws IOException {
+	public QueryManager() throws IOException, DatabaseException {
 
 		Properties prop = new Properties();
 		try (InputStream resourceStream = ClassLoader.getSystemResourceAsStream("database.properties")) {
@@ -62,7 +62,7 @@ public class QueryManager implements QueryManagerIF{
 	}
 
 	@Override
-	public Statement getStatement() {
+	public Statement getStatement() throws DatabaseException {
 		try {
 			if (statement == null || statement.isClosed()){
 				Class.forName("com.mysql.cj.jdbc.Driver");
@@ -76,14 +76,15 @@ public class QueryManager implements QueryManagerIF{
 				return statement;
 				// con.close();
 			}
-		} catch (Exception e) { // TODO exception management
+		} catch (Exception e) {
 			logger.error(e);
+			throw new DatabaseException();
 		}
 		return statement;
 	}
 
 	@Override
-	public void installDatabase() throws SQLException, IOException {
+	public void installDatabase() throws SQLException, IOException, DatabaseException {
 		// leggi script SQL dal file nelle risorse
 		logger.info("Installing database..");
 		BufferedReader reader = new BufferedReader(
@@ -115,7 +116,7 @@ public class QueryManager implements QueryManagerIF{
 		reader.close();
 	}
 
-	public void populateDatabase() throws SQLException, IOException {
+	public void populateDatabase() throws SQLException, IOException, DatabaseException {
 		// leggi script SQL dal file nelle risorse
 		logger.info("populating DB tables..");
 		BufferedReader reader = new BufferedReader(
@@ -145,7 +146,7 @@ public class QueryManager implements QueryManagerIF{
 	}
 
 	@Override
-	public void dropAlltables() {
+	public void dropAlltables() throws DatabaseException {
 		String queryModel = "SELECT GROUP_CONCAT('DROP TABLE IF EXISTS ', table_name) as query FROM information_schema.tables WHERE table_schema = '"
 				+ dbName + "'";
 
@@ -161,8 +162,7 @@ public class QueryManager implements QueryManagerIF{
 			else
 				logger.error("Unable to connect to Database");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 
 		for(String query: dropList){

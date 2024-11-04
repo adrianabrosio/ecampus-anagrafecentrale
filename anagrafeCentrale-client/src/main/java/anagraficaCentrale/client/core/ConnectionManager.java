@@ -23,6 +23,7 @@ import javax.swing.JOptionPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import anagraficaCentrale.client.gui.service.RequestNotFoundException;
 import anagraficaCentrale.client.gui.service.UnsupportedServiceException;
 import anagraficaCentrale.client.gui.service.UserNotFoundException;
 import anagraficaCentrale.exception.AcServerRuntimeException;
@@ -85,7 +86,7 @@ public class ConnectionManager {
 	public String[] serverCall(ClientServerConstants.ServerAction action, String... comm_args){
 		if("admin".equals(username)) // dummy user
 			return new String[]{"OK"};
-		try{
+		try {
 			String toEncrypt = "" + action.getValue() + ClientServerConstants.COMM_SEPARATOR + String.join(ClientServerConstants.COMM_SEPARATOR, comm_args);
 
 			DataOutputStream send = new DataOutputStream(getSocket().getOutputStream());
@@ -93,7 +94,7 @@ public class ConnectionManager {
 			send.write((ScriptUtils.encrypt(toEncrypt)+ClientServerConstants.COMM_EOL).getBytes());
 			send.flush();
 			logger.debug("SENT: "+toEncrypt);
-		}catch(Exception e){
+		} catch(Exception e) {
 			logger.error(e);
 			JOptionPane.showConfirmDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
@@ -114,7 +115,7 @@ public class ConnectionManager {
 			}
 			strToDecrypt = sb.toString();
 			//remove EOL chars
-			strToDecrypt = strToDecrypt.substring(0, strToDecrypt.length()-ClientServerConstants.COMM_EOL.length());
+			strToDecrypt = strToDecrypt.substring(0, strToDecrypt.length() - ClientServerConstants.COMM_EOL.length());
 			//-- 
 			logger.debug("RECV: "+ScriptUtils.decrypt(strToDecrypt));
 			return ScriptUtils.decrypt(new String(strToDecrypt)).split(ClientServerConstants.COMM_SEPARATOR);
@@ -129,8 +130,7 @@ public class ConnectionManager {
 			try {
 				this.socket = getConnection(null);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("Unable to get new socket", e);
 			}
 		return socket;
 	}
@@ -142,8 +142,7 @@ public class ConnectionManager {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error(e);
 			}
 			// ok
 			this.username = "pinco";
@@ -216,27 +215,34 @@ public class ConnectionManager {
 
 		return false;
 	}
-
-	public void refreshUserData() {
-		String[] respComm = serverCall(ServerAction.GET_USER_DATA, username);
+	
+	public Map<String, String> getUserData(String user) throws UserNotFoundException{
+		String[] respComm = serverCall(ServerAction.GET_USER_DATA, user);
 		if(checkIfErrorAndParse(respComm)){
-			throw new AcServerRuntimeException(lastError);
+			logger.error(lastError);
+			throw new UserNotFoundException();
 		}
-
-		if(userAttributes != null){
-			userAttributes.clear();
-		} else {
-			userAttributes = new HashMap<>();
-		}
+		HashMap<String,String> othersUserData = new HashMap<>();
 		for(String ret : respComm){
 			if(ret.contains("=")){
 				String[] tokens = ret.split("=", 2);
-				userAttributes.put(tokens[0], tokens[1]);
+				othersUserData.put(tokens[0], tokens[1]);
 			}
+		}
+		return othersUserData;
+	}
+
+	public void refreshUserData() {
+		try {
+			userAttributes = getUserData(username);
+		} catch (UserNotFoundException e) {
+			logger.error(e);//should never happen :)
 		}
 	}
 
 	public String getUserAttribute(String attrName){
+		if(userAttributes == null)
+			refreshUserData();
 		return userAttributes.get(attrName) != null? userAttributes.get(attrName) : "";
 	}
 
@@ -450,19 +456,43 @@ public class ConnectionManager {
 
 	}
 
-	public Map<String, String> getOtherUserData(String user) throws UserNotFoundException{
-		String[] respComm = serverCall(ServerAction.GET_USER_DATA, user);
+	public List<Map<String, String>> getAdminSupportRequestsList(PortalType portalType) {
+		List<Map<String, String>> requestList = new ArrayList<>();
+		String[] respComm = serverCall(ServerAction.GET_ALL_ADM_MNG_REQ, username, ""+isAdmin(), ""+portalType.getValue());
 		if(checkIfErrorAndParse(respComm)){
 			logger.error(lastError);
-			throw new UserNotFoundException();
+			throw new AcServerRuntimeException(lastError);
 		}
-		HashMap<String,String> othersUserData = new HashMap<>();
-		for(String ret : respComm){
-			if(ret.contains("=")){
-				String[] tokens = ret.split("=", 2);
-				othersUserData.put(tokens[0], tokens[1]);
-			}
+
+		for(String recString : respComm){
+			if(!recString.contains("=")) 
+				continue;
+			Map<String,String> recordMap = ScriptUtils.convertParamStringToMap(recString, ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR);
+			requestList.add(recordMap);
 		}
-		return othersUserData;
+		return requestList;
+	}
+
+	public void manageRequest(Map<String, String> serviceData, boolean acceptRequest) {
+		String[] respComm = serverCall(ServerAction.ADM_MNG_REQ, username, ""+isAdmin(), ""+serviceData.get("id"), ""+acceptRequest);
+		if(checkIfErrorAndParse(respComm)){
+			logger.error(lastError);
+			throw new AcServerRuntimeException(lastError);
+		}
+	}
+
+	public Map<String, String> getRequestData(String requestId) throws RequestNotFoundException {
+		String[] respComm = serverCall(ServerAction.GET_REQUEST_DATA, username, ""+isAdmin(), requestId);
+		if(checkIfErrorAndParse(respComm)){
+			logger.error(lastError);
+			throw new RequestNotFoundException();
+		}
+		if(respComm.length >= 2){
+			Map<String,String> requestData = ScriptUtils.convertParamStringToMap(respComm[1], ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR);
+			return requestData;
+		}else{
+			throw new RequestNotFoundException();
+		}
+		
 	}
 }

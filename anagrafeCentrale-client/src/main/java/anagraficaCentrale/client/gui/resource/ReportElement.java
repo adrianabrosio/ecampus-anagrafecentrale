@@ -30,8 +30,7 @@ public class ReportElement extends AbstractResourceElement {
 
 	@Override
 	protected void executePostAction() {
-		// TODO Auto-generated method stub
-		
+		/*NO-OP*/
 	}
 
 	@Override

@@ -130,6 +130,15 @@ public class ServerInstance extends Thread {
 				case GET_RELATIONS:
 					resultList = this.serverOp.getRelationsDataOperation(commArgs);
 					break;
+				case EDIT_ACCOUNT:
+					resultList = this.serverOp.editAccountOperation(commArgs);
+					break;
+				case GET_ALL_ADM_MNG_REQ:
+					resultList = this.serverOp.getAllAdminSupportRequestsOperation(commArgs);
+					break;
+				case ADM_MNG_REQ:
+					resultList = this.serverOp.manageRequestOperation(commArgs);
+					break;
 				default : // Unsupported action
 					logger.warn(this.getName() + " - Unsupported action ["+action+"]");
 					resultList = new String[]{"ERROR"};

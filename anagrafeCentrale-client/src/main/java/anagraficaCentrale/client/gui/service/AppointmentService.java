@@ -1,7 +1,7 @@
 package anagraficaCentrale.client.gui.service;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -18,9 +18,9 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.border.MatteBorder;
 
 import com.github.lgooddatepicker.components.DatePicker;
@@ -34,8 +34,10 @@ import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 public abstract class AppointmentService extends GenericService {
-	private JTextArea textField;
+	private JEditorPane textField;
 	private DatePicker datePicker1;
+	private boolean panelIsInvalid = false;
+	private JComboBox<String> userList = null;
 
 	private int userListType;
 	public static final int USER_ONLY=0;
@@ -47,7 +49,7 @@ public abstract class AppointmentService extends GenericService {
 	private static final long serialVersionUID = 1L;
 
 	public AppointmentService(OperationPanel op) {
-		super(op);
+		super(op, null);
 	}
 
 	@Override
@@ -64,9 +66,13 @@ public abstract class AppointmentService extends GenericService {
 		gbc.gridheight = 1;
 		gbc.gridwidth = 2;
 
-		textField = new JTextArea(getTextAreaContent());
+		/*textField = new JTextArea(getTextAreaContent());
 		Font textAreaFont = new Font(textField.getFont().getFontName(), textField.getFont().getStyle(), 16);
 		textField.setFont(textAreaFont);
+		textField.setEditable(false);*/
+		textField = new JEditorPane();
+		textField.setContentType("text/html");
+		textField.setText(getTextAreaContent());
 		textField.setEditable(false);
 		attrPanel.add(textField, gbc);
 
@@ -112,23 +118,34 @@ public abstract class AppointmentService extends GenericService {
 		gbc.gridx = 0;
 		attrPanel.add(lblUser, gbc);
 
-		JComboBox<String> userList = new JComboBox<>(usersList.keySet().toArray(new String[0]));
-		userList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
-		userList.addActionListener(new ActionListener() {
+		String[] users = usersList.keySet().toArray(new String[0]);
+		if(users != null && users.length > 0) {
+			userList = new JComboBox<>(users);
+			userList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
+			userList.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String selection = (String) userList.getSelectedItem();
-				textFirstName.setText(usersList.get(selection).get("first_name"));
-				textSurname.setText(usersList.get(selection).get("surname"));
-			}
-		});
-		gbc.gridx = 1;
-		attrPanel.add(userList, gbc);
-		
-		String selection = (String) userList.getSelectedItem();
-		textFirstName.setText(usersList.get(selection).get("first_name"));
-		textSurname.setText(usersList.get(selection).get("surname"));
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String selection = (String) userList.getSelectedItem();
+					textFirstName.setText(usersList.get(selection).get("first_name"));
+					textSurname.setText(usersList.get(selection).get("surname"));
+				}
+			});
+			gbc.gridx = 1;
+			attrPanel.add(userList, gbc);
+
+
+			String selection = (String) userList.getSelectedItem();
+			textFirstName.setText(usersList.get(selection).get("first_name"));
+			textSurname.setText(usersList.get(selection).get("surname"));
+
+		} else {
+			JLabel lblUserError = new JLabel(GUIConstants.LANG.errorNoRelationFound);
+			lblUserError.setForeground(Color.RED);
+			panelIsInvalid = true;
+			gbc.gridx = 1;
+			attrPanel.add(lblUserError, gbc);
+		}
 
 		//data appuntamento
 		JLabel lblDate = new JLabel(GUIConstants.LANG.lblAppointmentDate + "*");
@@ -220,6 +237,12 @@ public abstract class AppointmentService extends GenericService {
 		if(datePicker1.getText() == null || datePicker1.getText().equals("") || !datePicker1.isTextFieldValid() || datePicker1.getDate().isBefore(LocalDate.now())){
 			formIncomplete = true;
 		}
+
+		if(!panelIsInvalid){
+			operationPanel.popupInfo(GUIConstants.LANG.errorNoRelationFound);
+			formIncomplete = true;
+		}
+
 		return !formIncomplete;
 	}
 

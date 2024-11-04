@@ -16,15 +16,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import anagraficaCentrale.utils.ScriptUtils;
 
 
 @SuppressWarnings("unused")
 public class QueryManagerCore {
-
-	public static final String USAGE = "not runnable from command prompt"
-			;
-
+	final static Logger logger = LogManager.getRootLogger();
+	public static final String USAGE = "not runnable from command prompt";
 	private boolean verbose = false;
 	private boolean enableUpdate = false;
 	private boolean header = false;
@@ -244,12 +245,8 @@ public class QueryManagerCore {
 			this.statement.close();
 			try {
 				openConnection();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (ClassNotFoundException|FileNotFoundException e) {
+				logger.error(e);
 			}
 		}
 	}

@@ -33,7 +33,7 @@ public class ResidenceChangeRequestService extends GenericService {
 	private static final long serialVersionUID = 1L;
 
 	public ResidenceChangeRequestService(OperationPanel op) {
-		super(op);
+		super(op, null);
 		setTitle(GUIConstants.LANG.lbl_CAM_RES_SrvTitle);
 	}
 

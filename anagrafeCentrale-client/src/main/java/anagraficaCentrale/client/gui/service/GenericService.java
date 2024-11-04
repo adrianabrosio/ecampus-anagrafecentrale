@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -25,9 +26,11 @@ public abstract class GenericService extends JPanel{
 	
 	protected JLabel serviceTitle;
 	protected JPanel innerPanel;
+	protected Map<String, String> serviceData;
 
-	public GenericService(OperationPanel op) {
+	public GenericService(OperationPanel op, Map<String, String> serviceData) {
 		this.operationPanel = op;
+		this.serviceData = serviceData;
 		setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		setBorder(BorderFactory.createLineBorder(op.guiBackgroundColor, 2));
 		setLayout(new BorderLayout());

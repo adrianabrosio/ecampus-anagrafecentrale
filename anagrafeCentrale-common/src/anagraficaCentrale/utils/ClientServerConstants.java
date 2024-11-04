@@ -32,9 +32,8 @@ public class ClientServerConstants {
 	 * Questa enum descrive i tipi di servizi disponibili e la relativa codifica
 	 * <table border="1">
 	 * 	<tr><th>Portal</th>	<th>Servizio</th><th>Tecnico</th></tr>
-	 * 	<tr><td>Comune</td>		<td>Appuntamento Carta dï¿½Identitï¿½</td>	<td>APP_CI</td></tr>
-	 * 	<tr><td>Comune</td>		<td>Carta dï¿½Identitï¿½ temporanea</td>	<td>CI_TEMP</td></tr>
-	 * 	<tr><td>Comune</td>		<td>Cambio domicilio</td> 				<td>CAM_DOM</td></tr>
+	 * 	<tr><td>Comune</td>		<td>Appuntamento Carta d'Identità/td>	<td>APP_CI</td></tr>
+	 * 	<tr><td>Comune</td>		<td>Carta d'Identità temporanea</td>	<td>CI_TEMP</td></tr>
 	 * 	<tr><td>Comune</td>		<td>Cambio residenza</td> 				<td>CAM_RES</td></tr>
 	 * 	<tr><td>Comune</td>		<td>Certificato di Nascita</td> 		<td>CERT_NASC</td></tr>
 	 * 	<tr><td>Comune</td>		<td>Certificato di matrimonio</td> 		<td>CERT_MATR</td></tr>
@@ -48,10 +47,11 @@ public class ClientServerConstants {
 	 * 	<tr><td>Scuola</td>		<td>Colloquio Insegnanti</td>			<td>COLL_INS</td></tr>
 	 * 	<tr><td>Comune</td>		<td>Admin: creazione utente</td>		<td>ADM_CREAZ_USR</td></tr>
 	 * 	<tr><td>Comune</td>		<td>Admin: modifica utente</td>			<td>ADM_MOD_USR</td></tr>
+	 *  <tr><td>ALL</td>		<td>Admin: gestione richieste</td>		<td>ADM_MNG_REQ</td></tr>
 	 * </table>
 	 *
 	 */
-	public enum ServiceType {DUMMY, APP_CI, CI_TEMP, CAM_DOM, CAM_RES, CERT_NASC, CERT_MATR, STAT_FAM, CAM_MED, PREN_VIS, PAG_TICK, PAG_RET, PAG_MEN, ISCRIZ, COLL_INS, ADM_CREAZ_USR, ADM_MOD_USR, ADM_VAL_REQ};
+	public enum ServiceType {DUMMY, APP_CI, CI_TEMP, CAM_RES, CERT_NASC, CERT_MATR, STAT_FAM, CAM_MED, PREN_VIS, PAG_TICK, PAG_RET, PAG_MEN, ISCRIZ, COLL_INS, ADM_CREAZ_USR, ADM_MOD_USR, ADM_REQ_MNG};
 
 	public enum ServerAction {
 		/**LOGOUT
@@ -130,7 +130,7 @@ public class ClientServerConstants {
 		 * response: result[OK|KO], new notification[true|false]
 		 */
 		CHECK_NEW_NOTIFICATION(13),
-		/**TODO DELETE_NOTIFICATION
+		/**DELETE_NOTIFICATION
 		 * request: Notification.ID
 		 * response: result[OK|KO], message
 		 */
@@ -146,10 +146,15 @@ public class ClientServerConstants {
 		 */
 		EDIT_ACCOUNT(16),
 		/**GET_ALL_ADM_VAL_REQ
-		 * request: username
-		 * response: result[OK|KO], <relations list>
+		 * request: username, isAdmin, portalType
+		 * response: result[OK|KO], <list of user request to evaluate>
 		 */
-		GET_ALL_ADM_VAL_REQ(17)
+		GET_ALL_ADM_MNG_REQ(17), 
+		/**ADM_MNG_REQ
+		 * request: username, isAdmin, id, acceptRequest
+		 * response: result[OK|KO], message
+		 */
+		ADM_MNG_REQ(18)
 		;
 
 		private static Map<Integer, ServerAction> internalMap = new HashMap<>();

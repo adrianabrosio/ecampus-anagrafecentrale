@@ -54,20 +54,16 @@ public class AcServer {
 		// create the socket server object
 		try {
 			server = new ServerSocket(port);
-			server.setReuseAddress(false);
+			server.setReuseAddress(false);//force to open new socket on disconnect
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
-		// keep listens indefinitely until receives 'exit' call or program
-		// terminates
+		// keep listens indefinitely until receives 'exit' call or program terminates
 		while (true) {
 			try{
 				logger.info("Waiting for the client request..");
-				// creating socket and waiting for client connection
 				socket = null;
 				socket = server.accept();
-				// Create thread
 				logger.debug("new request received, starting new thread");
 				ServerInstance serverThread = new ServerInstance(socket, prop, queryManager);
 				// Starting thread

@@ -16,7 +16,6 @@ public class Hasher {
 			System.out.println(ConnectionManager.hash("federicaDP".toCharArray()));
 			System.out.println(ConnectionManager.hash("matteoDP".toCharArray()));
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

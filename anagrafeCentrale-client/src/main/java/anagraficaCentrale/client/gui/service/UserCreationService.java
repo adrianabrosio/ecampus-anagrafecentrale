@@ -66,7 +66,7 @@ public class UserCreationService extends GenericService {
 	}
 
 	public UserCreationService(OperationPanel op, boolean edit) {
-		super(op);
+		super(op, null);
 		setTitle(edit? GUIConstants.LANG.lblServiceEditUser :GUIConstants.LANG.lblUserCreationSrvTitle);
 		editMode = edit;
 		if(editMode) {
@@ -383,7 +383,7 @@ public class UserCreationService extends GenericService {
 	private void setFields(String user) {
 		Map<String,String> userMap;
 		try {
-			userMap = operationPanel.getConnectionManager().getOtherUserData(user);
+			userMap = operationPanel.getConnectionManager().getUserData(user);
 		} catch(UserNotFoundException e) {
 			operationPanel.popupError(e);
 			return;

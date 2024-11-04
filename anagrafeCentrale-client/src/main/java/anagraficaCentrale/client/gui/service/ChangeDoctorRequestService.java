@@ -31,7 +31,7 @@ public class ChangeDoctorRequestService extends GenericService {
 	private static final long serialVersionUID = 1L;
 
 	public ChangeDoctorRequestService(OperationPanel op) {
-		super(op);
+		super(op, null);
 		setTitle(GUIConstants.LANG.lbl_CAM_MED_SrvTitle);
 	}
 
