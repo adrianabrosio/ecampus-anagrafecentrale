@@ -32,6 +32,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JProgressBar;
@@ -46,6 +47,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import anagraficaCentrale.client.core.ConnectionManager;
+import anagraficaCentrale.client.exception.AcErrorDialog;
 import anagraficaCentrale.utils.ClientServerConstants.PortalType;
 import anagraficaCentrale.utils.ScriptUtils;
 
@@ -195,10 +197,49 @@ public class ClientGui extends JFrame {
 		constraints.gridy = 0;
 		constraints.gridheight = 2;
 		loginPanel.add(loginButton, constraints);
+		
+		JLabel pwResetLabel = new JLabel("Reset password?");
+		pwResetLabel.addMouseListener(new MouseListener() {
 
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String username = usernameTextField.getText();
+				errorMessageLabel.setText("");
+				//if username is empty, popup insert username first
+				if (username.isEmpty()) {
+					JOptionPane.showMessageDialog(ClientGui.this, GUIConstants.LANG.msgUsernameEmpty, "", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				try {
+					PasswordResetDialog dialog = new PasswordResetDialog(ClientGui.this, connectionManager, usernameTextField.getText());
+					if(dialog.isPasswordChanged()) {
+						JOptionPane.showMessageDialog(ClientGui.this, GUIConstants.LANG.msgPasswordResetSuccess, "", JOptionPane.INFORMATION_MESSAGE);
+					}
+				} catch (AcErrorDialog e) {
+					logger.error(e);
+				}
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
+			
+		});
+		constraints.gridx = 1;
+		constraints.gridy = 2;
+		constraints.gridheight = 1;
+		loginPanel.add(pwResetLabel, constraints);
 
 		constraints.gridx = 0;
-		constraints.gridy = 2;
+		constraints.gridy = 3;
 		constraints.gridheight = 1;
 		constraints.gridwidth = 4;
 		loginPanel.add(progressBar, constraints);
@@ -276,7 +317,6 @@ public class ClientGui extends JFrame {
 		scuolaButton.setBorder(roundedBorder);
 
 		comuneButton.setBackground(GUIConstants.COMUNE_COLOR);
-		// Aggiungi un'azione all'evento di clic di ciascun pulsante
 		comuneButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Accendi il pulsante Anagrafe
@@ -288,9 +328,6 @@ public class ClientGui extends JFrame {
 				// Spegni gli altri pulsanti
 				ospedaleButton.setBackground(Color.WHITE);
 				scuolaButton.setBackground(Color.WHITE);
-
-				// Modifica il testo della label di TitlePanel
-				//titleLabel.setText("Comune");
 			}
 		});
 
@@ -305,9 +342,6 @@ public class ClientGui extends JFrame {
 				// Spegni gli altri pulsanti
 				comuneButton.setBackground(Color.WHITE);
 				scuolaButton.setBackground(Color.WHITE);
-
-				// Modifica il testo della label di TitlePanel
-				//titleLabel.setText("Ospedale");
 			}
 		});
 
@@ -323,9 +357,6 @@ public class ClientGui extends JFrame {
 				// Spegni gli altri pulsanti
 				comuneButton.setBackground(Color.WHITE);
 				ospedaleButton.setBackground(Color.WHITE);
-
-				// Modifica il testo della label di TitlePanel
-				//titleLabel.setText("Scuola");
 			}
 		});
 
@@ -442,8 +473,32 @@ public class ClientGui extends JFrame {
 
 			@Override
 			protected Integer doInBackground() throws Exception {
+								
 				try{
-					connectionManager.login(usernameTextField.getText(), ConnectionManager.hash(passwordTextField.getPassword()), portalType);
+					connectionManager.login(usernameTextField.getText(), ScriptUtils.hash(passwordTextField.getPassword()), portalType);
+					
+					//check primo accesso - se l'hash dello user è uguale all'hash della pw, allora primo accesso
+					if( ScriptUtils.hash(passwordTextField.getPassword()).equals(ScriptUtils.hash(usernameTextField.getText())) ) {
+						try{
+							PasswordResetDialog dialog = new PasswordResetDialog(ClientGui.this, connectionManager, usernameTextField.getText());
+							if(dialog.isPasswordChanged()) {
+								JOptionPane.showMessageDialog(ClientGui.this, GUIConstants.LANG.msgPasswordResetSuccess, "", JOptionPane.INFORMATION_MESSAGE);
+								loginErrorMessage = GUIConstants.LANG.msgPasswordResetSuccess;
+							} else {
+								JOptionPane.showMessageDialog(ClientGui.this, GUIConstants.LANG.msgPasswordResetMandatory, "", JOptionPane.WARNING_MESSAGE);
+								loginErrorMessage = GUIConstants.LANG.msgPasswordResetMandatory;
+							}
+							
+							passwordTextField.setText("");
+							return 100;
+						}catch(Exception e){
+							logger.warn("Login error: "+e.getMessage());
+							loginErrorMessage = e.getMessage();
+							passwordTextField.setText("");
+							return 100;
+						}
+					}
+					
 					OperationPanel op = new OperationPanel(portalType, connectionManager);
 					op.setLocationRelativeTo(ClientGui.this);
 					op.show();

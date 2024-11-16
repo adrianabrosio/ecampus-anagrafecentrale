@@ -7,10 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,9 +19,11 @@ import javax.swing.JOptionPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import anagraficaCentrale.client.gui.service.RequestNotFoundException;
-import anagraficaCentrale.client.gui.service.UnsupportedServiceException;
-import anagraficaCentrale.client.gui.service.UserNotFoundException;
+import anagraficaCentrale.client.exception.InvalidCredentialException;
+import anagraficaCentrale.client.exception.RequestNotFoundException;
+import anagraficaCentrale.client.exception.ServerResponseException;
+import anagraficaCentrale.client.exception.UnsupportedServiceException;
+import anagraficaCentrale.client.exception.UserNotFoundException;
 import anagraficaCentrale.exception.AcServerRuntimeException;
 import anagraficaCentrale.utils.ClientServerConstants;
 import anagraficaCentrale.utils.ClientServerConstants.PortalType;
@@ -172,26 +170,6 @@ public class ConnectionManager {
 		logger.debug("closing connection");
 		serverCall(ServerAction.LOGOUT, this.username);
 		logger.debug("connection closed!");
-	}
-
-	public static String hash(char[] password) throws NoSuchAlgorithmException {
-		MessageDigest digest = MessageDigest.getInstance("SHA-256");
-		Charset charset = StandardCharsets.UTF_8;
-		byte[] encodedhash = digest.digest(charset.encode(CharBuffer.wrap(password)).array());
-		logger.debug("hashed pw: " + String.valueOf(bytesToHex(encodedhash)));
-		return String.valueOf(bytesToHex(encodedhash));
-	}
-
-	public static String bytesToHex(byte[] hash) {
-		StringBuilder hexString = new StringBuilder(2 * hash.length);
-		for (int i = 0; i < hash.length; i++) {
-			String hex = Integer.toHexString(0xff & hash[i]);
-			if (hex.length() == 1) {
-				hexString.append('0');
-			}
-			hexString.append(hex);
-		}
-		return hexString.toString();
 	}
 
 	public boolean isAdmin() {
@@ -494,5 +472,14 @@ public class ConnectionManager {
 			throw new RequestNotFoundException();
 		}
 		
+	}
+
+	public void passwordReset(String username, char[] oldPassword, char[] newPassword) throws NoSuchAlgorithmException {
+		String[] respComm = serverCall(ServerAction.USR_CHANGE_PASS, username, ScriptUtils.hash(oldPassword), ScriptUtils.hash(newPassword));
+		
+		if(checkIfErrorAndParse(respComm)){
+			logger.error(lastError);
+			throw new AcServerRuntimeException(lastError);
+		}
 	}
 }

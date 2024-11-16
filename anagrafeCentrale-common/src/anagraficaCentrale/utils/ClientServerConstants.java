@@ -154,7 +154,12 @@ public class ClientServerConstants {
 		 * request: username, isAdmin, id, acceptRequest
 		 * response: result[OK|KO], message
 		 */
-		ADM_MNG_REQ(18)
+		ADM_MNG_REQ(18), 
+		/**USR_CHANGE_PASS
+		 * request: username, oldPassword, newPassword
+		 * response: result[OK|KO], message
+		 */
+		USR_CHANGE_PASS(19)
 		;
 
 		private static Map<Integer, ServerAction> internalMap = new HashMap<>();

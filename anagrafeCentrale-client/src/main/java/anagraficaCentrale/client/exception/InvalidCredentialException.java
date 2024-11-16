@@ -1,4 +1,4 @@
-package anagraficaCentrale.client.core;
+package anagraficaCentrale.client.exception;
 
 public class InvalidCredentialException extends Exception {
 

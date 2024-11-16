@@ -247,12 +247,18 @@ public class ServerOperationImpl implements ServerOperationIF {
 
 	@Override
 	public String[] createNewReportOperation(String[] commArgs) {
-		return getGenericDataOperation(commArgs, "Report");
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public String[] getRequestDataOperation(String[] commArgs) {
 		return getGenericDataOperation(commArgs, "Request");
+	}
+	
+	@Override
+	public String[] getReportDataOperation(String[] commArgs) {
+		return getGenericDataOperation(commArgs, "Report");
 	}
 	
 	public String[] getGenericDataOperation(String[] commArgs, String tableName) {
@@ -662,6 +668,38 @@ public class ServerOperationImpl implements ServerOperationIF {
 
 			logger.debug("create user query: ["+sql2+"]");
 			qm.getStatement().execute(sql2);
+			
+			return new String[]{ClientServerConstants.SERVER_RESP_OK};
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
+		}
+	}
+
+	@Override
+	public String[] passwordResetOperation(String[] commArgs) {
+		try {
+			//input
+			String username = commArgs[1];
+			String oldPassword = commArgs.length>=3 ? commArgs[2]:null;
+			String newPassword = commArgs.length>=4 ? commArgs[3]:null;
+
+			//verify if user exists
+			ResultSet rs = qm.getStatement().executeQuery("SELECT * FROM User WHERE id='" + username + "'");
+			if(!rs.first()){
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgUserNotExists};
+			}
+			
+			//check old password
+			if(!oldPassword.equals(rs.getString("password"))){
+				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgWrongPassword};
+			}
+			
+			//update user
+			String sql = "UPDATE User SET password='" + newPassword + "' WHERE id='" + username + "'";
+
+			logger.debug("update user query: ["+sql+"]");
+			qm.getStatement().execute(sql);
 			
 			return new String[]{ClientServerConstants.SERVER_RESP_OK};
 		} catch (Exception e) {

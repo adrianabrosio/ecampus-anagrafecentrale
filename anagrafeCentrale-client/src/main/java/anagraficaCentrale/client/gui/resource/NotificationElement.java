@@ -3,9 +3,9 @@ package anagraficaCentrale.client.gui.resource;
 import java.util.Map;
 
 import anagraficaCentrale.client.core.ConnectionManager;
+import anagraficaCentrale.client.exception.UnsupportedServiceException;
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
-import anagraficaCentrale.client.gui.service.UnsupportedServiceException;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 public class NotificationElement extends AbstractResourceElement {
@@ -41,15 +41,15 @@ public class NotificationElement extends AbstractResourceElement {
 		this.record = record;
 		this.id = record.get("id");
 		this.name = record.get("notification_name");
-		this.description = record.get("notification_description");
+		//this.description = record.get("notification_description");
 		this.unread = "1".equalsIgnoreCase(record.get("unread"));
 		
 		iconImageName = unread? "notificationOnIcon.png" : "notificationIcon.png";
 		this.setButtonIconImage();
 		
 		boolean requestAccepted = record.getOrDefault("notification_description", "").contains("accepted=Y");
-		
-		this.setDescription("["+id+"]"+" "+getTextByServiceType(record)+": "+(requestAccepted?GUIConstants.LANG.lbl_RequestAccepted : GUIConstants.LANG.lbl_RequestDeclined));
+		this.description = "["+id+"]"+" "+getTextByServiceType(record)+": "+(requestAccepted?GUIConstants.LANG.lbl_RequestAccepted : GUIConstants.LANG.lbl_RequestDeclined);
+		this.setDescription(this.description);
 	}
 
 	@Override

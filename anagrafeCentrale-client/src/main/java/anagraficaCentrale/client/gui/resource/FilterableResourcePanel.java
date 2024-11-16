@@ -84,10 +84,13 @@ public class FilterableResourcePanel extends JPanel {
 	}
 
 	private void applyFilter(String filter) {
+		if(filter == null) 
+			return;
 		this.resourcePanel.removeAll();
 		boolean elementAdded = false;
 		for (AbstractResourceElement resource : resourceList) {
-			if (resource.getDescription().contains(filter)) {
+			if ( (resource.getName()!=null && resource.getName().toLowerCase().contains(filter.toLowerCase()))
+					|| (resource.getDescription()!=null && resource.getDescription().toLowerCase().contains(filter.toLowerCase())) ) {
 				elementAdded = true;
 				resourcePanel.add(resource);
 			}

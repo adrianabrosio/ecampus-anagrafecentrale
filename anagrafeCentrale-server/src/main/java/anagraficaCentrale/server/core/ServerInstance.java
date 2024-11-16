@@ -139,6 +139,9 @@ public class ServerInstance extends Thread {
 				case ADM_MNG_REQ:
 					resultList = this.serverOp.manageRequestOperation(commArgs);
 					break;
+				case USR_CHANGE_PASS:
+					resultList = this.serverOp.passwordResetOperation(commArgs);
+					break;
 				default : // Unsupported action
 					logger.warn(this.getName() + " - Unsupported action ["+action+"]");
 					resultList = new String[]{"ERROR"};

@@ -1,4 +1,4 @@
-package anagraficaCentrale.client.gui.service;
+package anagraficaCentrale.client.exception;
 
 import anagraficaCentrale.client.gui.GUIConstants;
 

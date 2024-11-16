@@ -36,8 +36,8 @@ import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 public abstract class AppointmentService extends GenericService {
 	private JEditorPane textField;
 	private DatePicker datePicker1;
-	private boolean panelIsInvalid = false;
-	private JComboBox<String> userList = null;
+	private boolean panelIsInvalid;
+	private JComboBox<String> userList;
 
 	private int userListType;
 	public static final int USER_ONLY=0;
@@ -138,7 +138,7 @@ public abstract class AppointmentService extends GenericService {
 			String selection = (String) userList.getSelectedItem();
 			textFirstName.setText(usersList.get(selection).get("first_name"));
 			textSurname.setText(usersList.get(selection).get("surname"));
-
+			panelIsInvalid = false;
 		} else {
 			JLabel lblUserError = new JLabel(GUIConstants.LANG.errorNoRelationFound);
 			lblUserError.setForeground(Color.RED);
@@ -238,7 +238,7 @@ public abstract class AppointmentService extends GenericService {
 			formIncomplete = true;
 		}
 
-		if(!panelIsInvalid){
+		if(panelIsInvalid){
 			operationPanel.popupInfo(GUIConstants.LANG.errorNoRelationFound);
 			formIncomplete = true;
 		}

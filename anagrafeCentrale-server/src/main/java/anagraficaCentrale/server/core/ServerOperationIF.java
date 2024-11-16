@@ -48,11 +48,17 @@ public interface ServerOperationIF {
 	 */
 	public String[] createNewReportOperation(String[] commArgs);
 	
-	/**TODO GET_REQUEST_FORM
+	/** GET_REQUEST_FORM
 	 * request: username
 	 * response: result[OK|KO], message
 	 */
 	public String[] getRequestDataOperation(String[] commArgs);
+
+	/**GET_REPORT_FORM
+	 * request: username
+	 * response: result[OK|KO], message
+	 */
+	public String[] getReportDataOperation(String[] commArgs);
 	
 	/**GET_USER_DATA - refresh the user data from the database
 	 * request: username
@@ -113,4 +119,10 @@ public interface ServerOperationIF {
 	 * response: result[OK|KO], message
 	 */
 	public String[] manageRequestOperation(String[] commArgs);
+	
+	/**USER_MNG_REQ
+	 * request: username, oldPassword, newPassword
+	 * response: result[OK|KO], message
+	 */
+	public String[] passwordResetOperation(String[] commArgs);
 }

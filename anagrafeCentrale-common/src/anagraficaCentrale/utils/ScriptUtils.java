@@ -1,12 +1,21 @@
 package anagraficaCentrale.utils;
 
 import java.lang.reflect.Field;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ScriptUtils {
+	final static Logger logger = LogManager.getRootLogger();
 	/**
 	 * get param from args. Params are case insensitive
 	 * @param args
@@ -48,10 +57,12 @@ public class ScriptUtils {
 	}
 
 	public static String decrypt (String plainText) {
+		//will be implemented in future releases
 		return plainText;
 	}
 
 	public static String encrypt (String plainText) {
+		//will be implemented in future releases
 		return plainText;
 	}
 
@@ -72,6 +83,29 @@ public class ScriptUtils {
 			}
 		return map;
 	}
+	
+	public static String hash(String password) throws NoSuchAlgorithmException {
+		return hash(password.toCharArray());
+	}
 
+	public static String hash(char[] password) throws NoSuchAlgorithmException {
+		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		Charset charset = StandardCharsets.UTF_8;
+		byte[] encodedhash = digest.digest(charset.encode(CharBuffer.wrap(password)).array());
+		logger.debug("hashed pw: " + String.valueOf(bytesToHex(encodedhash)));
+		return String.valueOf(bytesToHex(encodedhash));
+	}
+
+	public static String bytesToHex(byte[] hash) {
+		StringBuilder hexString = new StringBuilder(2 * hash.length);
+		for (int i = 0; i < hash.length; i++) {
+			String hex = Integer.toHexString(0xff & hash[i]);
+			if (hex.length() == 1) {
+				hexString.append('0');
+			}
+			hexString.append(hex);
+		}
+		return hexString.toString();
+	}
 
 }

@@ -28,8 +28,8 @@ public class SchoolRegistrationService extends GenericService {
 	private static final long serialVersionUID = 1L;
 	private JEditorPane textField;
 	private Map<String, Map<String,String>> usersList;
-	private JComboBox<String> userList = null;
-	private boolean panelIsInvalid = false;
+	private JComboBox<String> userList;
+	private boolean panelIsInvalid;
 
 	public SchoolRegistrationService(OperationPanel op) {
 		super(op, null);
@@ -72,7 +72,7 @@ public class SchoolRegistrationService extends GenericService {
 			textField.setText(getTextAreaContent(selection));
 			textField.setEditable(false);
 			innerPanel.add(textField, BorderLayout.CENTER);
-
+			panelIsInvalid = false;
 		} else {
 			JLabel lblUserError = new JLabel(GUIConstants.LANG.errorNoRelationFound);
 			lblUserError.setForeground(Color.RED);
@@ -133,7 +133,7 @@ public class SchoolRegistrationService extends GenericService {
 		//validation
 		boolean formIncomplete = false;
 
-		if(!panelIsInvalid){
+		if(panelIsInvalid){
 			operationPanel.popupInfo(GUIConstants.LANG.errorNoRelationFound);
 			formIncomplete = true;
 		}

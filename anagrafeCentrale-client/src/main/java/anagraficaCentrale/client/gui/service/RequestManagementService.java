@@ -10,6 +10,8 @@ import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import anagraficaCentrale.client.exception.UnsupportedServiceException;
+import anagraficaCentrale.client.exception.UserNotFoundException;
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
@@ -48,6 +50,7 @@ public class RequestManagementService extends GenericService {
 					//TODO implementare accettazione richiesta
 					try{
 						operationPanel.getConnectionManager().manageRequest(serviceData, true);
+						operationPanel.openAdminSupportPanelAction();
 					}catch(Exception e){
 						operationPanel.popupError(e);
 						return;
@@ -66,6 +69,7 @@ public class RequestManagementService extends GenericService {
 					//TODO implementare rifiuto richiesta
 					try{
 						operationPanel.getConnectionManager().manageRequest(serviceData, false);
+						operationPanel.openAdminSupportPanelAction();
 					}catch(Exception e){
 						operationPanel.popupError(e);
 						return;

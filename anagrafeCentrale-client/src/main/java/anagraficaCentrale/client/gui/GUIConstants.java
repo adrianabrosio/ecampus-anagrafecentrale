@@ -134,14 +134,14 @@ public class GUIConstants {
 		public static final String lblAdminSupport = "Gestione richieste";
 		public static final String lblAcceptRequestBtn = "Accetta";
 		public static final String lblRejectRequestBtn = "Rifiuta";
-		public static final String lbl_APP_CI_SrvAdminRequestText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\"><p>Richiedente:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>User ID</td><td>!id</td></tr><tr><td>Nome</td><td>!first_name</td></tr><tr><td>Cognome</td><td>!surname</td></tr><tr><td>Codice fiscale</td><td>!tax_id_code</td></tr></table><br/><p>Dettagli richiesta:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>Codice Fiscale</td><td>&tax_id_code</td></tr><tr><td>Data appuntamento</td><td>&appointmentDate</td></tr></table></p></body></html>";
+		public static final String lbl_APP_CI_SrvAdminRequestText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\"><p>Richiedente:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>User ID</td><td>!id</td></tr><tr><td>Nome</td><td>!first_name</td></tr><tr><td>Cognome</td><td>!surname</td></tr><tr><td>Codice fiscale</td><td>!tax_id_code</td></tr></table><br/><p>Dettagli richiesta:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>Codice Fiscale</td><td>&tax_id_code</td></tr><tr><td>Data appuntamento</td><td>&appointment_date</td></tr></table></p></body></html>";
 		public static final String lbl_CAM_MED_SrvAdminRequestText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\"><p>Richiedente:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>User ID</td><td>!id</td></tr><tr><td>Nome</td><td>!first_name</td></tr><tr><td>Cognome</td><td>!surname</td></tr><tr><td>Codice fiscale</td><td>!tax_id_code</td></tr></table><br/><p>Dettagli richiesta:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>Nome nuovo medico</td><td>&medicFirstName</td></tr><tr><td>Cognome nuovo medico</td><td>&medicSurname</td></tr></table></p></body></html>";
 		public static final String lbl_CAM_RES_SrvAdminRequestText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\"><p>Richiedente:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>User ID</td><td>!id</td></tr><tr><td>Nome</td><td>!first_name</td></tr><tr><td>Cognome</td><td>!surname</td></tr><tr><td>Codice fiscale</td><td>!tax_id_code</td></tr></table><br/><p>Dettagli richiesta:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>Indirizzo</td><td>&newAddress</td></tr><tr><td>Città</td><td>&newTown</td></tr><tr><td>Provincia</td><td>&newProvince</td></tr><tr><td>CAP</td><td>&newZipCode</td></tr></table></p></body></html>";
 		public static final String lbl_CERT_MATR_SrvAdminRequestText = null;
 		public static final String lbl_CERT_NASC_SrvAdminRequestText = null;
 		public static final String lbl_CI_TEMP_SrvAdminRequestText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\"><p>Richiedente:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>User ID</td><td>!id</td></tr><tr><td>Nome</td><td>!first_name</td></tr><tr><td>Cognome</td><td>!surname</td></tr><tr><td>Codice fiscale</td><td>!tax_id_code</td></tr></table><br/><p>Dettagli richiesta:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>Motivo richiesta</td><td>&reason</td></tr></table></p></body></html>";
-		public static final String lbl_COLL_INS_SrvAdminRequestText = null;
-		public static final String lbl_ISCRIZ_SrvAdminRequestText = null;
+		public static final String lbl_COLL_INS_SrvAdminRequestText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\"><p>Richiedente:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>User ID</td><td>!id</td></tr><tr><td>Nome</td><td>!first_name</td></tr><tr><td>Cognome</td><td>!surname</td></tr><tr><td>Codice fiscale</td><td>!tax_id_code</td></tr></table><br/><p>Dettagli richiesta:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>Codice Fiscale alunno</td><td>&tax_id_code</td></tr><tr><td>Data appuntamento</td><td>&appointment_date</td></tr></table></p></body></html>";
+		public static final String lbl_ISCRIZ_SrvAdminRequestText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\"><p>Richiedente:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>User ID</td><td>!id</td></tr><tr><td>Nome</td><td>!first_name</td></tr><tr><td>Cognome</td><td>!surname</td></tr><tr><td>Codice fiscale</td><td>!tax_id_code</td></tr></table><br/><p>Dettagli richiesta:</p><br/><table border=1 bgcolor=#eeeeee FRAME=VOID CELLSPACING=0><tr><td>Codice Fiscale alunno</td><td>&tax_id_code</td></tr></table></p></body></html>";
 		public static final String lbl_PAG_MEN_SrvAdminRequestText = null;
 		public static final String lbl_PAG_RET_SrvAdminRequestText = null;
 		public static final String lbl_PAG_TICK_SrvAdminRequestText = null;
@@ -165,5 +165,16 @@ public class GUIConstants {
 		public static final String lbl_RequestDeclined = "Rifiutato";
 		public static final String errRequestIdInvalid = "Impossibile aprire la richiesta relativa a questa notifica";
 		public static final String errorNoRelationFound = "Nessuna relazione di parentela trovata";
+		public static final String lblOldPassword = "Password attuale";
+		public static final String lblNewPassword = "Nuova password";
+		public static final String lblConfirmPassword = "Conferma nuova password";
+		public static final String lblPasswordChanged = "Password cambiata con successo";
+		public static final String lblSaveBtn = "Salva";
+		public static final String errPasswordResetSameAsUsername = "La nuova password non può essere uguale all'username";
+		public static final String errPasswordResetDifferentPassword = "Le password non corrispondono";
+		public static final String msgPasswordResetSuccess = "Password resettata con successo. Per favore effettua un nuovo accesso";
+		public static final String msgPasswordResetMandatory = "La password deve essere modificata  per poter accedere";
+		public static final String errFillMandatoryFields = "Compilare tutti i campi obbligatori";
+		public static final String msgUsernameEmpty = "Inserire username";
 	}
 }

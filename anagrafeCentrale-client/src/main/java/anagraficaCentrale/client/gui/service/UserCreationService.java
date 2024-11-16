@@ -29,6 +29,7 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.DatePickerSettings.DateArea;
 
 import anagraficaCentrale.client.core.ConnectionManager;
+import anagraficaCentrale.client.exception.UserNotFoundException;
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcCheckBoxGroup;
@@ -289,7 +290,7 @@ public class UserCreationService extends GenericService {
 
 				String hashedPassword = null;
 				try {
-					hashedPassword = ConnectionManager.hash(textField.getText().toCharArray());
+					hashedPassword = ScriptUtils.hash(textField.getText());
 				} catch (NoSuchAlgorithmException e1) {
 					operationPanel.popupError(e1);
 					return;

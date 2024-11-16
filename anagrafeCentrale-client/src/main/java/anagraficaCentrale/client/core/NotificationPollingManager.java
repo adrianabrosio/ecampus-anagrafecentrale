@@ -35,12 +35,6 @@ public class NotificationPollingManager implements Runnable{
 	@Override
 	public void run() {
 		while(isAlive){
-			try {
-				Thread.sleep(POLLING_TIME);
-			} catch (InterruptedException e) {
-				logger.error(e);
-			}
-
 			//check for new notif
 			try{
 				boolean newNotification = operationPanel.getConnectionManager().checkNewNotification(operationPanel.getPortalType());
@@ -49,6 +43,13 @@ public class NotificationPollingManager implements Runnable{
 			} catch(AcServerRuntimeException e){
 				logger.error(e);
 			}
+			
+			try {
+				Thread.sleep(POLLING_TIME);
+			} catch (InterruptedException e) {
+				logger.error(e);
+			}
+
 		}
 	}
 

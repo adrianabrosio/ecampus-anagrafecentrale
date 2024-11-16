@@ -2,19 +2,19 @@ package anagraficaCentrale.testsuite;
 
 import java.security.NoSuchAlgorithmException;
 
-import anagraficaCentrale.client.core.ConnectionManager;
+import anagraficaCentrale.utils.ScriptUtils;
 
 public class Hasher {
 	
 	public static void main(String[] args) {
 		try {
-			System.out.println(ConnectionManager.hash("mariaDP".toCharArray()));
-			System.out.println(ConnectionManager.hash("marioDP".toCharArray()));
-			System.out.println(ConnectionManager.hash("francescoDP".toCharArray()));
-			System.out.println(ConnectionManager.hash("giuliaDP".toCharArray()));
-			System.out.println(ConnectionManager.hash("ginevraDP".toCharArray()));
-			System.out.println(ConnectionManager.hash("federicaDP".toCharArray()));
-			System.out.println(ConnectionManager.hash("matteoDP".toCharArray()));
+			System.out.println(ScriptUtils.hash("mariaDP"));
+			System.out.println(ScriptUtils.hash("marioDP"));
+			System.out.println(ScriptUtils.hash("francescoDP"));
+			System.out.println(ScriptUtils.hash("giuliaDP"));
+			System.out.println(ScriptUtils.hash("ginevraDP"));
+			System.out.println(ScriptUtils.hash("federicaDP"));
+			System.out.println(ScriptUtils.hash("matteoDP"));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
