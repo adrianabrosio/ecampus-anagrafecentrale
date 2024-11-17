@@ -83,8 +83,7 @@ public abstract class AbstractResourceElement extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				operationPanel.selectOperation(AbstractResourceElement.this);
-				
+				//rimosso da qui in quanto a volte i bottoni davano l'impressione di essere poco reattivi
 			}
 
 			@Override
@@ -100,7 +99,10 @@ public abstract class AbstractResourceElement extends JPanel {
 			}
 
 			@Override
-			public void mousePressed(MouseEvent arg0) {}
+			public void mousePressed(MouseEvent arg0) {
+				operationPanel.selectOperation(AbstractResourceElement.this);
+				arg0.consume();
+			}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {}

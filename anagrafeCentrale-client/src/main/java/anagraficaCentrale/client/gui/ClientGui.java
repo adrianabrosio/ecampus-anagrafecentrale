@@ -160,7 +160,12 @@ public class ClientGui extends JFrame {
 		
 		loginButton = initLoginButton();
 		exitButton = initExitButton();
-		toolbarPanel.add(exitButton, BorderLayout.EAST);
+		JPanel exitPanel = new JPanel();
+		exitPanel.setBackground(GUIConstants.BACKGROUND_COLOR_1);
+		exitPanel.setLayout(new BorderLayout());
+		exitPanel.add(exitButton, BorderLayout.CENTER);
+		exitPanel.add(new JLabel("  "), BorderLayout.EAST);
+		toolbarPanel.add(exitPanel, BorderLayout.EAST);
 
 		// Aggiunge una barra di avanzamento per indicare lo stato del login
 		progressBar = new JProgressBar();
@@ -211,7 +216,7 @@ public class ClientGui extends JFrame {
 					return;
 				}
 				try {
-					PasswordResetDialog dialog = new PasswordResetDialog(ClientGui.this, connectionManager, usernameTextField.getText());
+					PasswordResetDialog dialog = new PasswordResetDialog(ClientGui.this, connectionManager, loginPanelBorder.getMatteColor(), usernameTextField.getText());
 					if(dialog.isPasswordChanged()) {
 						JOptionPane.showMessageDialog(ClientGui.this, GUIConstants.LANG.msgPasswordResetSuccess, "", JOptionPane.INFORMATION_MESSAGE);
 					}
@@ -365,9 +370,10 @@ public class ClientGui extends JFrame {
 	private JButton initExitButton() {
 		final JButton exitButton = new JButton();
 		exitButton.setBounds(0, 0, 0, 0);
+		//exitButton.set
 		Font font = new Font(Font.SANS_SERIF,6,6);
 		exitButton.setFont(font);
-		Dimension btnSize = new Dimension(30,30);
+		Dimension btnSize = new Dimension(27,27);
 		exitButton.setMinimumSize(btnSize);
 		exitButton.setPreferredSize(btnSize);
 		exitButton.setMaximumSize(btnSize);
@@ -388,12 +394,14 @@ public class ClientGui extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {}
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				exitButton.setBackground(Color.YELLOW);
+				//exitButton.setBackground(Color.LIGHT_GRAY);
+				exitButton.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				exitButton.setBackground(GUIConstants.BACKGROUND_COLOR_1);
+				//exitButton.setBackground(GUIConstants.BACKGROUND_COLOR_1);
+				exitButton.setBorder(null);
 			}
 
 			@Override
@@ -480,7 +488,7 @@ public class ClientGui extends JFrame {
 					//check primo accesso - se l'hash dello user è uguale all'hash della pw, allora primo accesso
 					if( ScriptUtils.hash(passwordTextField.getPassword()).equals(ScriptUtils.hash(usernameTextField.getText())) ) {
 						try{
-							PasswordResetDialog dialog = new PasswordResetDialog(ClientGui.this, connectionManager, usernameTextField.getText());
+							PasswordResetDialog dialog = new PasswordResetDialog(ClientGui.this, connectionManager,  loginPanelBorder.getMatteColor(), usernameTextField.getText());
 							if(dialog.isPasswordChanged()) {
 								JOptionPane.showMessageDialog(ClientGui.this, GUIConstants.LANG.msgPasswordResetSuccess, "", JOptionPane.INFORMATION_MESSAGE);
 								loginErrorMessage = GUIConstants.LANG.msgPasswordResetSuccess;

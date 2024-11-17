@@ -1,12 +1,10 @@
 /**
  * 
  */
-package anagraficaCentrale.client.gui.service;
+package anagraficaCentrale.client.gui.resource;
 
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
-import anagraficaCentrale.client.gui.resource.FilterableResourcePanel;
-import anagraficaCentrale.client.gui.resource.ServiceElement;
 import anagraficaCentrale.utils.ClientServerConstants.PortalType;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 

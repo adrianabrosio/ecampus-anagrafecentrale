@@ -23,7 +23,7 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
-import anagraficaCentrale.client.integrationconnector.FakeBankTransactionPanel;
+import anagraficaCentrale.client.integration.connector.FakeBankTransactionPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 public class SchoolFeePaymentService extends GenericService {

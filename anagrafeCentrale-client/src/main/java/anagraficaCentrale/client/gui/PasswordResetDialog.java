@@ -9,13 +9,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.NoSuchAlgorithmException;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.border.MatteBorder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,12 +33,14 @@ public class PasswordResetDialog extends JDialog {
 	private JPasswordField oldPasswordTextField, newPasswordTextField, confirmPasswordTextField;
 	private JLabel lblError;
 	private ConnectionManager connectionManager;
+	private Color backgroundColor;
 	private String username;
 	private boolean passwordChanged;
 
-	public PasswordResetDialog(Component clientGui, ConnectionManager connectionManager, String username) throws AcErrorDialog {
+	public PasswordResetDialog(Component clientGui, ConnectionManager connectionManager, Color backgroundColor, String username) throws AcErrorDialog {
 		super();
 		this.connectionManager = connectionManager;
+		this.backgroundColor = backgroundColor;
 		this.username = username;
 		this.passwordChanged = false;
 		setModal(true);
@@ -57,7 +58,9 @@ public class PasswordResetDialog extends JDialog {
 	private Container generateInnerPanel() throws AcErrorDialog{
 		JPanel innerPanel = new JPanel();
 		innerPanel.setLayout(new BorderLayout());
+		//innerPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		JPanel attrPanel = new JPanel();
+		//attrPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		//this.removeAll();
 		//attrPanel.setLayout(new GridLayout(0, 2, 20, 20));
 		attrPanel.setLayout(new GridBagLayout());
@@ -112,6 +115,7 @@ public class PasswordResetDialog extends JDialog {
 		lblError.setForeground(Color.RED);
 		
 		AcServiceButton setPasswordButton = new AcServiceButton(GUIConstants.LANG.lblSaveBtn);
+		setPasswordButton.setBorder(new MatteBorder(2, 3, 2, 3, backgroundColor));
 		setPasswordButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -152,6 +156,7 @@ public class PasswordResetDialog extends JDialog {
 		innerPanel.add(attrPanel, BorderLayout.CENTER);
 		
 		JPanel lowerPanel = new JPanel();
+		//lowerPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		lowerPanel.setLayout(new BorderLayout());
 		lowerPanel.add(lblError, BorderLayout.NORTH);
 		lowerPanel.add(setPasswordButton, BorderLayout.CENTER);

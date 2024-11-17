@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -34,15 +32,14 @@ import anagraficaCentrale.client.core.ConnectionManager;
 import anagraficaCentrale.client.core.NotificationPollingManager;
 import anagraficaCentrale.client.core.SideMenuPanelManager;
 import anagraficaCentrale.client.exception.UnsupportedServiceException;
-import anagraficaCentrale.client.gui.component.AcIconButton;
 import anagraficaCentrale.client.gui.component.AcScrollPane;
 import anagraficaCentrale.client.gui.resource.AbstractResourceElement;
+import anagraficaCentrale.client.gui.resource.AdminSupportPanel;
 import anagraficaCentrale.client.gui.resource.FilterableResourcePanel;
 import anagraficaCentrale.client.gui.resource.NotificationElement;
 import anagraficaCentrale.client.gui.resource.ReportElement;
-import anagraficaCentrale.client.gui.service.AdminSupportPanel;
+import anagraficaCentrale.client.gui.resource.ServicePanel;
 import anagraficaCentrale.client.gui.service.GenericService;
-import anagraficaCentrale.client.gui.service.ServicePanel;
 import anagraficaCentrale.client.gui.service.ServicePanelFactory;
 import anagraficaCentrale.client.gui.service.ShowProfileService;
 import anagraficaCentrale.client.utils.PDFWriter;
@@ -238,12 +235,14 @@ public class OperationPanel {
 	 */
 	private FilterableResourcePanel initNotificationPanel() {
 		FilterableResourcePanel notificationPanel = new FilterableResourcePanel();
+		/* for future implementation
 		ImageIcon ic = null;
 		try {
 			ic = new ImageIcon(ClassLoader.getSystemResource("delete0.png"));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"delete0.png\" from resources", e1);
 		}
+		
 		AcIconButton deleteReadNotification = new AcIconButton(ic);
 		deleteReadNotification.setText(GUIConstants.LANG.lblDeleteReadNotifBtn);
 		deleteReadNotification.setForeground(Color.BLACK);
@@ -257,7 +256,7 @@ public class OperationPanel {
 			}
 		});
 		notificationPanel.addActionButton(deleteReadNotification);
-		//notificationPanel.addResource(new NotificationElement(this, "1", "notif name", "demo desc 1"));
+		*/
 		for(Map<String,String> record : connectionManager.getNewNotificationList(portalType)){
 			notificationPanel.addResource(new NotificationElement(this, record));
 		}
