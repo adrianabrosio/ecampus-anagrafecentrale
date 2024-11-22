@@ -283,6 +283,7 @@ public class OperationPanel {
 			popupError(e);
 		}
 		splitPane.setRightComponent(new AcScrollPane(rightPanel));
+		splitPane.setDividerLocation(0.35f);
 		splitPane.setDividerSize(3);
 		closeLoading();
 	}
