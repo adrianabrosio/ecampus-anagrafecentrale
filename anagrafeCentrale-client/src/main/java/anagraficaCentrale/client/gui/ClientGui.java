@@ -12,14 +12,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,6 +57,7 @@ public class ClientGui extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	final static Logger logger = LogManager.getRootLogger();
+	private Font labelFont;
 	private JPanel toolbarPanel;
 	private JPanel headerButtonPanel;
 
@@ -105,6 +104,8 @@ public class ClientGui extends JFrame {
 	}
 
 	private void initAndShowLoginGui() {
+		
+		labelFont = new Font("Segoe UI", Font.BOLD, 14);
 
 		try {
 			setIconImage(new ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
@@ -118,6 +119,7 @@ public class ClientGui extends JFrame {
 		toolbarPanel = new JPanel();
 		toolbarPanel.setLayout(new BorderLayout());
 		toolbarPanel.setMaximumSize(new Dimension(1000,50));
+		toolbarPanel.addMouseMotionListener(new DraggableWindowMouseListener(this));
 
 		initHeaderButtonPanel();
 
@@ -131,7 +133,9 @@ public class ClientGui extends JFrame {
 		loginPanel.setBackground(GUIConstants.BACKGROUND_COLOR_1);
 
 		usernameLabel = new JLabel(GUIConstants.LANG.lblLoginUsername);
+		usernameLabel.setFont(labelFont);
 		passwordLabel = new JLabel(GUIConstants.LANG.lblLoginPassword);
+		passwordLabel.setFont(labelFont);
 
 		usernameTextField = new JTextField("federicaDP");
 		Dimension textFieldMinDimension = new Dimension(200,25);
@@ -175,6 +179,7 @@ public class ClientGui extends JFrame {
 
 		// Aggiunge un messaggio di errore se le credenziali di accesso non sono valide
 		errorMessageLabel = new JLabel(" ");
+		errorMessageLabel.setFont(labelFont);
 		errorMessageLabel.setForeground(Color.RED);
 		errorMessageLabel.setPreferredSize(textFieldMaxDimension);
 
@@ -203,7 +208,8 @@ public class ClientGui extends JFrame {
 		constraints.gridheight = 2;
 		loginPanel.add(loginButton, constraints);
 		
-		JLabel pwResetLabel = new JLabel("Reset password?");
+		JLabel pwResetLabel = new JLabel("<HTML><U>"+GUIConstants.LANG.lblLoginPwReset+"</U></HTML>");
+		pwResetLabel.setFont(labelFont);
 		pwResetLabel.addMouseListener(new MouseListener() {
 
 			@Override
@@ -227,13 +233,10 @@ public class ClientGui extends JFrame {
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {}
-
 			@Override
 			public void mouseExited(MouseEvent arg0) {}
-
 			@Override
 			public void mousePressed(MouseEvent arg0) {}
-
 			@Override
 			public void mouseReleased(MouseEvent arg0) {}
 			
@@ -259,24 +262,7 @@ public class ClientGui extends JFrame {
 		//loginPanel.setPreferredSize(new Dimension(580, 180));
 
 		// Aggiungi un listener al pannello di contenuto
-		loginPanel.addMouseMotionListener(new MouseMotionListener() {
-			int  oldX = 0, oldY = 0;
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				oldX = e.getXOnScreen();
-				oldY = e.getYOnScreen();
-			}
-
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				Point oldLocation = ClientGui.this.getLocationOnScreen();
-				int relativeX = e.getXOnScreen()-oldX;
-				int relativeY = e.getYOnScreen()-oldY;
-				ClientGui.this.setLocation(oldLocation.x+relativeX, oldLocation.y+relativeY);
-				oldX = e.getXOnScreen();
-				oldY = e.getYOnScreen();
-			}
-		});
+		loginPanel.addMouseMotionListener(new DraggableWindowMouseListener(this));
 		framePanel.add(toolbarPanel);
 		//framePanel.add(titleLabel);
 		framePanel.add(loginPanel);
@@ -304,19 +290,22 @@ public class ClientGui extends JFrame {
 		// Aggiungi i pulsanti al pannello superiore
 		Dimension headerButtonSize = new Dimension(100,40);
 		comuneButton = new JButton(GUIConstants.LANG.lblComuneTitle);
+		comuneButton.setFont(labelFont);
 		comuneButton.setPreferredSize(headerButtonSize);
 		headerButtonPanel.add(comuneButton);
 
 		ospedaleButton = new JButton(GUIConstants.LANG.lblOspedaleTitle);
+		ospedaleButton.setFont(labelFont);
 		ospedaleButton.setPreferredSize(headerButtonSize);
 		headerButtonPanel.add(ospedaleButton);
 
 		scuolaButton = new JButton(GUIConstants.LANG.lblScuolaTitle);
+		scuolaButton.setFont(labelFont);
 		scuolaButton.setPreferredSize(headerButtonSize);
 		headerButtonPanel.add(scuolaButton);
 
 		// Imposta il bordo dei pulsanti come arrotondato
-		Border roundedBorder = BorderFactory.createEtchedBorder(Color.BLUE, GUIConstants.BACKGROUND_COLOR_1);
+		Border roundedBorder = BorderFactory.createEtchedBorder(Color.GRAY, GUIConstants.BACKGROUND_COLOR_1);
 		comuneButton.setBorder(roundedBorder);
 		ospedaleButton.setBorder(roundedBorder);
 		scuolaButton.setBorder(roundedBorder);
@@ -437,7 +426,7 @@ public class ClientGui extends JFrame {
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				loginButton.setBackground(Color.YELLOW);
+				loginButton.setBackground(Color.GRAY);
 			}
 
 			@Override

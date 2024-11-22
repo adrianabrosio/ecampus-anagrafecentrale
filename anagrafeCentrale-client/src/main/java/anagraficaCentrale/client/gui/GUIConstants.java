@@ -176,5 +176,6 @@ public class GUIConstants {
 		public static final String msgPasswordResetMandatory = "La password deve essere modificata  per poter accedere";
 		public static final String errFillMandatoryFields = "Compilare tutti i campi obbligatori";
 		public static final String msgUsernameEmpty = "Inserire username";
+		public static final String lblLoginPwReset = "Reset password?";
 	}
 }
