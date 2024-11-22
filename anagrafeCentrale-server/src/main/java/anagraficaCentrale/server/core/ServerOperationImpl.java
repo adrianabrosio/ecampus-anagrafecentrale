@@ -198,7 +198,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 				valueStringBuilder.append(userProps.get(key)).append("','");
 			}
 			else {
-				if(paramStringBuilder.length()>0) paramStringBuilder.append(',');
+				if(paramStringBuilder.length()>0) paramStringBuilder.append(ClientServerConstants.PARAM_SEPARATOR);
 				paramStringBuilder.append(key + "=" + userProps.get(key));
 			}
 		}
@@ -651,9 +651,12 @@ public class ServerOperationImpl implements ServerOperationIF {
 			String requestId = rs.getString("id");
 			String requestType = rs.getString("request_type");
 			String portalType = rs.getString("portal_type");
+			String requestParams = rs.getString("request_parameters");
 
 			//update request
-			String sql = "UPDATE Request SET manager_user_id='" + username + "' WHERE id='" + requestID + "'";
+			String sql = "UPDATE Request SET manager_user_id='" + username + "', "
+					                      + "request_parameters='"+requestParams + ClientServerConstants.PARAM_SEPARATOR + "status=" + acceptRequest +"' "
+					                      + "WHERE id='" + requestID + "'";
 
 			logger.debug("update user query: ["+sql+"]");
 			qm.getStatement().execute(sql);

@@ -15,6 +15,7 @@ import anagraficaCentrale.client.exception.UserNotFoundException;
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
+import anagraficaCentrale.utils.ClientServerConstants;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 import anagraficaCentrale.utils.ScriptUtils;
 
@@ -25,10 +26,11 @@ public class RequestManagementService extends GenericService {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JEditorPane textField;
+	private String title;
 
 	public RequestManagementService(OperationPanel op, Map<String, String> serviceData) {
 		super(op, serviceData);
-		setTitle(GUIConstants.LANG.lblAdminRequestManagementSrvTitle);
+		setTitle(title==null? GUIConstants.LANG.lblAdminRequestManagementSrvTitle : title);
 	}
 
 	@Override
@@ -113,7 +115,17 @@ public class RequestManagementService extends GenericService {
 		text = text.replaceAll("&requestType", serviceData.getOrDefault("request_type", ""));
 
 		//replace data about request params
-		Map<String, String> requestParamsAttributes = ScriptUtils.convertParamStringToMap(serviceData.get("request_parameters"), ",");
+		Map<String, String> requestParamsAttributes = ScriptUtils.convertParamStringToMap(serviceData.get("request_parameters"), ClientServerConstants.PARAM_SEPARATOR);
+		
+		String status = requestParamsAttributes.getOrDefault("status", "");
+		if(status.equalsIgnoreCase("true"))
+			status = GUIConstants.LANG.lblRequestStatusAccepted;
+		if(status.equalsIgnoreCase("false"))
+			status = GUIConstants.LANG.lblRequestStatusRejected;
+		if(status.equals("") && operationPanel.getConnectionManager().isAdmin())
+			status = GUIConstants.LANG.lblRequestStatusToBeManaged;
+		text = text.replaceAll("&status", status);
+		
 		for(String attrName : requestParamsAttributes.keySet().toArray(new String[0]))
 			text = text.replaceAll("&"+attrName, requestParamsAttributes.get(attrName));
 		return text;
@@ -131,32 +143,45 @@ public class RequestManagementService extends GenericService {
 		case ADM_MOD_USR:
 			return ""; //do not create requests
 		case APP_CI:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_APP_CI_SrvTitle;
 			return GUIConstants.LANG.lbl_APP_CI_SrvAdminRequestText;
 		case CAM_MED:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_CAM_MED_SrvTitle;
 			return GUIConstants.LANG.lbl_CAM_MED_SrvAdminRequestText;
 		case CAM_RES:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_CAM_RES_SrvTitle;
 			return GUIConstants.LANG.lbl_CAM_RES_SrvAdminRequestText;
 		case CERT_MATR:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_CERT_MATR_SrvTitle;
 			return GUIConstants.LANG.lbl_CERT_MATR_SrvAdminRequestText;
 		case CERT_NASC:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_CERT_NASC_SrvTitle;
 			return GUIConstants.LANG.lbl_CERT_NASC_SrvAdminRequestText;
 		case CI_TEMP:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_CI_TEMP_SrvTitle;
 			return GUIConstants.LANG.lbl_CI_TEMP_SrvAdminRequestText;
 		case COLL_INS:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_COLL_INS_SrvTitle;
 			return GUIConstants.LANG.lbl_COLL_INS_SrvAdminRequestText;
 		case DUMMY:
 			return ""; //do not create requests
 		case ISCRIZ:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_ISCRIZ_SrvTitle;
 			return GUIConstants.LANG.lbl_ISCRIZ_SrvAdminRequestText;
 		case PAG_MEN:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_PAG_MEN_SrvTitle;
 			return GUIConstants.LANG.lbl_PAG_MEN_SrvAdminRequestText;
 		case PAG_RET:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_PAG_RET_SrvTitle;
 			return GUIConstants.LANG.lbl_PAG_RET_SrvAdminRequestText;
 		case PAG_TICK:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_PAG_TICK_SrvTitle;
 			return GUIConstants.LANG.lbl_PAG_TICK_SrvAdminRequestText;
 		case PREN_VIS:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_PREN_VIS_SrvTitle;
 			return GUIConstants.LANG.lbl_PREN_VIS_SrvAdminRequestText;
 		case STAT_FAM:
+			title = GUIConstants.LANG.lblAdminRequestManagementSrvTitle + " - " + GUIConstants.LANG.lbl_STAT_FAM_SrvTitle;
 			return GUIConstants.LANG.lbl_STAT_FAM_SrvAdminRequestText;
 		default:
 			break;

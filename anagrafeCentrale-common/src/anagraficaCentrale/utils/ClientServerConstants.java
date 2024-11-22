@@ -187,6 +187,7 @@ public class ClientServerConstants {
 	
 	public static final String SERVER_RESP_OK = "OK";
 	public static final String SERVER_RESP_ERROR = "KO";
+	public static final String PARAM_SEPARATOR = ",";
 
 	
 }
