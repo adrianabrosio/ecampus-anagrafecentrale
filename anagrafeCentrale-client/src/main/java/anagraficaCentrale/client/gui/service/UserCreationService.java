@@ -55,6 +55,7 @@ public class UserCreationService extends GenericService {
 	private JComboBox<String> genderList;
 	private AcCheckBoxGroup authGroup;
 	private AcServiceButton createUserButton, searchUserButton;
+	private JPanel lowerPanel;
 	/**
 	 * 
 	 */
@@ -72,9 +73,14 @@ public class UserCreationService extends GenericService {
 		editMode = edit;
 		if(editMode) {
 			//searchUserButton visible
+			//lowerPanel.remove(createUserButton);
 			createUserButton.setVisible(false);
 			initFields(true);
 			textField.setPlaceholder(GUIConstants.LANG.lbluserCreationSearchUserPlaceholder);
+		}
+		else {
+			//lowerPanel.remove(searchUserButton);
+			searchUserButton.setVisible(false);
 		}
 	}
 
@@ -351,7 +357,7 @@ public class UserCreationService extends GenericService {
 		innerPanel.add(attrPanel, BorderLayout.CENTER);
 
 
-		JPanel lowerPanel = new JPanel();
+		lowerPanel = new JPanel();
 		lowerPanel.setLayout(new GridLayout(0,1));
 		lowerPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		lowerPanel.add(createUserButton);

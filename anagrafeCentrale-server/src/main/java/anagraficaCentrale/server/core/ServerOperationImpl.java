@@ -574,6 +574,8 @@ public class ServerOperationImpl implements ServerOperationIF {
 			//String colString = Strings.join(userProps.keySet(), ',');
 			//String paramString = Strings.join(userProps.values(), ',');
 			//paramString = "'" + paramString.replace(",", "','") + "'";
+			
+			updateParams = "'" + updateParams.replace(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR, "','") + "'";
 
 			String sql = String.format("UPDATE %s SET (%s) WHERE id='" + userProps.get("id") + "'", tableName, updateParams);
 
