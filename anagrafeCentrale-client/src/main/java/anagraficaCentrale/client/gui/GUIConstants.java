@@ -5,6 +5,7 @@ import java.awt.Color;
 public class GUIConstants {
 	
 	public static final Color BACKGROUND_COLOR_1 = Color.decode("#f7f7f7");
+	public static final Color BACKGROUND_COLOR_2 = Color.decode("#EEEEEE");
 	public static final Color COMUNE_COLOR = Color.decode("#8CD0E5");
 	public static final Color OSPEDALE_COLOR = Color.decode("#826B88");
 	public static final Color SCUOLA_COLOR = Color.decode("#DE786A");

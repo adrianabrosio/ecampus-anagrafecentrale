@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -20,8 +21,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.border.MatteBorder;
 
@@ -56,6 +60,7 @@ public class OperationPanel {
 	private JSplitPane splitPane;
 	private FilterableResourcePanel leftPanel;
 	private GenericService rightPanel;
+	private AcScrollPane rightPanelScrollPane;
 	private JLabel subMenuLabel, statusLabel; 
 
 	public final Color guiBackgroundColor;
@@ -282,10 +287,22 @@ public class OperationPanel {
 		} catch (Exception e) {
 			popupError(e);
 		}
-		splitPane.setRightComponent(new AcScrollPane(rightPanel));
+		rightPanelScrollPane = new AcScrollPane(rightPanel);
+		splitPane.setRightComponent(rightPanelScrollPane);
 		splitPane.setDividerLocation(0.35f);
 		splitPane.setDividerSize(3);
 		closeLoading();
+	}
+	
+	public void scrollOnTop() {
+		if(rightPanelScrollPane != null) {
+			SwingUtilities.invokeLater(new Runnable() {
+			    @Override
+			    public void run() {
+			    	rightPanelScrollPane.getViewport().setViewPosition( new Point(0, 0) );
+			    }
+			});
+		}
 	}
 
 	private void closeLoading() {
@@ -411,9 +428,21 @@ public class OperationPanel {
 	 * the log file
 	 */
 	public void popupError(Exception e) {
-		statusLabel.setText("Error: "+e.getClass()+": "+e.getMessage());
+		String lableError = "Error: "+e.getClass()+": "+e.getMessage().replace("\n", " ");
+		statusLabel.setText(lableError.length()>200?lableError.substring(0, 197)+"...":lableError);
 		logger.error(e.getMessage(), e);
-		JOptionPane.showMessageDialog(this.frame, e.getClass()+": ["+e.getMessage()+"]", "Errore", JOptionPane.ERROR_MESSAGE );
+		JTextArea textArea = new JTextArea(e.getClass()+": ["+e.getMessage()+"]");
+		textArea.setFont(new Font(textArea.getFont().getFamily(), Font.BOLD, textArea.getFont().getSize()));
+		textArea.setBackground(GUIConstants.BACKGROUND_COLOR_2);
+		textArea.setEditable(false);
+		textArea.setBorder(null);
+		textArea.setLineWrap(true);  
+		textArea.setWrapStyleWord(true); 
+		textArea.setSize( new Dimension( 500, 200 ) );
+		JScrollPane scrollPane = new JScrollPane(textArea); 
+		scrollPane.setBorder(null);
+		scrollPane.setSize( new Dimension( 500, 200 ) );
+		JOptionPane.showMessageDialog(this.frame, scrollPane, "Error", JOptionPane.ERROR_MESSAGE );
 	}
 	
 	/**
@@ -421,9 +450,21 @@ public class OperationPanel {
 	 * the log file
 	 */
 	public void popupWarning(Exception e) {
-		statusLabel.setText("WARN: "+e.getClass()+": "+e.getMessage());
+		String lableError = "WARN: "+e.getClass()+": "+e.getMessage().replace("\n", " ");
+		statusLabel.setText(lableError.length()>200?lableError.substring(0, 197)+"...":lableError);
 		logger.warn(e.getMessage(), e);
-		JOptionPane.showMessageDialog(this.frame, e.getClass()+": ["+e.getMessage()+"]", "Attenzione", JOptionPane.WARNING_MESSAGE );
+		JTextArea textArea = new JTextArea(e.getClass()+": ["+e.getMessage()+"]");
+		textArea.setFont(new Font(textArea.getFont().getFamily(), Font.BOLD, textArea.getFont().getSize()));
+		textArea.setBackground(GUIConstants.BACKGROUND_COLOR_2);
+		textArea.setEditable(false);
+		textArea.setBorder(null);
+		textArea.setLineWrap(true);  
+		textArea.setWrapStyleWord(true); 
+		textArea.setSize( new Dimension( 500, 200 ) );
+		JScrollPane scrollPane = new JScrollPane(textArea); 
+		scrollPane.setBorder(null);
+		scrollPane.setSize( new Dimension( 500, 200 ) );
+		JOptionPane.showMessageDialog(this.frame, scrollPane, "Warning", JOptionPane.WARNING_MESSAGE );
 	}
 	
 	/**
@@ -433,7 +474,7 @@ public class OperationPanel {
 	public void popupInfo(String msg) {
 		statusLabel.setText("INFO: "+msg);
 		logger.info(msg);
-		JOptionPane.showMessageDialog(this.frame, msg, "Attenzione", JOptionPane.INFORMATION_MESSAGE );
+		JOptionPane.showMessageDialog(this.frame, msg, "Info", JOptionPane.INFORMATION_MESSAGE );
 	}
 
 	/**

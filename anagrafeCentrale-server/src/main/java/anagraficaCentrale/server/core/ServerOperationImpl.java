@@ -14,6 +14,7 @@ import org.apache.logging.log4j.util.Strings;
 import anagraficaCentrale.server.sql.QueryManagerIF;
 import anagraficaCentrale.utils.ClientServerConstants;
 import anagraficaCentrale.utils.ClientServerConstants.PortalType;
+import anagraficaCentrale.utils.ScriptUtils;
 
 public class ServerOperationImpl implements ServerOperationIF {
 	@SuppressWarnings("unused")
@@ -81,6 +82,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 	public String[] createAccountOperation(String[] commArgs) {
 		try {
 			//input
+			@SuppressWarnings("unused")
 			String username = commArgs.length>=2? commArgs[1]:null; //could be useful for future logging system
 			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
 			Map<String,String> userProps = parseUserProps(commArgs.length>=4? commArgs[3] : null);
@@ -177,7 +179,6 @@ public class ServerOperationImpl implements ServerOperationIF {
 			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, };
 		}
 
-		//TODO finire di implementare
 		//record: id, portal_type, creator_user_id, manager_user_id, request_type, request_name, request_description, request_parameters
 
 		String tableName = "Request";
@@ -423,6 +424,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 	public String[] getRequestListOperation(String[] commArgs) {
 		try {
 			//input
+			@SuppressWarnings("unused")
 			String username = commArgs.length>=2? commArgs[1]:null;
 			@SuppressWarnings("unused")
 			boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
@@ -569,15 +571,19 @@ public class ServerOperationImpl implements ServerOperationIF {
 			if(updateParams == null) {
 				return new String[]{ClientServerConstants.SERVER_RESP_ERROR, ServerConstants.LANG.msgInvalidUpdateParams};
 			}
+			
+			Map<String,String> updateProps = ScriptUtils.convertParamStringToMap(updateParams, ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR);
 
 			String tableName = "User";
-			//String colString = Strings.join(userProps.keySet(), ',');
-			//String paramString = Strings.join(userProps.values(), ',');
-			//paramString = "'" + paramString.replace(",", "','") + "'";
-			
-			updateParams = "'" + updateParams.replace(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR, "','") + "'";
+			StringBuilder updateString = new StringBuilder();
+			String[] keys = updateProps.keySet().toArray(new String[0]);
+			for(int i = 0; i < keys.length; i++) {
+				if(i>0)
+					updateString.append(',');
+				updateString.append(keys[i] + "='" + updateProps.get(keys[i]) + "'");
+			}
 
-			String sql = String.format("UPDATE %s SET (%s) WHERE id='" + userProps.get("id") + "'", tableName, updateParams);
+			String sql = String.format("UPDATE %s SET %s WHERE id='" + userProps.get("id") + "'", tableName, updateString.toString());
 
 			logger.debug("update user query: ["+sql+"]");
 			qm.getStatement().execute(sql);

@@ -28,7 +28,6 @@ import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.DatePickerSettings.DateArea;
 
-import anagraficaCentrale.client.core.ConnectionManager;
 import anagraficaCentrale.client.exception.UserNotFoundException;
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
@@ -73,14 +72,16 @@ public class UserCreationService extends GenericService {
 		editMode = edit;
 		if(editMode) {
 			//searchUserButton visible
-			//lowerPanel.remove(createUserButton);
-			createUserButton.setVisible(false);
+			lowerPanel.remove(createUserButton);
+			lowerPanel.add(searchUserButton);
+			//createUserButton.setVisible(false);
 			initFields(true);
 			textField.setPlaceholder(GUIConstants.LANG.lbluserCreationSearchUserPlaceholder);
 		}
 		else {
-			//lowerPanel.remove(searchUserButton);
-			searchUserButton.setVisible(false);
+			lowerPanel.remove(searchUserButton);
+			lowerPanel.add(createUserButton);
+			//searchUserButton.setVisible(false);
 		}
 	}
 
@@ -345,6 +346,10 @@ public class UserCreationService extends GenericService {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				if(!isSearchFormValid()) {
+					operationPanel.scrollOnTop();
+					return;
+				}
 				setFields(textField.getText());
 			}
 
@@ -360,8 +365,9 @@ public class UserCreationService extends GenericService {
 		lowerPanel = new JPanel();
 		lowerPanel.setLayout(new GridLayout(0,1));
 		lowerPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
-		lowerPanel.add(createUserButton);
-		lowerPanel.add(searchUserButton);
+		//managed in the constructor
+		//lowerPanel.add(createUserButton);
+		//lowerPanel.add(searchUserButton);
 		//lowerPanel.add(new JLabel(""));
 
 		innerPanel.add(lowerPanel, BorderLayout.AFTER_LAST_LINE);
@@ -395,8 +401,9 @@ public class UserCreationService extends GenericService {
 			operationPanel.popupError(e);
 			return;
 		}
-		searchUserButton.setVisible(false);
-		createUserButton.setVisible(true);
+		lowerPanel.remove(searchUserButton);
+		lowerPanel.add(createUserButton);
+		this.updateUI();
 		initFields(false);
 		textField.setText(userMap.get("id")); //id
 		textField_1.setText(userMap.get("first_name")); //first_name
@@ -431,6 +438,18 @@ public class UserCreationService extends GenericService {
 		datePicker1.setDateToToday();
 		genderList.setSelectedIndex(0);
 		authGroup.clear();
+		
+		if(editMode) {
+			lowerPanel.remove(createUserButton);
+			lowerPanel.add(searchUserButton);
+			initFields(true);
+			textField.setPlaceholder(GUIConstants.LANG.lbluserCreationSearchUserPlaceholder);
+		} else {
+			lowerPanel.remove(searchUserButton);
+			lowerPanel.add(createUserButton);
+		}
+		this.updateUI();
+		operationPanel.scrollOnTop();
 	}
 
 	protected boolean isFormValid() {
@@ -468,6 +487,7 @@ public class UserCreationService extends GenericService {
 			formIncomplete = true;
 		}
 
+		textField_6_1.setText(textField_6_1.getText().toUpperCase());
 		if(!textField_6_1.fieldIsValid()){
 			formIncomplete = true;
 		}
@@ -484,6 +504,7 @@ public class UserCreationService extends GenericService {
 			formIncomplete = true;
 		}
 
+		textField_10.setText(textField_10.getText().toUpperCase());
 		if(!textField_10.fieldIsValid()){
 			formIncomplete = true;
 		}
@@ -495,6 +516,16 @@ public class UserCreationService extends GenericService {
 		if(!textField_12.fieldIsValid()){
 			formIncomplete = true;
 		}
+		return !formIncomplete;
+	}
+	
+	protected boolean isSearchFormValid() {
+		//validation
+		boolean formIncomplete = false;
+		if(!textField.fieldIsValid()){
+			formIncomplete = true;
+		}
+
 		return !formIncomplete;
 	}
 
