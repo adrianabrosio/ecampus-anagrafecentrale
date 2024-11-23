@@ -248,8 +248,34 @@ public class ServerOperationImpl implements ServerOperationIF {
 
 	@Override
 	public String[] createNewReportOperation(String[] commArgs) {
-		// TODO Auto-generated method stub
-		return null;
+		logger.info("creating new request..");
+		String username = commArgs.length>=2? commArgs[1]:null;
+		boolean isAdmin = commArgs.length>=3 && commArgs[2].equalsIgnoreCase("true");
+		String serviceType = commArgs.length>=4? commArgs[3]:null;
+		Map<String,String> userProps = parseUserProps(commArgs.length>=5? commArgs[4] : null);
+		logger.debug("Request params:\nusername: " + username + "\nisAdmin: " + isAdmin + "\nserviceType: " + serviceType + "\nuserProps: " + userProps);
+
+		if(username == null || serviceType == null) {
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Missing mandatory fields"};
+		}
+
+		//record: id, user_id, portal_type, file_path, file_display_name, file_title, file_content
+
+		String tableName = "Report";
+		String colString = Strings.join(userProps.keySet(), ',');
+		String paramString = Strings.join(userProps.values(), ',');
+		paramString = "'" + paramString.replace(",", "','") + "'";
+
+		String sql = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, colString, paramString);
+		try {
+			logger.debug("create request query: ["+sql+"]");
+			qm.getStatement().execute(sql);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			return new String[]{ClientServerConstants.SERVER_RESP_ERROR, "Database error:\n" + e.toString()};
+		}
+
+		return new String[]{ClientServerConstants.SERVER_RESP_OK};
 	}
 
 	@Override

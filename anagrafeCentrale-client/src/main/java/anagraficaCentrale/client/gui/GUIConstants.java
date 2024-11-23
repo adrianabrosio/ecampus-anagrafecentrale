@@ -162,8 +162,8 @@ public class GUIConstants {
 		public static final String lbl_PAG_TICK_SrvNotificationText = "Pagamento ticket";
 		public static final String lbl_PREN_VIS_SrvNotificationText = "Prenotazione visita";
 		public static final String lbl_STAT_FAM_SrvNotificationText = "Certificato di stato di famiglia";
-		public static final String lbl_RequestAccepted = "Accettato";
-		public static final String lbl_RequestDeclined = "Rifiutato";
+		public static final String lblRequestAccepted = "Accettato";
+		public static final String lblRequestDeclined = "Rifiutato";
 		public static final String errRequestIdInvalid = "Impossibile aprire la richiesta relativa a questa notifica";
 		public static final String errorNoRelationFound = "Nessuna relazione di parentela trovata";
 		public static final String lblOldPassword = "Password attuale";
@@ -181,5 +181,17 @@ public class GUIConstants {
 		public static final String lblRequestStatusAccepted = "Accettata";
 		public static final String lblRequestStatusRejected = "Rifiutata";
 		public static final String lblRequestStatusToBeManaged = "Da gestire";
+		public static final String msgCertificateRequestSuccess = "Il certificato è stato prodotto. Accedi alla sezione allegati per scaricarlo";
+		public static final String lbl_CERT_NASC_ReportDisplayName = "Report: Certificato di nascita";
+		public static final String lbl_CERT_NASC_ReportTitle = "Certificato di Nascita";
+		public static final String lbl_CERT_NASC_ReportContent = "Il Comune di !birth_town dichiara valido il presente certificato rilasciato a\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n";
+		public static final String errReportFileNotFound = "Impossibile recuperare il file relativo al report selezionato";
+		public static final String lbl_STAT_FAM_ReportDisplayName = "Report: Stato di famiglia";
+		public static final String lbl_STAT_FAM_ReportTitle = "Stato di Famiglia";
+		public static final String lbl_STAT_FAM_ReportContent = "Il Comune di !birth_town dichiara valido il presente certificato rilasciato a\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n\\n\\nDichiara altresì che il suo nucleo familiare è anche composto da:\\n\\n";
+		public static final String lbl_STAT_FAM_ReportSingleComponentString = " - !surname !first_name nato/a a !birth_town in data !birthdate con codice fiscale !tax_id_code\\n";
+		public static final String lbl_CERT_MATR_ReportDisplayName = "Report: Certificato di matrimonio";
+		public static final String lbl_CERT_MATR_ReportTitle = "Certificato di matrimonio";
+		public static final String lbl_CERT_MATR_ReportContent = "Il Comune di !birth_town dichiara valido il presente certificato rilasciato a\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n";
 	}
 }

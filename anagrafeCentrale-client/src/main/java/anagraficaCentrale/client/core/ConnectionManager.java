@@ -360,7 +360,7 @@ public class ConnectionManager {
 		}
 
 		for(String user : relationList){
-			Map<String, String> tmpMap = new HashMap<>();
+			/*Map<String, String> tmpMap = new HashMap<>();
 			respComm = serverCall(ServerAction.GET_USER_DATA, user);
 			if(checkIfErrorAndParse(respComm)){
 				throw new AcServerRuntimeException(lastError);
@@ -370,8 +370,10 @@ public class ConnectionManager {
 					String[] tokens = ret.split("=", 2);
 					tmpMap.put(tokens[0], tokens[1]);
 				}
-			}
-			relationsAttributes.put(tmpMap.get("id"), tmpMap);
+			}*/
+			try {
+				relationsAttributes.put(user, getUserData(user));
+			} catch (UserNotFoundException e) {/*implicitly managed*/}
 		}
 	}
 
@@ -388,6 +390,8 @@ public class ConnectionManager {
 	}
 
 	public String[] getRelationsList(){
+		if(relationsAttributes == null)
+			throw new RuntimeException("Proramming error:you must refresh relation data before call this method");
 		return relationsAttributes.keySet().toArray(new String[0]);
 	}
 
@@ -397,7 +401,7 @@ public class ConnectionManager {
 	 * The map is composed using the tax_id_code as key and a sub Map for the users attributes.
 	 * 
 	 */
-	public Map<String, Map<String,String>> getRelationsData(){
+	public Map<String, Map<String,String>> getRelationsDataByTaxIdCode(){
 		refreshRelationsData();
 		String[] relations = getRelationsList();
 		Map<String, Map<String,String>> taxIdList = new HashMap<>();
@@ -408,6 +412,11 @@ public class ConnectionManager {
 			taxIdList.put(getRelationAttribute(rel, "tax_id_code"), tmpMap2);
 		}
 		return taxIdList;
+	}
+	
+	public Map<String, Map<String,String>> getRelationsData(){
+		refreshRelationsData();
+		return relationsAttributes;
 	}
 
 	public void createSimpleRequest(ServiceType serviceType, List<String[]> userProps) {
@@ -427,6 +436,17 @@ public class ConnectionManager {
 
 	public void createDoctorChangeRequest(ServiceType camMed, List<String[]> userProps) {
 		createSimpleRequest(camMed, userProps);
+	}
+	
+	public void createCertificateRequest(ServiceType serviceType, List<String[]> userProps) {
+		List<String> args = new ArrayList<>();
+		for(String[] prop : userProps)
+			args.add(prop[0]+"="+prop[1]);
+
+		String[] respComm = serverCall(ServerAction.CREATE_NEW_REPORT, username, ""+isAdmin(), ""+serviceType, String.join(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR, args.toArray(new String[0])));
+		if(checkIfErrorAndParse(respComm)){
+			throw new AcServerRuntimeException(lastError);
+		}
 	}
 
 	public void createPaymentRequest(ServiceType pagTick, List<String[]> userProps) {

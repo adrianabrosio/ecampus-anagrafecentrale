@@ -30,10 +30,9 @@ public class CanteenPaymentService extends GenericService {
 	private JEditorPane textField;
 	private AcTextField firstNameText;
 	private AcTextField surnameText;
-	private JComboBox<String> monthText;
+	private JComboBox<String> monthText, userList;
 	private AcTextField feeText;
-	private JComboBox<String> userList = null;
-	private boolean panelIsInvalid = false;
+	private boolean panelIsInvalid;
 	/**
 	 * 
 	 */
@@ -65,7 +64,7 @@ public class CanteenPaymentService extends GenericService {
 
 		//lista persone per appuntamento
 		Map<String, Map<String,String>> usersList = new HashMap<>();
-		usersList.putAll(operationPanel.getConnectionManager().getRelationsData());
+		usersList.putAll(operationPanel.getConnectionManager().getRelationsDataByTaxIdCode());
 
 		gbc.gridheight = 1;
 		gbc.gridwidth = 1;
@@ -100,6 +99,7 @@ public class CanteenPaymentService extends GenericService {
 
 		String[] users = usersList.keySet().toArray(new String[0]);
 		if(users != null && users.length > 0) {
+			panelIsInvalid = false;
 			userList = new JComboBox<>(users);
 			userList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 			userList.addActionListener(new ActionListener() {
@@ -218,7 +218,7 @@ public class CanteenPaymentService extends GenericService {
 			formIncomplete = true;
 		}
 
-		if(!panelIsInvalid){
+		if(panelIsInvalid){
 			operationPanel.popupInfo(GUIConstants.LANG.errorNoRelationFound);
 			formIncomplete = true;
 		}

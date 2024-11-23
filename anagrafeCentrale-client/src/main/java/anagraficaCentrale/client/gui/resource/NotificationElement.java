@@ -48,7 +48,7 @@ public class NotificationElement extends AbstractResourceElement {
 		this.setButtonIconImage();
 		
 		boolean requestAccepted = record.getOrDefault("notification_description", "").contains("accepted=Y");
-		this.description = "["+id+"]"+" "+getTextByServiceType(record)+": "+(requestAccepted?GUIConstants.LANG.lbl_RequestAccepted : GUIConstants.LANG.lbl_RequestDeclined);
+		this.description = "["+id+"]"+" "+getTextByServiceType(record)+": "+(requestAccepted?GUIConstants.LANG.lblRequestAccepted : GUIConstants.LANG.lblRequestDeclined);
 		this.setDescription(this.description);
 	}
 

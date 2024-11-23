@@ -72,7 +72,7 @@ public class MedicalAppointmentService extends GenericService {
 		tmpMap.put("first_name", operationPanel.getConnectionManager().getUserAttribute("first_name"));
 		tmpMap.put("surname", operationPanel.getConnectionManager().getUserAttribute("surname"));
 		usersList.put(operationPanel.getConnectionManager().getUserAttribute("tax_id_code"), tmpMap);
-		usersList.putAll(operationPanel.getConnectionManager().getRelationsData());
+		usersList.putAll(operationPanel.getConnectionManager().getRelationsDataByTaxIdCode());
 
 		gbc.gridheight = 1;
 		gbc.gridwidth = 1;

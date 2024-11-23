@@ -86,7 +86,7 @@ public abstract class AppointmentService extends GenericService {
 			usersList.put(operationPanel.getConnectionManager().getUserAttribute("tax_id_code"), tmpMap);
 		}
 		if(this.userListType == RELATIONS_ONLY || this.userListType == USER_AND_RELATIONS){
-			usersList.putAll(operationPanel.getConnectionManager().getRelationsData());
+			usersList.putAll(operationPanel.getConnectionManager().getRelationsDataByTaxIdCode());
 		}
 
 		gbc.gridheight = 1;

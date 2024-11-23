@@ -30,9 +30,9 @@ public class SchoolFeePaymentService extends GenericService {
 	private JEditorPane textField;
 	private AcTextField firstNameText;
 	private AcTextField surnameText;
-	private JComboBox<String> monthText;
+	private JComboBox<String> monthText, userList;
 	private AcTextField feeText;
-	private boolean panelIsInvalid = false;
+	private boolean panelIsInvalid;
 	/**
 	 * 
 	 */
@@ -40,6 +40,7 @@ public class SchoolFeePaymentService extends GenericService {
 
 	public SchoolFeePaymentService(OperationPanel op) {
 		super(op, null);
+		panelIsInvalid = false;
 		setTitle(GUIConstants.LANG.lbl_PAG_RET_SrvTitle);
 	}
 
@@ -64,7 +65,7 @@ public class SchoolFeePaymentService extends GenericService {
 
 		//lista persone per pagamento retta
 		Map<String, Map<String,String>> usersList = new HashMap<>();
-		usersList.putAll(operationPanel.getConnectionManager().getRelationsData());
+		usersList.putAll(operationPanel.getConnectionManager().getRelationsDataByTaxIdCode());
 
 		gbc.gridheight = 1;
 		gbc.gridwidth = 1;
@@ -100,8 +101,8 @@ public class SchoolFeePaymentService extends GenericService {
 		String[] users = usersList.keySet().toArray(new String[0]);
 
 		if(users != null && users.length > 0) {
-
-			JComboBox<String> userList = new JComboBox<>(users);
+			panelIsInvalid = false;
+			userList = new JComboBox<>(users);
 			userList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 			userList.addActionListener(new ActionListener() {
 
@@ -218,7 +219,7 @@ public class SchoolFeePaymentService extends GenericService {
 			formIncomplete = true;
 		}
 		
-		if(!panelIsInvalid){
+		if(panelIsInvalid){
 			operationPanel.popupInfo(GUIConstants.LANG.errorNoRelationFound);
 			formIncomplete = true;
 		}

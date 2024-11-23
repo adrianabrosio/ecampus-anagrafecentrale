@@ -213,15 +213,15 @@ public class OperationPanel {
 		boolean demo=false;
 		FilterableResourcePanel reportPanel = new FilterableResourcePanel();
 		if(demo){
-			reportPanel.addResource(new ReportElement(this, "1", "", "demo report 1", "demo title", "demo content"));
-			reportPanel.addResource(new ReportElement(this, "2", "", "demo report 2", "demo title", "demo content"));
-			reportPanel.addResource(new ReportElement(this, "3", "", "test report 3", "demo title", "demo content"));
+			reportPanel.addResource(new ReportElement(this, "1", "demo report 1", "demo title", "demo content", null));
+			reportPanel.addResource(new ReportElement(this, "2", "demo report 2", "demo title", "demo content", null));
+			reportPanel.addResource(new ReportElement(this, "3", "test report 3", "demo title", "demo content", null));
 			for(int i=1; i<100; i++)
-				reportPanel.addResource(new ReportElement(this, ""+i+3, "", "multi report "+i, "demo title"+i, "demo content"+i));
+				reportPanel.addResource(new ReportElement(this, ""+i+3, "multi report "+i, "demo title"+i, "demo content"+i, null));
 		}
 		for(Map<String,String> record : connectionManager.getReportList(portalType)){
 			logger.debug("found report ["+record.get("id")+"], content:["+record.get("file_content")+"]");
-			reportPanel.addResource(new ReportElement(this, record.get("id"), record.get("file_path"), record.get("file_display_name"), record.get("file_title"), record.get("file_content")));
+			reportPanel.addResource(new ReportElement(this, record.get("id"), record.get("file_display_name"), record.get("file_title"), record.get("file_content"), record.get("file_path")));
 		}
 		return reportPanel;
 	}
@@ -472,7 +472,8 @@ public class OperationPanel {
 	 * the log file
 	 */
 	public void popupInfo(String msg) {
-		statusLabel.setText("INFO: "+msg);
+		String lableError = "INFO: "+msg;
+		statusLabel.setText(lableError.length()>200?lableError.substring(0, 197)+"...":lableError);
 		logger.info(msg);
 		JOptionPane.showMessageDialog(this.frame, msg, "Info", JOptionPane.INFORMATION_MESSAGE );
 	}

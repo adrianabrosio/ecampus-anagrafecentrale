@@ -42,7 +42,7 @@ public class SchoolRegistrationService extends GenericService {
 
 		operationPanel.getConnectionManager().refreshUserData();
 		usersList = new HashMap<>();
-		usersList.putAll(operationPanel.getConnectionManager().getRelationsData());
+		usersList.putAll(operationPanel.getConnectionManager().getRelationsDataByTaxIdCode());
 
 		String[] users = usersList.keySet().toArray(new String[0]);
 		if(users != null && users.length > 0) {
