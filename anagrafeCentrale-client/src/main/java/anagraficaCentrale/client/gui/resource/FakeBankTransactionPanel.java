@@ -1,4 +1,4 @@
-package anagraficaCentrale.client.integration.connector;
+package anagraficaCentrale.client.gui.resource;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

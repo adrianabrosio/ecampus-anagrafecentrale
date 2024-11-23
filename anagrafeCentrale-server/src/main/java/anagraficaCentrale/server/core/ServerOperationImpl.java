@@ -461,7 +461,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 			tmpQuery = 
 					"SELECT * "
 							+ "FROM Request req "
-							+ "WHERE req.manager_user_id IS NULL AND req.portal_type='!portal'";
+							+ "WHERE req.manager_user_id IS NULL AND req.portal_type='!portal' ";
 
 			ResultSet rs = qm.getStatement().executeQuery(tmpQuery.replaceAll("!portal", portalType));
 			ArrayList<String> attrList = new ArrayList<>();
@@ -502,7 +502,8 @@ public class ServerOperationImpl implements ServerOperationIF {
 			tmpQuery = 
 					"SELECT * "
 							+ "FROM Report rep "
-							+ "WHERE rep.user_id='!userid' AND rep.portal_type='!portal'";
+							+ "WHERE rep.user_id='!userid' AND rep.portal_type='!portal' "
+							+ "ORDER BY id DESC ";
 
 			ResultSet rs = qm.getStatement().executeQuery(tmpQuery.replaceAll("!userid", username).replaceAll("!portal", portalType));
 			ArrayList<String> attrList = new ArrayList<>();

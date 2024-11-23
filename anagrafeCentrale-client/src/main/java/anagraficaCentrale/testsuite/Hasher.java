@@ -8,7 +8,7 @@ public class Hasher {
 	
 	public static void main(String[] args) {
 		try {
-			System.out.println(ScriptUtils.hash("mariaDP"));
+			System.out.println(ScriptUtils.hash("federicaDP1"));
 			System.out.println(ScriptUtils.hash("marioDP"));
 			System.out.println(ScriptUtils.hash("francescoDP"));
 			System.out.println(ScriptUtils.hash("giuliaDP"));

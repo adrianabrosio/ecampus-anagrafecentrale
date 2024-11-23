@@ -46,7 +46,7 @@ import anagraficaCentrale.client.gui.resource.ServicePanel;
 import anagraficaCentrale.client.gui.service.GenericService;
 import anagraficaCentrale.client.gui.service.ServicePanelFactory;
 import anagraficaCentrale.client.gui.service.ShowProfileService;
-import anagraficaCentrale.client.utils.PDFWriter;
+import anagraficaCentrale.utils.PDFWriter;
 import anagraficaCentrale.utils.ClientServerConstants.PortalType;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
@@ -659,7 +659,7 @@ public class OperationPanel {
 	public void generateAndDownloadFile(String reportTitle, String reportContent) {
 		//throw new UnsupportedOperationException("downloadFile is not implemented yet");
 		JFileChooser fileChooser = new JFileChooser();
-		int result = fileChooser.showSaveDialog(null);
+		int result = fileChooser.showSaveDialog(this.frame);
 
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
@@ -671,10 +671,9 @@ public class OperationPanel {
 				URL imageURL = ClassLoader.getSystemResource("CityLogo.png");
 				pdfWriter.addPage(reportTitle, new StringBuffer(reportContent), "", Arrays.asList(imageURL.getFile()));
 				String fullPathFileName = pdfWriter.saveAndClose();
-				JOptionPane.showMessageDialog(this.frame, "Il file PDF è stato salvato: " + fullPathFileName);
+				popupInfo(GUIConstants.LANG.msgPDFFileGenerated + fullPathFileName);
 			}catch(Exception e){
-				logger.error("Errore nella generazione del file", e);
-				JOptionPane.showMessageDialog(this.frame, "Errore durante la generazione del file " + file.getAbsolutePath()+"\nErrore: " + e.getClass()+" - "+e.getMessage());
+				popupError(e);
 			}
 		}
 	}

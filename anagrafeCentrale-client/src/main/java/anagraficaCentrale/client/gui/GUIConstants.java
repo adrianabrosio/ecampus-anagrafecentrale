@@ -32,7 +32,7 @@ public class GUIConstants {
 		public static final String lblProfile = "Il mio Profilo";
 		public static final String lblReportBtnSide = "Documenti";
 		public static final String lblService = "Servizi";
-		public static final String lblReport = "Report";
+		public static final String lblReport = "Documenti";
 		public static final String lblCollapseBtnSide = "Chiudi";
 		public static final String lblUserCreationSrvTitle = "Creazione Utente";
 		public static final String lblCloseBtn = "Chiudi";
@@ -48,7 +48,6 @@ public class GUIConstants {
 		public static final String lbluserCreationAuthorization = "Autorizzazioni";
 		public static final String lblErrorMandatoryField = "Campo obbligatorio";
 		public static final String lblTaxIdWrongSize = "Formato errato";
-		public static final String errFileCreationNameInvalid = "è necessario inserire il path completo del file";
 		public static final String lblApplyFilterNoResults = "Nessun risultato";
 		public static final String tooltipDeleteReadNotifBtn = "Cancella tutte le notifiche lette";
 		public static final String lblExpandBtnSide = "Espandi/collassa menu";
@@ -182,16 +181,17 @@ public class GUIConstants {
 		public static final String lblRequestStatusRejected = "Rifiutata";
 		public static final String lblRequestStatusToBeManaged = "Da gestire";
 		public static final String msgCertificateRequestSuccess = "Il certificato è stato prodotto. Accedi alla sezione allegati per scaricarlo";
-		public static final String lbl_CERT_NASC_ReportDisplayName = "Report: Certificato di nascita";
+		public static final String lbl_CERT_NASC_ReportDisplayName = "Certificato di nascita";
 		public static final String lbl_CERT_NASC_ReportTitle = "Certificato di Nascita";
 		public static final String lbl_CERT_NASC_ReportContent = "Il Comune di !birth_town dichiara valido il presente certificato rilasciato a\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n";
-		public static final String errReportFileNotFound = "Impossibile recuperare il file relativo al report selezionato";
-		public static final String lbl_STAT_FAM_ReportDisplayName = "Report: Stato di famiglia";
+		public static final String errReportFileNotFound = "Impossibile recuperare il file relativo al documento selezionato";
+		public static final String lbl_STAT_FAM_ReportDisplayName = "Stato di famiglia";
 		public static final String lbl_STAT_FAM_ReportTitle = "Stato di Famiglia";
 		public static final String lbl_STAT_FAM_ReportContent = "Il Comune di !birth_town dichiara valido il presente certificato rilasciato a\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n\\n\\nDichiara altresì che il suo nucleo familiare è anche composto da:\\n\\n";
 		public static final String lbl_STAT_FAM_ReportSingleComponentString = " - !surname !first_name nato/a a !birth_town in data !birthdate con codice fiscale !tax_id_code\\n";
-		public static final String lbl_CERT_MATR_ReportDisplayName = "Report: Certificato di matrimonio";
+		public static final String lbl_CERT_MATR_ReportDisplayName = "Certificato di matrimonio";
 		public static final String lbl_CERT_MATR_ReportTitle = "Certificato di matrimonio";
 		public static final String lbl_CERT_MATR_ReportContent = "Il Comune di !birth_town dichiara valido il presente certificato rilasciato a\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n";
+		public static final String msgPDFFileGenerated = "Il file PDF è stato salvato nel path: ";
 	}
 }

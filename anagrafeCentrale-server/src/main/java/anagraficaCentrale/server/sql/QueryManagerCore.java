@@ -111,13 +111,6 @@ public class QueryManagerCore {
 		return fileOutputEnabled;
 	}
 
-	public AsyncQueryThread runAsyncQuery(String queryString) {
-		if(this.inputFileName == null || this.inputFileName.equals(""))
-			return new AsyncQueryThread(this, queryString);
-		else
-			return new AsyncQueryThread(this, queryString, new File(this.inputFileName));
-	}
-
 	public void setCfg(String s){
 		this.cfg = s;
 		statement = null;
