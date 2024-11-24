@@ -89,7 +89,7 @@ public class ClientServerConstants {
 		 */
 		CREATE_NEW_REQUEST(6),
 		
-		/**TODO CREATE_NEW_REPORT
+		/**CREATE_NEW_REPORT
 		 * request: username
 		 * response: result[OK|KO], message
 		 */

@@ -143,7 +143,6 @@ public class QueryManagerCore {
 			}
 			return output.toArray(new String[0][0]);
 		}else{
-			//TODO insert update
 			throw new UnsupportedOperationException("Must be a SELECT operation");
 		}
 	}

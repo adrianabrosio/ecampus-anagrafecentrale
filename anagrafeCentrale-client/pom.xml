@@ -22,6 +22,11 @@
 			<artifactId>LGoodDatePicker</artifactId>
 			<version>11.2.1</version>
 		</dependency>
+		<dependency>
+			<groupId>ecampus.linguaggi</groupId>
+			<artifactId>anagrafeCentrale.common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 </project>

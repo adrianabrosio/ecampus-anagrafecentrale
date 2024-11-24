@@ -24,7 +24,7 @@ public interface ServerOperationIF {
 	 */
 	public String[] createAccountOperation(String[] commArgs);
 	
-	/**TODO MARK_NOTIFICATION_AS_READ
+	/** MARK_NOTIFICATION_AS_READ
 	 * request: username
 	 * response: result[OK|KO], message
 	 */
@@ -36,13 +36,13 @@ public interface ServerOperationIF {
 	 */
 	public String[] downloadFileOperation(String[] commArgs);
 	
-	/**TODO CREATE_NEW_REQUEST
+	/** CREATE_NEW_REQUEST
 	 * request: username
 	 * response: result[OK|KO], message
 	 */
 	public String[] createNewRequestOperation(String[] commArgs);
 	
-	/**TODO CREATE_NEW_REPORT
+	/** CREATE_NEW_REPORT
 	 * request: username
 	 * response: result[OK|KO], message
 	 */
@@ -72,13 +72,13 @@ public interface ServerOperationIF {
 	 */
 	public String[] getNotificationListOperation(String[] commArgs);
 	
-	/**TODO GET_REQUEST_LIST
+	/** GET_REQUEST_LIST
 	 * request: username
 	 * response: result[OK|KO], 
 	 */
 	public String[] getRequestListOperation(String[] commArgs);
 	
-	/**TODO GET_REPORT_LIST
+	/** GET_REPORT_LIST
 	 * request: username
 	 * response: result[OK|KO], 
 	 */
@@ -96,7 +96,7 @@ public interface ServerOperationIF {
 	 */
 	public String[] deleteNotificationOperation(String[] commArgs);
 
-	/**TODO RELATIONS_DATA - get user relations list
+	/** RELATIONS_DATA - get user relations list
 	 * request: username
 	 * response: result[OK|KO], <usernames of related users>
 	 */

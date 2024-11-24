@@ -49,7 +49,6 @@ public class RequestManagementService extends GenericService {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					//TODO implementare accettazione richiesta
 					try{
 						operationPanel.getConnectionManager().manageRequest(serviceData, true);
 						operationPanel.openAdminSupportPanelAction();
@@ -68,7 +67,6 @@ public class RequestManagementService extends GenericService {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					//TODO implementare rifiuto richiesta
 					try{
 						operationPanel.getConnectionManager().manageRequest(serviceData, false);
 						operationPanel.openAdminSupportPanelAction();

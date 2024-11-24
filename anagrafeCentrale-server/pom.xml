@@ -20,5 +20,10 @@
 	    <artifactId>log4j-core</artifactId>
 	    <version>2.22.0</version>
 	  </dependency>
+	  <dependency>
+	  	<groupId>ecampus.linguaggi</groupId>
+	  	<artifactId>anagrafeCentrale.common</artifactId>
+	  	<version>0.0.1-SNAPSHOT</version>
+	  </dependency>
   </dependencies>
 </project>

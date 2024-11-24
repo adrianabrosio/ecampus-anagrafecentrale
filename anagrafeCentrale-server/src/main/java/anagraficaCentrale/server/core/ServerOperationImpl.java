@@ -162,7 +162,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 
 	@Override
 	public String[] downloadFileOperation(String[] commArgs) {
-		// TODO Auto-generated method stub
+		// TODO implement file download
 		return null;
 	}
 
