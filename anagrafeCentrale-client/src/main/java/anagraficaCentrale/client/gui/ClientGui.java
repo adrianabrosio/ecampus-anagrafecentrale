@@ -62,7 +62,6 @@ public class ClientGui extends JFrame {
 	private JPanel headerButtonPanel;
 
 	private JButton comuneButton, ospedaleButton, scuolaButton;
-	//private JLabel titleLabel;
 	private JPanel loginPanel;
 	private JLabel usernameLabel;
 	private JLabel passwordLabel;
@@ -92,14 +91,6 @@ public class ClientGui extends JFrame {
 		loginErrorMessage = "";
 		new LoadingPanel(this);
 		initAndShowLoginGui();
-
-		/*new Timer(3000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ClientGui.this.setVisible(true);
-			}
-		}).start();*/
-
 		isReady = true;
 	}
 
@@ -125,8 +116,6 @@ public class ClientGui extends JFrame {
 
 		toolbarPanel.add(headerButtonPanel, BorderLayout.CENTER);
 		portalType = PortalType.COMUNE;
-		//titleLabel = new JLabel(GUIConstants.LANG.lblComuneTitle);
-		//titleLabel.setBackground(GUIConstants.BACKGROUND_COLOR_1);
 
 		loginPanel = new JPanel();
 		loginPanel.setLayout(new GridBagLayout());
