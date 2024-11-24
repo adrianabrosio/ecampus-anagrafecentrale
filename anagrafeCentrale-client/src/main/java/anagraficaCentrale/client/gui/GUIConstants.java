@@ -99,7 +99,7 @@ public class GUIConstants {
 		public static final String msgCITempSuccess = "Carta d'identità temporanea richiesta con successo";
 		public static final String lblCI_TEMP_reason = "Motivo della richiesta";
 		public static final String lbl_CI_TEMP_SrvTitle = "Carta d'identità temporanea";
-		public static final String lbl_CI_TEMP_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>che venga rilasciato il documento temporaneo per i seguenti motivi</p></body></html>";
+		public static final String lbl_CI_TEMP_SrvText = "<html><body style=\"font-size: 16px;\"><p align=\"justify\" style=\"word-break:normal;white-space:normal\">Il/la sottoscritto/a <b>!first_name !surname</b>, nato/a a <b>!birth_town</b> (<b>!birth_province</b>) il <b>!birthdate</b>,<br/>CF <b>!tax_id_code</b> residente in via <b>!address, !town (!province), !zip_code</b></p><p align=\"center\"><b>RICHIEDE</b></p><p>l'emissione della carta d'identità temporanea con validità 5 giorni</p></body></html>";
 		public static final String lblPREN_VIS_visit = "Visita";
 		public static final String lbl_PREN_VIS_SrvText = "Compila i seguenti dati per procedere alla prenotazione:";
 		public static final String lbl_PREN_VIS_SrvTitle = "Prenotazione visita";
@@ -187,11 +187,15 @@ public class GUIConstants {
 		public static final String errReportFileNotFound = "Impossibile recuperare il file relativo al documento selezionato";
 		public static final String lbl_STAT_FAM_ReportDisplayName = "Stato di famiglia";
 		public static final String lbl_STAT_FAM_ReportTitle = "Stato di Famiglia";
-		public static final String lbl_STAT_FAM_ReportContent = "Il Comune di !birth_town dichiara valido il presente certificato rilasciato a\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n\\n\\nDichiara altresì che il suo nucleo familiare è anche composto da:\\n\\n";
+		public static final String lbl_STAT_FAM_ReportContent = "Il Comune di !town dichiara valido il presente certificato rilasciato a\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n\\n\\nDichiara altresì che il suo nucleo familiare è anche composto da:\\n\\n";
 		public static final String lbl_STAT_FAM_ReportSingleComponentString = " - !surname !first_name nato/a a !birth_town in data !birthdate con codice fiscale !tax_id_code\\n";
 		public static final String lbl_CERT_MATR_ReportDisplayName = "Certificato di matrimonio";
 		public static final String lbl_CERT_MATR_ReportTitle = "Certificato di matrimonio";
-		public static final String lbl_CERT_MATR_ReportContent = "Il Comune di !birth_town dichiara valido il presente certificato rilasciato a\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n";
+		public static final String lbl_CERT_MATR_ReportContent = "Il Comune di !town dichiara valido il presente certificato rilasciato a\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n";
 		public static final String msgPDFFileGenerated = "Il file PDF è stato salvato nel path: ";
+		public static final String lbl_CI_TEMP_ReportDisplayName = "CI Temporanea";
+		public static final String lbl_CI_TEMP_ReportTitle = "Carta d''identità temporanea";
+		public static final String lbl_CI_TEMP_ReportContent = "Il Comune di !town rilascia il presente documento con il valore di carta d''identità provvisoria a:\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n\\nIl presente documento ha validità 5 giorni dalla data di emissione.\\nQuesto documento non è valido per l'espatrio.\\nSi ricorda di richiedere un appuntamento per il rilascio della carta d''identità definitiva.";
+		
 	}
 }

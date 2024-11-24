@@ -687,13 +687,13 @@ public class ServerOperationImpl implements ServerOperationIF {
 			String requestType = rs.getString("request_type");
 			String portalType = rs.getString("portal_type");
 			String requestParams = rs.getString("request_parameters");
-
+			
 			//update request
 			String sql = "UPDATE Request SET manager_user_id='" + username + "', "
 					                      + "request_parameters='"+requestParams + ClientServerConstants.PARAM_SEPARATOR + "status=" + acceptRequest +"' "
 					                      + "WHERE id='" + requestID + "'";
 
-			logger.debug("update user query: ["+sql+"]");
+			logger.debug("update request query: ["+sql+"]");
 			qm.getStatement().execute(sql);
 			
 			//send notification to the user
@@ -704,7 +704,7 @@ public class ServerOperationImpl implements ServerOperationIF {
 
 			String sql2 = String.format("INSERT INTO %s (%s) VALUES (%s)", tableName, colString, paramString);
 
-			logger.debug("create user query: ["+sql2+"]");
+			logger.debug("create notification query: ["+sql2+"]");
 			qm.getStatement().execute(sql2);
 			
 			return new String[]{ClientServerConstants.SERVER_RESP_OK};
