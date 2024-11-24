@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -46,9 +47,9 @@ import anagraficaCentrale.client.gui.resource.ServicePanel;
 import anagraficaCentrale.client.gui.service.GenericService;
 import anagraficaCentrale.client.gui.service.ServicePanelFactory;
 import anagraficaCentrale.client.gui.service.ShowProfileService;
-import anagraficaCentrale.utils.PDFWriter;
 import anagraficaCentrale.utils.ClientServerConstants.PortalType;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
+import anagraficaCentrale.utils.PDFWriter;
 
 public class OperationPanel {
 
@@ -192,7 +193,11 @@ public class OperationPanel {
 		sideMenuPanelManager.setMainAnimation(true);
 		sideMenuPanelManager.closeMenu();
 		// frame.pack();
-		frame.setSize(new Dimension(1200, 800));
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = toolkit.getScreenSize();
+        int width = (int) (screenSize.getWidth() * 0.8);
+        int height = (int) (screenSize.getHeight() * 0.8);
+		frame.setSize(new Dimension(width, height));
 		notificationManager = new NotificationPollingManager(this);
 		notificationManager.start();
 		closeLoading();
@@ -289,7 +294,7 @@ public class OperationPanel {
 		}
 		rightPanelScrollPane = new AcScrollPane(rightPanel);
 		splitPane.setRightComponent(rightPanelScrollPane);
-		splitPane.setDividerLocation(0.35f);
+		splitPane.setDividerLocation(0.27f);
 		splitPane.setDividerSize(3);
 		closeLoading();
 	}
