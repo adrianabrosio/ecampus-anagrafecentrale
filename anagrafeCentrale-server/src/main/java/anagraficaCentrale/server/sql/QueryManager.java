@@ -52,7 +52,7 @@ public class QueryManager implements QueryManagerIF{
 		try {
 			rs = getStatement().executeQuery("select 1 + 2 as three;");
 			if (rs.first())
-				System.out.println(rs.getString(1));
+				System.out.println("DB is available");
 			else
 				logger.error("Unable to connect to Database");
 		} catch (SQLException e) {

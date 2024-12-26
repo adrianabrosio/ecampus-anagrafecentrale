@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import anagraficaCentrale.server.core.AcServer;
 import anagraficaCentrale.server.sql.QueryManager;
+import anagraficaCentrale.server.sql.QueryManagerIF;
 import anagraficaCentrale.utils.ScriptUtils;
 
 public class Main {
@@ -25,7 +26,7 @@ public class Main {
 		boolean installDatabase = ScriptUtils.getParam(args, "-installdb") != null;
 		boolean startServer = ScriptUtils.getParam(args, "-start") != null;
 		String cfgFile = ScriptUtils.getParam(args, "-cfg=");
-		QueryManager qm = null;
+		QueryManagerIF qm = null;
 		try {
 			qm = new QueryManager();
 		} catch (Exception e) {

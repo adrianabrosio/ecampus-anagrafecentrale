@@ -12,20 +12,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import anagraficaCentrale.server.sql.QueryManager;
+import anagraficaCentrale.server.sql.QueryManagerIF;
 
 public class AcServer {
 	final static Logger logger = LogManager.getRootLogger();
 
-	public QueryManager queryManager;
+	public QueryManagerIF queryManager;
 	public Properties prop;
 	public int port;
 	public ServerSocket server;
 
-	public AcServer(QueryManager qm) {
+	public AcServer(QueryManagerIF qm) {
 		new AcServer(qm, null);
 	}
 
-	public AcServer(QueryManager qm, String cfgFile) {
+	public AcServer(QueryManagerIF qm, String cfgFile) {
 		this.queryManager = qm;
 		initialize(cfgFile);
 	}

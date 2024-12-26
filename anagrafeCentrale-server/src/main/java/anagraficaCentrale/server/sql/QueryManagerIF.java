@@ -12,4 +12,6 @@ public interface QueryManagerIF {
 
 	public void dropAlltables() throws DatabaseException;
 
+	public void populateDatabase() throws SQLException, IOException, DatabaseException;
+
 }
