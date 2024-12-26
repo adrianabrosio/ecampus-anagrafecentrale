@@ -195,7 +195,7 @@ public class GUIConstants {
 		public static final String msgPDFFileGenerated = "Il file PDF è stato salvato nel path: ";
 		public static final String lbl_CI_TEMP_ReportDisplayName = "CI Temporanea";
 		public static final String lbl_CI_TEMP_ReportTitle = "Carta d''identità temporanea";
-		public static final String lbl_CI_TEMP_ReportContent = "Il Comune di !town rilascia il presente documento con il valore di carta d''identità provvisoria a:\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n\\nIl presente documento ha validità 5 giorni dalla data di emissione.\\nQuesto documento non è valido per l'espatrio.\\nSi ricorda di richiedere un appuntamento per il rilascio della carta d''identità definitiva.";
+		public static final String lbl_CI_TEMP_ReportContent = "Il Comune di !town rilascia il presente documento con il valore di carta d''identità provvisoria a:\\n\\nNome: !first_name \\nCognome: !surname\\nCF: !tax_id_code\\nGenere: !gender\\nData di nascita: !birthdate\\nLuogo di nascita: !birth_town (!birth_province) - !birth_state\\n\\nIl presente documento ha validità 5 giorni dalla data di emissione.\\nQuesto documento non è valido per l''espatrio.\\nSi ricorda di richiedere un appuntamento per il rilascio della carta d''identità definitiva.";
 		
 	}
 }
