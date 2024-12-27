@@ -11,8 +11,8 @@ import java.util.Properties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import anagraficaCentrale.server.sql.QueryManager;
 import anagraficaCentrale.server.sql.QueryManagerIF;
+import anagraficaCentrale.utils.ScriptUtils;
 
 public class AcServer {
 	final static Logger logger = LogManager.getRootLogger();

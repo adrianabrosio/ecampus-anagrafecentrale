@@ -1,7 +1,6 @@
 package anagraficaCentrale.server.sql;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +13,8 @@ import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import anagraficaCentrale.utils.ScriptUtils;
 
 @SuppressWarnings("unused")
 public class QueryManager implements QueryManagerIF{
@@ -90,7 +91,7 @@ public class QueryManager implements QueryManagerIF{
 		// leggi script SQL dal file nelle risorse
 		logger.info("Installing database..");
 		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResource("db_installation.sql").openStream()));
+				new InputStreamReader(ScriptUtils.getResourceAsStream(getClass(), "db_installation.sql")));
 		logger.info("script db_installation.sql loaded. Dropping all tables..");
 		dropAlltables();
 		logger.info("drop completed. Executing db_installation.sql script..");
@@ -122,7 +123,7 @@ public class QueryManager implements QueryManagerIF{
 		// leggi script SQL dal file nelle risorse
 		logger.info("populating DB tables..");
 		BufferedReader reader = new BufferedReader(
-				new InputStreamReader(ClassLoader.getSystemResource("db_prepopulation.sql").openStream()));
+				new InputStreamReader(ScriptUtils.getResourceAsStream(getClass(), "db_prepopulation.sql")));
 		// eseguire lo script SQL con attenzione agli statement multiriga.
 		// Scartare il ";" e i commenti
 		StringBuilder statement = new StringBuilder();
