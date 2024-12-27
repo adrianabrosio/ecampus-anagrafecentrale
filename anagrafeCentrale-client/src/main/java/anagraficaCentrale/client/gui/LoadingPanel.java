@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,6 +15,8 @@ import javax.swing.Timer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import anagraficaCentrale.utils.ScriptUtils;
 
 public class LoadingPanel extends JFrame {
 
@@ -30,7 +33,7 @@ public class LoadingPanel extends JFrame {
     public LoadingPanel(ClientGui clientGui) {
         super("Loading Panel Example");
         try {
-			setIconImage(new ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
+			setIconImage(ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "icon.png")));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"icon.png\" from resources", e1);
 		}
@@ -43,7 +46,7 @@ public class LoadingPanel extends JFrame {
         // Aggiungi un'immagine di caricamento
         ImageIcon loadingImage = null;
 		try {
-			loadingImage = new ImageIcon(ClassLoader.getSystemResource("loading3.gif"));
+			loadingImage = new ImageIcon(ScriptUtils.getResource(getClass(), "loading3.gif"));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"loading.gif\" from resources", e1);
 		}

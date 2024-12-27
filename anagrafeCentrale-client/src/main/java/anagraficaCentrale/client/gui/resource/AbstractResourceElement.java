@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcIconButton;
+import anagraficaCentrale.utils.ScriptUtils;
 
 public abstract class AbstractResourceElement extends JPanel {
 
@@ -62,7 +63,7 @@ public abstract class AbstractResourceElement extends JPanel {
 		
 		ImageIcon buttonIcon = null;
 		try {
-			BufferedImage bi = ImageIO.read(ClassLoader.getSystemResourceAsStream(getButtonIconName()));
+			BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), getButtonIconName()));
 			buttonIcon = new ImageIcon(bi.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		} catch (Exception e1) {
 			logger.error("Unable to load \""+getButtonIconName()+"\" from resources", e1);
@@ -118,7 +119,7 @@ public abstract class AbstractResourceElement extends JPanel {
 	protected void setButtonIconImage() {
 		ImageIcon buttonIcon = null;
 		try {
-			BufferedImage bi = ImageIO.read(ClassLoader.getSystemResourceAsStream(getButtonIconName()));
+			BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), getButtonIconName()));
 			buttonIcon = new ImageIcon(bi.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		} catch (Exception e1) {
 			logger.error("Unable to load \""+getButtonIconName()+"\" from resources", e1);

@@ -23,6 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import anagraficaCentrale.client.gui.component.AcIconButton;
+import anagraficaCentrale.utils.ScriptUtils;
 
 public class SideMenuPanel extends JPanel {
 
@@ -100,7 +101,7 @@ public class SideMenuPanel extends JPanel {
 	private JButton generateAdminSupportButton(OperationPanel operationPanel) {
 		ImageIcon adminSupportIcon = null;
 		try {
-			BufferedImage bi = ImageIO.read(ClassLoader.getSystemResourceAsStream("adminsupport0.png"));
+			BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "adminsupport0.png"));
 			adminSupportIcon = new ImageIcon(bi.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"adminsupport0.png\" from resources", e1);
@@ -125,7 +126,7 @@ public class SideMenuPanel extends JPanel {
 	private JButton generateNotificationButton(OperationPanel operationPanel) {
 		ImageIcon notificationIcon = null;
 		try {
-			BufferedImage bi = ImageIO.read(ClassLoader.getSystemResourceAsStream("notificationOff0.png"));
+			BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "notificationOff0.png"));
 			notificationIcon = new ImageIcon(bi.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"notificationOff0.png\" from resources", e1);
@@ -151,7 +152,7 @@ public class SideMenuPanel extends JPanel {
 	private JButton generateReportButton(OperationPanel operationPanel) {
 		ImageIcon reportIcon = null;
 		try {
-			BufferedImage bi = ImageIO.read(ClassLoader.getSystemResourceAsStream("report0.png"));
+			BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "report0.png"));
 			reportIcon = new ImageIcon(bi.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"report0.png\" from resources", e1);
@@ -177,7 +178,7 @@ public class SideMenuPanel extends JPanel {
 	private JButton generateServiceButton(OperationPanel operationPanel) {
 		ImageIcon serviceIcon = null;
 		try {
-			BufferedImage bi = ImageIO.read(ClassLoader.getSystemResourceAsStream("service0.png"));
+			BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "service0.png"));
 			serviceIcon = new ImageIcon(bi.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"service0.png\" from resources", e1);
@@ -204,9 +205,9 @@ public class SideMenuPanel extends JPanel {
 		try {
 			BufferedImage bi;
 			if(operationPanel.getConnectionManager() == null || operationPanel.getConnectionManager().isAdmin())
-				bi = ImageIO.read(ClassLoader.getSystemResourceAsStream("accountAdmin0.png"));
+				bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "accountAdmin0.png"));
 			else
-				bi = ImageIO.read(ClassLoader.getSystemResourceAsStream("account0.png"));
+				bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "account0.png"));
 			loginIcon = new ImageIcon(bi.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"account0.png\" from resources", e1);
@@ -233,7 +234,7 @@ public class SideMenuPanel extends JPanel {
 		ImageIcon expandIcon = null;
 		try {
 			BufferedImage bi;
-			bi = ImageIO.read(ClassLoader.getSystemResourceAsStream("expand0.png"));
+			bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "expand0.png"));
 			expandIcon = new ImageIcon(bi.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"expand0.png\" from resources", e1);
@@ -274,7 +275,7 @@ public class SideMenuPanel extends JPanel {
 		String imgName = isThereAnyNotification? "notificationOn0.png" : "notificationOff0.png";
 		ImageIcon notificationIcon = null;
 		try {
-			BufferedImage bi = ImageIO.read(ClassLoader.getSystemResourceAsStream(imgName));
+			BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), imgName));
 			notificationIcon = new ImageIcon(bi.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		} catch (Exception e1) {
 			logger.error("Unable to load \""+imgName+"\" from resources", e1);

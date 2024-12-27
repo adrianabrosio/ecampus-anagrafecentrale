@@ -1,6 +1,8 @@
 package anagraficaCentrale.utils;
 
+import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -106,6 +108,28 @@ public class ScriptUtils {
 			hexString.append(hex);
 		}
 		return hexString.toString();
+	}
+	
+	public static InputStream getResourceAsStream(Class<?> c, String resourceName) {
+		InputStream in;
+		//URL url = c.getClassLoader().getResource(resourceName);
+		//System.out.println("resource path: "+url);
+		in=c.getClassLoader().getResourceAsStream(resourceName);
+		if(in==null) {
+			//url = c.getClassLoader().getResource("resources/"+resourceName);
+			//System.out.println("resource path2: "+url);
+			in = c.getClassLoader().getResourceAsStream("resources/"+resourceName);
+		}
+		return in;
+	}
+	
+	public static URL getResource(Class<?> c, String resourceName) {
+		URL url;
+		url=c.getClassLoader().getResource(resourceName);
+		if(url==null) {
+			url = c.getClassLoader().getResource("resources/"+resourceName);
+		}
+		return url;
 	}
 
 }

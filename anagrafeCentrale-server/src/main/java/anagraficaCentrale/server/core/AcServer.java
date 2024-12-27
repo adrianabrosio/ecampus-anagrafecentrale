@@ -41,7 +41,7 @@ public class AcServer {
 				InputStream configFile = new FileInputStream(path);
 				prop.load(configFile);
 			}else{
-				InputStream resourceStream = ClassLoader.getSystemResourceAsStream("database.properties");
+				InputStream resourceStream = ScriptUtils.getResourceAsStream(getClass(), "database.properties");
 				prop.load(resourceStream);
 			}
 

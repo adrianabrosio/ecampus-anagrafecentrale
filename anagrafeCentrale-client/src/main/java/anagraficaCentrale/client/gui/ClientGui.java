@@ -99,7 +99,7 @@ public class ClientGui extends JFrame {
 		labelFont = new Font("Segoe UI", Font.BOLD, 14);
 
 		try {
-			setIconImage(new ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
+			setIconImage(ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "icon.png")));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"icon.png\" from resources", e1);
 		}
@@ -361,7 +361,8 @@ public class ClientGui extends JFrame {
 		//exitButton.setBackground(Color.RED);
 		//exitButton.setForeground(Color.WHITE);
 		try {
-			exitButton.setIcon(new ImageIcon(ClassLoader.getSystemResource("exitIcon.png")));
+			BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "exitIcon.png"));
+			exitButton.setIcon(new ImageIcon(bi));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"exitIcon.png\" from resources", e1);
 		}
@@ -403,7 +404,7 @@ public class ClientGui extends JFrame {
 		loginButton.setBorder(null);
 		// Aggiunge un'icona al pulsante di login
 		try {
-			BufferedImage bi = ImageIO.read(ClassLoader.getSystemResourceAsStream("login"+PortalType.COMUNE.getValue()+".png"));
+			BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "login"+PortalType.COMUNE.getValue()+".png"));
 			loginButton.setIcon(new ImageIcon(bi.getScaledInstance(160, 50, Image.SCALE_DEFAULT)));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"login"+PortalType.COMUNE.getValue()+".png\" from resources", e1);
@@ -442,7 +443,8 @@ public class ClientGui extends JFrame {
 
 	private void setLoginButtonIcon(PortalType pt) {
 		try {
-			BufferedImage bi = ImageIO.read(ClassLoader.getSystemResourceAsStream("login"+pt.getValue()+".png"));
+			//BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "login"+pt.getValue()+".png"));
+			BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "login"+pt.getValue()+".png"));
 			loginButton.setIcon(new ImageIcon(bi.getScaledInstance(160, 50, Image.SCALE_DEFAULT)));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"login"+pt.getValue()+".png\" from resources", e1);

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ecampus.linguaggi</groupId>
   <artifactId>anagrafeCentrale.server</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>Anagrafe Centrale - Server</name>
   <dependencies>
   	  <dependency>

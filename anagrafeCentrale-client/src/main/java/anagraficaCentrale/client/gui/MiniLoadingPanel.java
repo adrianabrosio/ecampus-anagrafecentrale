@@ -4,14 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import anagraficaCentrale.utils.ScriptUtils;
 
 public class MiniLoadingPanel extends JFrame {
 
@@ -23,12 +25,12 @@ public class MiniLoadingPanel extends JFrame {
 	
 	final static Logger logger = LogManager.getRootLogger();
 	
-	private Timer tm;
+	//private Timer tm;
 
     public MiniLoadingPanel() {
         super("Loading Panel");
         try {
-			setIconImage(new ImageIcon(ClassLoader.getSystemResource("icon.png")).getImage());
+			setIconImage(ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "icon.png")));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"icon.png\" from resources", e1);
 		}
@@ -41,7 +43,7 @@ public class MiniLoadingPanel extends JFrame {
         // Aggiungi un'immagine di caricamento
         ImageIcon loadingImage = null;
 		try {
-			loadingImage = new ImageIcon(ClassLoader.getSystemResource("loading3.gif"));
+			loadingImage = new ImageIcon(ScriptUtils.getResource(getClass(), "loading3.gif"));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"loading.gif\" from resources", e1);
 		}

@@ -53,7 +53,8 @@ public class ConnectionManager {
 	private String lastError;
 
 	public ConnectionManager(String[] args) throws UnknownHostException, IOException {
-		this.socket = getConnection(null);
+		String cfgFile = ScriptUtils.getParam(args, "-cfg=");
+		this.socket = getConnection(cfgFile);
 	}
 
 	private Socket getConnection(String cfgFile) throws UnknownHostException, IOException {
@@ -66,7 +67,7 @@ public class ConnectionManager {
 				InputStream configFile = new FileInputStream(path);
 				prop.load(configFile);
 			}else{
-				InputStream resourceStream = ClassLoader.getSystemResourceAsStream("client.properties");
+				InputStream resourceStream = ScriptUtils.getResourceAsStream(getClass(), "client.properties");
 				prop.load(resourceStream);
 			}
 

@@ -1,9 +1,14 @@
 package anagraficaCentrale.utils;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,7 +65,7 @@ public class PDFWriter {
 		}
 	}
 
-	public boolean addPage(String pageHeader, StringBuffer pageText, String imageDirectory, List<String> imageFileNames) {
+	public boolean addPage(String pageHeader, StringBuffer pageText, String imageDirectory, List<BufferedImage> list) {
 		boolean ok = false;
 		//Create and add the page to the document
 		PDPage page = new PDPage();
@@ -114,11 +119,14 @@ public class PDFWriter {
 			}
 			contents.endText();
 
-			if(imageFileNames != null){
+			if(list != null){
 				float scale = 1f;
-				for (String attachmentName : imageFileNames) {
-					logger.debug("Adding image: " + imageDirectory + attachmentName);
-					PDImageXObject pdImage = PDImageXObject.createFromFile(imageDirectory + attachmentName, doc);
+				for (BufferedImage attachment : list) {
+					logger.debug("Adding image: " + imageDirectory + attachment);
+					Path temp = Files.createTempFile("tmp_image", ".png");
+					File tmpFile = temp.toFile();
+					ImageIO.write(attachment, "png", tmpFile);
+					PDImageXObject pdImage = PDImageXObject.createFromFileByContent(tmpFile, doc);
 					//scale = width/pdImage.getWidth();
 					yOffset-=(pdImage.getHeight()*scale);
 					if (yOffset <= 0) {

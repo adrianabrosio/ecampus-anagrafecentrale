@@ -35,10 +35,12 @@ public class QueryManager implements QueryManagerIF{
 
 	private Statement statement;
 
-	public QueryManager() throws IOException, DatabaseException {
+	public QueryManager(String cfgFile) throws IOException, DatabaseException {
 
+		if(cfgFile == null) 
+			cfgFile = "database.properties";
 		Properties prop = new Properties();
-		try (InputStream resourceStream = ClassLoader.getSystemResourceAsStream("database.properties")) {
+		try (InputStream resourceStream = ClassLoader.getSystemResourceAsStream(cfgFile)) {
 			prop.load(resourceStream);
 		}
 

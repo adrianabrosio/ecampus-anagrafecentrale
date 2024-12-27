@@ -10,13 +10,13 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -50,6 +50,7 @@ import anagraficaCentrale.client.gui.service.ShowProfileService;
 import anagraficaCentrale.utils.ClientServerConstants.PortalType;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 import anagraficaCentrale.utils.PDFWriter;
+import anagraficaCentrale.utils.ScriptUtils;
 
 public class OperationPanel {
 
@@ -138,7 +139,7 @@ public class OperationPanel {
 		frame.setMinimumSize(new Dimension(400, 400));
 
 		try {
-			frame.setIconImage(new ImageIcon(ClassLoader.getSystemResource(connectionManager.isAdmin()?"iconAdmin.png":"icon.png")).getImage());
+			frame.setIconImage(ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), connectionManager.isAdmin()?"iconAdmin.png":"icon.png")));
 		} catch (Exception e1) {
 			logger.error("Unable to load \""+(connectionManager.isAdmin()?"iconAdmin.png":"icon.png")+"\" from resources", e1);
 		}
@@ -248,7 +249,7 @@ public class OperationPanel {
 		/* for future implementation
 		ImageIcon ic = null;
 		try {
-			ic = new ImageIcon(ClassLoader.getSystemResource("delete0.png"));
+			ic = new ImageIcon(ScriptUtils.getResource("delete0.png"));
 		} catch (Exception e1) {
 			logger.error("Unable to load \"delete0.png\" from resources", e1);
 		}
@@ -673,8 +674,8 @@ public class OperationPanel {
 			try{
 				PDFWriter pdfWriter = new PDFWriter(file.getAbsolutePath());
 				pdfWriter.createPdfFile();
-				URL imageURL = ClassLoader.getSystemResource("CityLogo.png");
-				pdfWriter.addPage(reportTitle, new StringBuffer(reportContent), "", Arrays.asList(imageURL.getFile()));
+				BufferedImage image = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "CityLogo.png"));
+				pdfWriter.addPage(reportTitle, new StringBuffer(reportContent), "", Arrays.asList(image));
 				String fullPathFileName = pdfWriter.saveAndClose();
 				popupInfo(GUIConstants.LANG.msgPDFFileGenerated + fullPathFileName);
 			}catch(Exception e){

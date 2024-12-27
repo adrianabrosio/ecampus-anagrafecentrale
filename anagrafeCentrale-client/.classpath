@@ -47,5 +47,6 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/anagrafeCentrale-common"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -1,8 +1,6 @@
 package anagraficaCentrale.server.main;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +26,7 @@ public class Main {
 		String cfgFile = ScriptUtils.getParam(args, "-cfg=");
 		QueryManagerIF qm = null;
 		try {
-			qm = new QueryManager();
+			qm = new QueryManager(cfgFile);
 		} catch (Exception e) {
 			logger.error(e);
 			return;
@@ -49,7 +47,9 @@ public class Main {
 
 	private static void usage() {
 		System.out.println(
-				"commands:\n -installDB: cancella tutte le tabelle e le riporta allo stato originale. Esegue gli script db_installation.sql e db_prepopulation.sql presenti tra le resources");
+				"commands:"
+				+ "\n -installDB: cancella tutte le tabelle e le riporta allo stato originale. Esegue gli script db_installation.sql e db_prepopulation.sql presenti tra le resources"
+				+ "\n -start: avvia il server");
 
 	}
 
