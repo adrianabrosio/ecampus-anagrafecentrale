@@ -11,8 +11,13 @@
 
 --sample users
 INSERT INTO `User` (`id`,`password`,`first_name`,`surname`,`tax_id_code`,`birthdate`,`gender`,`active`,`authorization`,`birth_town`,`birth_province`,`birth_state`,`address`,`town`,`province`,`state`,`zip_code`) VALUES
+('adrianaDP','837953734b47329ab1a4760cc14f73cd164672fbbb1b77f8ff7d8234ebc18483','Adriana Dataprep','Bianchi','BNCDND80T70L219T',STR_TO_DATE('30/12/1980','%d/%m/%Y'),'F',TRUE,'101010','Torino','TO','Italia','via Botticelli 5','Roma','RO','Italia','00196');
+
+INSERT INTO `User` (`id`,`password`,`first_name`,`surname`,`tax_id_code`,`birthdate`,`gender`,`active`,`authorization`,`birth_town`,`birth_province`,`birth_state`,`address`,`town`,`province`,`state`,`zip_code`) VALUES
 ('mariaDP','837953734b47329ab1a4760cc14f73cd164672fbbb1b77f8ff7d8234ebc18483','Maria Dataprep','Colonnella','CLNMDT80A55L219U',STR_TO_DATE('15/01/1980','%d/%m/%Y'),'F',TRUE,'100000','Roma','RO','Italia','via Botticelli 5','Roma','RO','Italia','00196');
 
+INSERT INTO `User` (`id`,`password`,`first_name`,`surname`,`tax_id_code`,`birthdate`,`gender`,`active`,`authorization`,`birth_town`,`birth_province`,`birth_state`,`address`,`town`,`province`,`state`,`zip_code`) VALUES
+('maraDP','837953734b47329ab1a4760cc14f73cd164672fbbb1b77f8ff7d8234ebc18483','Mara Dataprep','Rossi','RSSMDT65S61H501E',STR_TO_DATE('21/11/1965','%d/%m/%Y'),'F',TRUE,'101010','Roma','RO','Italia','via Botticelli 5','Roma','RO','Italia','00196');
 
 INSERT INTO `User` (`id`,`password`,`first_name`,`surname`,`tax_id_code`,`birthdate`,`gender`,`active`,`authorization`,`birth_town`,`birth_province`,`birth_state`,`address`,`town`,`province`,`state`,`zip_code`) VALUES
 ('marioDP','9a2d10cd42cfb7b96e1d56cdd8a6f26b5e2b587e437599ac61b5aa8888d3279a','Mario Dataprep','Rossi','RSSMDT04B20L219S',STR_TO_DATE('20/02/2004','%d/%m/%Y'),'M',TRUE,'001000','Roma','RO','Italia','via Botticelli 5','Roma','RO','Italia','00196');
@@ -40,29 +45,28 @@ INSERT INTO `User` (`id`,`password`,`first_name`,`surname`,`tax_id_code`,`birthd
 
 --sample reports
 INSERT INTO `Report` (`user_id`,`portal_type`,`file_path`,`file_display_name`,`file_title`,`file_content`) VALUES
-('federicaDP',0,'','Test PDF 1','Test PDF','Contenuto test pdf');
+('federicaDP',0,'','Comunicazione: Attivazione servizio','Comunicazione: Attivazione servizio','La presente per comunicare che il servizio Anagrafe Centrale è stato attivato con successo');
 
 INSERT INTO `Report` (`user_id`,`portal_type`,`file_path`,`file_display_name`,`file_title`,`file_content`) VALUES
-('federicaDP',0,'','Scarica la tua carta d''identitï¿½ provvisioria','CI Provvisoria','Nome:Federica Dataprep\nCognome:Bonzano\n\nQuesto documento non ï¿½ valido per l''espatrio ');
+('federicaDP',0,'','Scarica la tua carta d''identità provvisioria','CI Provvisoria','Nome:Federica Dataprep\nCognome:Bonzano\n\nQuesto documento non è valido per l''espatrio ');
 
 INSERT INTO `Report` (`user_id`,`portal_type`,`file_path`,`file_display_name`,`file_title`,`file_content`) VALUES
-('federicaDP',1,'','Test PDF ospedale','Referto','Sano come un pesce');
+('federicaDP',1,'','Comunicazione: Fascicolo elettronico attivo','Fascicolo elettronico','Il fascicolo elettronico è stato attivato');
 
 --sample requests
 INSERT INTO `Request` (`portal_type`,`creator_user_id`,`manager_user_id`,`request_name`,`request_description`,`request_type`,`request_parameters`) VALUES
-(0,'federicaDP',null,'Richiesta di test','Descrizione richiesta di test','APP_CI','appointment_date=2024-11-01 09:00');
+(0,'federicaDP',null,'Richiesta di test','Descrizione richiesta di test','APP_CI','appointment_date=2024-11-01');
 
 --sample notifications
-INSERT INTO `Notification` (`portal_type`, `report_id`, `notification_name`, `notification_description`, `notification_type`) VALUES 
-(0, 1, 'Test Report', 'Il report ï¿½ pronto per il download', 'report');
-INSERT INTO `Notification` (`portal_type`, `request_id`, `notification_name`, `notification_description`, `notification_type`) VALUES 
-(0, 1, 'Risultato richiesta 1 di federicaDP', ': NO', 'request');
-INSERT INTO `Notification` (`portal_type`, `request_id`, `notification_name`, `notification_description`, `notification_type`) VALUES 
-(1, 1, 'Risultato richiesta 1 di federicaDP', ': NO', 'request');
+--INSERT INTO `Notification` (`portal_type`, `request_id`, `notification_name`, `notification_description`, `notification_type`) VALUES 
+--(0, 1, 'Risultato richiesta 1 di federicaDP', ': NO', 'request');
 
 --sample relation
 INSERT INTO `Relationship` (`primary`,`secondary`,`degree`) VALUES
 ('federicaDP','marioDP','madre');
+
+INSERT INTO `Relationship` (`primary`,`secondary`,`degree`) VALUES
+('federicaDP','giuliaDP','madre');
 
 INSERT INTO `Relationship` (`primary`,`secondary`,`degree`) VALUES
 ('matteoDP','federicaDP','padre');

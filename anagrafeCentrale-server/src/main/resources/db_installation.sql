@@ -21,7 +21,7 @@ CREATE TABLE `User` (
   `birthdate` DATE NOT NULL,
   `gender` CHAR(1) NOT NULL,
   `active` bit NOT NULL DEFAULT true,
-  `authorization` VARCHAR(6) NOT NULL DEFAULT '000000' COMMENT 'Campo utile a gestire le autorizzazioni di accesso ai serviz',
+  `authorization` VARCHAR(6) NOT NULL DEFAULT '000000',
   `birth_town` VARCHAR(50) NULL DEFAULT NULL,
   `birth_province` VARCHAR(2) NULL,
   `birth_state` VARCHAR(30) NULL DEFAULT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `Report` (
   `file_title` VARCHAR(50) NULL DEFAULT NULL,
   `file_content` MEDIUMTEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) COMMENT 'contiene i referti ospedalieri';
+) COMMENT 'contains all data related to the reports';
 
 -- ---
 -- Table 'Request'
@@ -69,7 +69,7 @@ CREATE TABLE `Request` (
   `request_description` VARCHAR(200) NULL DEFAULT NULL,
   `request_parameters` MEDIUMTEXT NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) COMMENT 'tabella che gestisce le richieste da parte degli utenti';
+) COMMENT 'contains all data related to the requests';
 
 -- ---
 -- Table 'Notification'
@@ -88,7 +88,7 @@ CREATE TABLE `Notification` (
   `notification_type` VARCHAR(10) NOT NULL,
   `unread` bit NOT NULL DEFAULT true,
   PRIMARY KEY (`id`)
-) COMMENT 'tabella per la gestione delle notifiche';
+) COMMENT 'contains all data related to the notifications';
 
 -- ---
 -- Table 'Relationship'
