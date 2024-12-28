@@ -130,7 +130,7 @@ public class GUIConstants {
 		public static final String userEditConfirmMsg = "Per favore controlla i dati. Confermi di voler procedere alla modifica dell'utente?";
 		public static final String userEditConfirmTitle = "Modifica utente";
 		public static final String lbluserCreationSearchUserPlaceholder = "Scrivi UserID o CF dell'utente da ricercare e premi invio";
-        public static final String lblAdminSupportButtonBtnSide = "Gestione richieste";
+		public static final String lblAdminSupportButtonBtnSide = "Gestione richieste";
 		public static final String lblAdminSupport = "Gestione richieste";
 		public static final String lblAcceptRequestBtn = "Accetta";
 		public static final String lblRejectRequestBtn = "Rifiuta";
