@@ -173,7 +173,7 @@ public class GUIConstants {
 		public static final String errPasswordResetSameAsUsername = "La nuova password non può essere uguale all'username";
 		public static final String errPasswordResetDifferentPassword = "Le password non corrispondono";
 		public static final String msgPasswordResetSuccess = "Password resettata con successo. Per favore effettua un nuovo accesso";
-		public static final String msgPasswordResetMandatory = "La password deve essere modificata  per poter accedere";
+		public static final String msgPasswordResetMandatory = "La password deve essere modificata per poter accedere";
 		public static final String errFillMandatoryFields = "Compilare tutti i campi obbligatori";
 		public static final String msgUsernameEmpty = "Inserire username";
 		public static final String lblLoginPwReset = "Reset password?";
