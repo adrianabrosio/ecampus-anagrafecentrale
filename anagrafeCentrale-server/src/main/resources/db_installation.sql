@@ -116,28 +116,3 @@ ALTER TABLE `Notification` ADD FOREIGN KEY (request_id) REFERENCES `Request` (`i
 ALTER TABLE `Notification` ADD FOREIGN KEY (report_id) REFERENCES `Report` (`id`);
 ALTER TABLE `Relationship` ADD FOREIGN KEY (`primary`) REFERENCES `User` (`id`);
 ALTER TABLE `Relationship` ADD FOREIGN KEY (`secondary`) REFERENCES `User` (`id`);
-
--- ---
--- Table Properties
--- ---
-
--- ALTER TABLE `User` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Report` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Request` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Notification` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Relationship` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- ---
--- Test Data
--- ---
-
--- INSERT INTO `User` (`id`,`password`,`first_name`,`surname`,`tax_id_code`,`birthdate`,`gender`,`active`,`authorization`,`birth_town`,`birth_province`,`birth_state`,`address`,`town`,`province`,`state`,`zip_code`) VALUES
--- ('','','','','','','','','','','','','','','','','');
--- INSERT INTO `Report` (`id`,`user_id`,`portal_type`,`file_path`,`file_display_name`,`file_title`,`file_content`) VALUES
--- ('','','','','','','');
--- INSERT INTO `Request` (`id`,`portal_type`,`creator_user_id`,`manager_user_id`,`request_type`,`request_name`,`request_description`,`request_parameters`) VALUES
--- ('','','','','','','','');
--- INSERT INTO `Notification` (`id`,`portal_type`,`request_id`,`report_id`,`notification_name`,`notification_description`,`notification_type`,`unread`) VALUES
--- ('','','','','','','','');
--- INSERT INTO `Relationship` (`id`,`primary`,`secondary`,`degree`) VALUES
--- ('','','','');
