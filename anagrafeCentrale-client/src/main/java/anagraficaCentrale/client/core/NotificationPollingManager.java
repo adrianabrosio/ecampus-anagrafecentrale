@@ -6,6 +6,10 @@ import org.apache.logging.log4j.Logger;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.exception.AcServerRuntimeException;
 
+/**
+ * Polling manager for notification management
+ * @author Adriana Brosio
+ */
 public class NotificationPollingManager implements Runnable{
 
 	final static Logger logger = LogManager.getRootLogger();
@@ -21,10 +25,16 @@ public class NotificationPollingManager implements Runnable{
 		thisThread = new Thread(this);
 	}
 
+	/**
+	 * stop polling mechanism
+	 */
 	public void stop() {
 		isAlive = false;
 	}
 
+	/**
+	 * start polling mechanism
+	 */
 	public void start() {
 
 		isAlive = true;
@@ -32,10 +42,13 @@ public class NotificationPollingManager implements Runnable{
 		logger.info("Notification polling started");
 	}
 
+	/**
+	 * run polling mechanism. It will check if there are new notifications and update the notification icon
+	 */
 	@Override
 	public void run() {
 		while(isAlive){
-			//check for new notif
+			//check for new notification
 			try{
 				boolean newNotification = operationPanel.getConnectionManager().checkNewNotification(operationPanel.getPortalType());
 				logger.debug("Updating notification status: " + newNotification);

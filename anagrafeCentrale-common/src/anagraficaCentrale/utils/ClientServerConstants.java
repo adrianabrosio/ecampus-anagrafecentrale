@@ -3,9 +3,13 @@ package anagraficaCentrale.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * this class contains common constants used in the application.
+ * The content is shared between client and server
+ */
 public class ClientServerConstants {
 	/**
-	 * Questa enum descrive i tipi di portale disponibili<br/><br/>
+	 * This enum represents the portal types<br><br>
 	 * <table border="1">
 	 * 	<tr><th>Portal</th><th>Descrizione</th></tr>
 	 * 	<tr><td>Comune</td><td>Anagrafe - gestione pratiche comunali</td></tr>
@@ -38,7 +42,7 @@ public class ClientServerConstants {
 	};
 
 	/**
-	 * Questa enum descrive i tipi di servizi disponibili e la relativa codifica
+	 * This enum descrive the types of services available and the technical code related<br>
 	 * <table border="1">
 	 * 	<tr><th>Portal</th>	<th>Servizio</th><th>Codice tecnico</th></tr>
 	 * 	<tr><td>Comune</td>		<td>Appuntamento Carta d'Identità</td>	<td>APP_CI</td></tr>
@@ -80,122 +84,122 @@ public class ClientServerConstants {
 		ADM_REQ_MNG};
 
 	public enum ServerAction {
-		/**<b>LOGOUT</b> <br/>
-		 * no params<br/>
+		/**<b>LOGOUT</b> <br>
+		 * no params<br>
 		 */
 		LOGOUT(1),
 		
-		/**<b>LOGIN</b> <br/>
-		 * request: username, password<br/>
-		 * response: result[OK|KO], message, isAdmin[true,false]<br/>
+		/**<b>LOGIN</b> <br>
+		 * request: username, password<br>
+		 * response: result[OK|KO], message, isAdmin[true,false]<br>
 		 */
 		LOGIN(2),
 		
-		/**<b>CREATE_ACCOUNT</b> - create a new account<br/>
-		 * request: username, isAdmin[true,false], [user properties]<br/>
-		 * response: result[OK|KO], message<br/>
+		/**<b>CREATE_ACCOUNT</b> - create a new account<br>
+		 * request: username, isAdmin[true,false], [user properties]<br>
+		 * response: result[OK|KO], message<br>
 		 */
 		CREATE_ACCOUNT(3),
 		
-		/**<b>MARK_NOTIFICATION_AS_READ</b> - mark a notification as read<br/>
-		 * request: notificationId <br/>
-		 * response: result[OK|KO], message<br/>
+		/**<b>MARK_NOTIFICATION_AS_READ</b> - mark a notification as read<br>
+		 * request: notificationId <br>
+		 * response: result[OK|KO], message<br>
 		 */
 		MARK_NOTIFICATION_AS_READ(4),
 		
-		/**TODO <b>DOWNLOAD_FILE</b> - download a specific report file<br/>
-		 * request: reportId<br/>
-		 * response: result[OK|KO], message<br/>
+		/**TODO <b>DOWNLOAD_FILE</b> - download a specific report file<br>
+		 * request: reportId<br>
+		 * response: result[OK|KO], message<br>
 		 */
 		DOWNLOAD_FILE(5),
 		
-		/**<b> CREATE_NEW_REQUEST</b> - create a new request to be managed<br/>
-		 * request: username, isAdmin[true|false], service_type, [request data]<br/>
-		 * response: result[OK|KO], message<br/>
+		/**<b> CREATE_NEW_REQUEST</b> - create a new request to be managed<br>
+		 * request: username, isAdmin[true|false], service_type, [request data]<br>
+		 * response: result[OK|KO], message<br>
 		 */
 		CREATE_NEW_REQUEST(6),
 		
-		/**<b> CREATE_NEW_REPORT</b> - create a new report<br/>
-		 * request: username, isAdmin[true|false], service_type, [report data]<br/>
-		 * response: result[OK|KO], message<br/>
+		/**<b> CREATE_NEW_REPORT</b> - create a new report<br>
+		 * request: username, isAdmin[true|false], service_type, [report data]<br>
+		 * response: result[OK|KO], message<br>
 		 */
 		CREATE_NEW_REPORT(7),
 		
-		/**<b> GET_REQUEST_DATA</b> - get specific request data from the database <br/>
-		 * request: username, isAdmin[true|false], requestId<br/>
-		 * response: result[OK|KO], message<br/>
+		/**<b> GET_REQUEST_DATA</b> - get specific request data from the database <br>
+		 * request: username, isAdmin[true|false], requestId<br>
+		 * response: result[OK|KO], message<br>
 		 */
 		GET_REQUEST_DATA(8),
 		
-		/**<b>GET_REPORT_DATA</b> - get specific report data from the database <<br/>
-		  * request: username, isAdmin[true|false], reportId<br/>
-		 * response: result[OK|KO], message<br/>
+		/**<b>GET_REPORT_DATA</b> - get specific report data from the database <<br>
+		  * request: username, isAdmin[true|false], reportId<br>
+		 * response: result[OK|KO], message<br>
 		 */
 		GET_REPORT_DATA(9),
 		
-		/**<b>GET_USER_DATA</b> - get user data from the database <br/>
-		 * request: username<br/>
-		 * response: result[OK|KO], [list of the attribute in format <i>attrName=attrValue</i>]<br/>
+		/**<b>GET_USER_DATA</b> - get user data from the database <br>
+		 * request: username<br>
+		 * response: result[OK|KO], [list of the attribute in format <i>attrName=attrValue</i>]<br>
 		 */
 		GET_USER_DATA(10),
 		
-		/**<b>GET_NOTIFICATION_LIST</b> - get the list of all notifications<br/>
-		 * request: username, isAdmin[true|false], portal_type<br/>
-		 * response: result[OK|KO], [notifications list]<br/>
+		/**<b>GET_NOTIFICATION_LIST</b> - get the list of all notifications<br>
+		 * request: username, isAdmin[true|false], portal_type<br>
+		 * response: result[OK|KO], [notifications list]<br>
 		 */
 		GET_NOTIFICATION_LIST(11),
 		
-		/**<b> GET_REQUEST_LIST</b> - get the list of all requests <br/>
-		 * request: username, isAdmin[true,false], portal_type<br/>
-		 * response: result[OK|KO], [request list]<br/>
+		/**<b> GET_REQUEST_LIST</b> - get the list of all requests <br>
+		 * request: username, isAdmin[true,false], portal_type<br>
+		 * response: result[OK|KO], [request list]<br>
 		 */
 		GET_REQUEST_LIST(12),
 		
-		/**<b> GET_REPORT_LIST</b> - recover the list of the reports attached to the logon user for the specific portal<br/>
-		 * request: username, isAdmin[true,false], portal_type<br/>
-		 * response: result[OK|KO], [reports list]<br/>
+		/**<b> GET_REPORT_LIST</b> - recover the list of the reports attached to the logon user for the specific portal<br>
+		 * request: username, isAdmin[true,false], portal_type<br>
+		 * response: result[OK|KO], [reports list]<br>
 		 */
 		GET_REPORT_LIST(13), 
 		
-		/**<b>CHECK_NEW_NOTIFICATION</b> - look for new notification on the server<br/>
-		 * request: username, isAdmin[true,false], portal_type<br/>
-		 * response: result[OK|KO], new_notification[true|false]<br/>
+		/**<b>CHECK_NEW_NOTIFICATION</b> - look for new notification on the server<br>
+		 * request: username, isAdmin[true,false], portal_type<br>
+		 * response: result[OK|KO], new_notification[true|false]<br>
 		 */
 		CHECK_NEW_NOTIFICATION(14),
 		
-		/**TODO <b>DELETE_NOTIFICATION</b> - delete a notification from the server <br/>
-		 * request: notification_id<br/>
-		 * response: result[OK|KO]<br/>
+		/**TODO <b>DELETE_NOTIFICATION</b> - delete a notification from the server <br>
+		 * request: notification_id<br>
+		 * response: result[OK|KO]<br>
 		 */
 		DELETE_NOTIFICATION(15), 
 		
-		/**<b> GET_RELATIONS</b> - get user relations list <br/>
-		 * request: username<br/>
-		 * response: result[OK|KO], <usernames of related users><br/>
+		/**<b> GET_RELATIONS</b> - get user relations list <br>
+		 * request: username<br>
+		 * response: result[OK|KO], <usernames of related users><br>
 		 */
 		GET_RELATIONS(16), 
 
-		/**<b>EDIT_ACCOUNT</b> - request to edit information related an existing user<br/>
-		 * request: username, isAdmin[true,false], [user properties]<br/>
-		 * response: result[OK|KO], message<br/>
+		/**<b>EDIT_ACCOUNT</b> - request to edit information related an existing user<br>
+		 * request: username, isAdmin[true,false], [user properties]<br>
+		 * response: result[OK|KO], message<br>
 		 */
 		EDIT_ACCOUNT(17),
 
-		/**<b>GET_ALL_ADM_VAL_REQ</b> - request all open request to be managed by administrators<br/>
+		/**<b>GET_ALL_ADM_VAL_REQ</b> - request all open request to be managed by administrators<br>
 		 * request: username, isAdmin[true,false], portal_type
 		 * response: result[OK|KO], <list of records related to admin support requests>
 		 */
 		GET_ALL_ADM_MNG_REQ(18), 
 
-		/**<b>ADM_MNG_REQ</b> - manage a single request<br/>
-		 * request: username, isAdmin[true,false], id, acceptRequest[true,false]<br/>
-		 * response: result[OK|KO], message<br/>
+		/**<b>ADM_MNG_REQ</b> - manage a single request<br>
+		 * request: username, isAdmin[true,false], id, acceptRequest[true,false]<br>
+		 * response: result[OK|KO], message<br>
 		 */
 		ADM_MNG_REQ(19), 
 
-		/**<b>USR_CHANGE_PASS</b> - password reset request<br/>
-		 * request: username, oldPassword, newPassword<br/>
-		 * response: result[OK|KO], message<br/>
+		/**<b>USR_CHANGE_PASS</b> - password reset request<br>
+		 * request: username, oldPassword, newPassword<br>
+		 * response: result[OK|KO], message<br>
 		 */
 		USR_CHANGE_PASS(20)
 		;
@@ -219,12 +223,34 @@ public class ClientServerConstants {
 		}
 	};
 
+	/**
+	 * this field is the generic separator for the communication. Each field is separated by this separator
+	 */
 	public static final String COMM_SEPARATOR = "_0Y0_";
+	
+	/**
+	 * this field is the internal field separator for the communication. Each multi-value field is separated by this separator
+	 */
 	public static final String COMM_MILTIVALUE_FIELD_SEPARATOR = "_0P0_";
+	
+	/**
+	 * this is the end of line separator
+	 */
 	public static final String COMM_EOL = "_0E0_";
 	
+	/**
+	 * success response code
+	 */
 	public static final String SERVER_RESP_OK = "OK";
+	
+	/**
+	 * failure response code
+	 */
 	public static final String SERVER_RESP_ERROR = "KO";
+	
+	/**
+	 * this is the separator for multi-value fields in the database
+	 */
 	public static final String PARAM_SEPARATOR = "_0S0_";
 
 	

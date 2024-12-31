@@ -11,10 +11,12 @@ import anagraficaCentrale.client.core.ConnectionManager;
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 
+/**
+ * this class represent the service of the show profile, the panel used to show user information.
+ * @author Adriana Brosio
+ */
 public class ShowProfileService extends GenericService {
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JTextField textField_1;

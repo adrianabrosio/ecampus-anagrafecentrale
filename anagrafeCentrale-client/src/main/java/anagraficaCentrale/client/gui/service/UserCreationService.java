@@ -37,6 +37,11 @@ import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.exception.AcServerRuntimeException;
 import anagraficaCentrale.utils.ScriptUtils;
 
+/**
+ * this class represent the service of the user creation. 
+ * It is used to create a new user or to edit an existing one
+ * @author Adriana Brosio
+ */
 public class UserCreationService extends GenericService {
 	private AcTextField textField;
 	private AcTextField textField_1;
@@ -55,9 +60,6 @@ public class UserCreationService extends GenericService {
 	private AcCheckBoxGroup authGroup;
 	private AcServiceButton createUserButton, searchUserButton;
 	private JPanel lowerPanel;
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private boolean editMode;

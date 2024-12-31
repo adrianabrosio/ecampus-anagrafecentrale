@@ -33,6 +33,10 @@ import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the service of the medical appointment
+ * @author Adriana Brosio
+ */
 public class MedicalAppointmentService extends GenericService {
 	private JTextArea textField;
 	private AcTextField visitText;

@@ -7,6 +7,11 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
 
+/**
+ * class that manage graphical representation of a button.
+ * This represent the basic button of the application.
+ * @author Adriana Brosio
+ */
 public class AcIconButton extends JButton {
 
 	/**

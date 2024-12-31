@@ -26,6 +26,10 @@ import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.client.gui.resource.FakeBankTransactionPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the service of the canteen payment. It specializes the generic service
+ * @author Adriana Brosio
+ */
 public class CanteenPaymentService extends GenericService {
 	private JEditorPane textField;
 	private AcTextField firstNameText;

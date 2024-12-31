@@ -21,15 +21,21 @@ import javax.swing.Scrollable;
 
 import anagraficaCentrale.client.gui.GUIConstants;
 
+/**
+ * class that manage graphical representation of a group of JCheckBox
+ * it gives the possibility to select/unselect all of them
+ * @author Adriana Brosio
+ */
 public class AcCheckBoxGroup extends JPanel {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JCheckBox all;
     private List<JCheckBox> checkBoxes;
 
+    /**
+     * constructor
+     * @param options list of checkbox entries
+     */
     public AcCheckBoxGroup(String... options) {
         checkBoxes = new ArrayList<>();
         setLayout(new BorderLayout());
@@ -72,6 +78,11 @@ public class AcCheckBoxGroup extends JPanel {
         add(new JScrollPane(content));
     }
     
+    /**
+     * it builds a string that represent the selected check boxes for authorization string
+     * note: it does not manage the administrative permissions
+     * @return a string that represent the selected check boxes
+     */
     public String getCheckBoxString(){
     	StringBuilder checkboxString = new StringBuilder();
     	for(JCheckBox jcb : checkBoxes){
@@ -81,6 +92,11 @@ public class AcCheckBoxGroup extends JPanel {
     	return checkboxString.toString();
     }
     
+    /**
+     * it sets check boxes based on the authorization string provided in input
+     * @param checkboxString authorization string
+     * @return	authorization string
+     */
     public String setCheckBoxString(String checkboxString){
     	for(int i = 0; i < checkBoxes.size(); i++) {
     		try {
@@ -91,12 +107,18 @@ public class AcCheckBoxGroup extends JPanel {
     	return checkboxString.toString();
     }
 
+    /**
+     * it clears all the check boxes
+     */
 	public void clear() {
 		for(JCheckBox jcb : checkBoxes){
 			jcb.setSelected(false);
     	}
 	}
 	
+	/**
+	 * it enables/disables all the check boxes
+	 */
 	@Override
 	public void setEnabled(boolean status) {
 		all.setEnabled(status);
@@ -105,6 +127,9 @@ public class AcCheckBoxGroup extends JPanel {
     	}
 	}
 
+	/**
+	 * inner class that implements Scrollable for long check box list
+	 */
     public class ScrollablePane extends JPanel implements Scrollable {
 
         /**

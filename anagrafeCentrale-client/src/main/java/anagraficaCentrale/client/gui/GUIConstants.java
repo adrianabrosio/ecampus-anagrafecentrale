@@ -2,6 +2,10 @@ package anagraficaCentrale.client.gui;
 
 import java.awt.Color;
 
+/**
+ * class that contains all the constants used in the GUI
+ * @author Adriana Brosio
+ */
 public class GUIConstants {
 	
 	public static final Color BACKGROUND_COLOR_1 = Color.decode("#f7f7f7");

@@ -21,6 +21,9 @@ import org.apache.pdfbox.pdmodel.font.PDType0Font;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+/**
+ * this is a class to write a pdf file. It uses the Apache Pdfbox libs
+ */
 public class PDFWriter {
 	final static Logger logger = LogManager.getRootLogger();
 	

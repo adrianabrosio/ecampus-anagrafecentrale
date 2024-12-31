@@ -15,6 +15,10 @@ import org.apache.logging.log4j.Logger;
 
 import anagraficaCentrale.utils.ScriptUtils;
 
+/**
+ * class that displays a loading panel
+ * @author Adriana Brosio
+ */
 public class MiniLoadingPanel extends JFrame {
 
     /**
@@ -27,6 +31,9 @@ public class MiniLoadingPanel extends JFrame {
 	
 	//private Timer tm;
 
+	/**
+	 * constructor
+	 */
     public MiniLoadingPanel() {
         super("Loading Panel");
         try {
@@ -35,12 +42,12 @@ public class MiniLoadingPanel extends JFrame {
 			logger.error("Unable to load \"icon.png\" from resources", e1);
 		}
 
-        // Crea il pannello di caricamento
+        // create loading panel
         loadingPanel = new JPanel();
         loadingPanel.setLayout(new BorderLayout());
         loadingPanel.setBackground(Color.WHITE);
 
-        // Aggiungi un'immagine di caricamento
+        // add a loading image
         ImageIcon loadingImage = null;
 		try {
 			loadingImage = new ImageIcon(ScriptUtils.getResource(getClass(), "loading3.gif"));
@@ -52,13 +59,13 @@ public class MiniLoadingPanel extends JFrame {
         loadingLabel.setIcon(loadingImage);
         loadingPanel.add(loadingLabel, BorderLayout.WEST);
 
-        JLabel textMessage = new JLabel("  Caricamento in corso...");
+        JLabel textMessage = new JLabel("  "+ GUIConstants.LANG.lblLoadingMessage);
         Font font = new Font("Adamina", Font.ITALIC, 30);
         textMessage.setFont(font);
         loadingPanel.add(textMessage, BorderLayout.CENTER);
         
         loadingPanel.setBackground(GUIConstants.BACKGROUND_COLOR_1);
-        // Aggiungi il pannello di caricamento al frame
+        // add the loading panel to the frame
         add(loadingPanel);
 
         this.setUndecorated(true);
@@ -67,7 +74,6 @@ public class MiniLoadingPanel extends JFrame {
 		this.setAlwaysOnTop(true);
 		//this.setVisible(true);
 		
-		// Avvia un timer per chiudere il pannello di caricamento dopo 2 secondi
         /*tm = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

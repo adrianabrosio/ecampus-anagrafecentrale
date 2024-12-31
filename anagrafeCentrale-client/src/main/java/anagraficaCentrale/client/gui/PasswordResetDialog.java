@@ -23,11 +23,12 @@ import anagraficaCentrale.client.core.ConnectionManager;
 import anagraficaCentrale.client.exception.AcErrorDialog;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 
+/**
+ * class that displays a password reset dialog
+ * @author Adriana Brosio
+ */
 public class PasswordResetDialog extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	final static Logger logger = LogManager.getRootLogger();
 	private JPasswordField oldPasswordTextField, newPasswordTextField, confirmPasswordTextField;
@@ -37,6 +38,9 @@ public class PasswordResetDialog extends JDialog {
 	private String username;
 	private boolean passwordChanged;
 
+	/**
+	 * constructor
+	 */
 	public PasswordResetDialog(Component clientGui, ConnectionManager connectionManager, Color backgroundColor, String username) throws AcErrorDialog {
 		super();
 		this.connectionManager = connectionManager;
@@ -55,6 +59,9 @@ public class PasswordResetDialog extends JDialog {
 		setVisible(true);
 	}
 
+	/**
+	 * method that generates all panel components
+	 */
 	private Container generateInnerPanel() throws AcErrorDialog{
 		JPanel innerPanel = new JPanel();
 		innerPanel.setLayout(new BorderLayout());
@@ -165,11 +172,17 @@ public class PasswordResetDialog extends JDialog {
 		return innerPanel;
 	}
 	
+	/**
+	 * method that show error message
+	 */
 	private void popupError(String errMessage) {
 		//JOptionPane.showMessageDialog(this, errMessage, "Error", JOptionPane.ERROR_MESSAGE);
 		lblError.setText(errMessage);
 	}
 	
+	/**
+	 * method that returns true if the password has been changed
+	 */
 	public boolean isPasswordChanged() {
 		return this.passwordChanged;
 	}

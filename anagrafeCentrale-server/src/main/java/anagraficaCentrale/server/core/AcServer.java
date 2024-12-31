@@ -14,6 +14,11 @@ import org.apache.logging.log4j.Logger;
 import anagraficaCentrale.server.sql.QueryManagerIF;
 import anagraficaCentrale.utils.ScriptUtils;
 
+/**
+ * AcServer represent the server instances manager. It manage the server configurations and the socket connections.
+ * 
+ * @author Adriana Brosio
+ */
 public class AcServer {
 	final static Logger logger = LogManager.getRootLogger();
 
@@ -31,6 +36,10 @@ public class AcServer {
 		initialize(cfgFile);
 	}
 
+	/**
+	 * initialize server configuration based on the given configuration file
+	 * @param cfgFile server configuration file. It must contains database information
+	 */
 	private void initialize(String cfgFile) {
 		Socket socket;
 		prop = new Properties();
@@ -59,7 +68,8 @@ public class AcServer {
 		} catch (IOException e) {
 			logger.error(e);
 		}
-		// keep listens indefinitely until receives 'exit' call or program terminates
+		// keep listens indefinitely until the server terminates
+		//it runs a new server instance for each connection request
 		while (true) {
 			try{
 				logger.info("Waiting for the client request..");

@@ -15,11 +15,16 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 
+/**
+ * this class represent the generic service.
+ * This is the base class for all other services.
+ * It is composed by a title, a close button and an inner panel.
+ * The inner panel must be implemented by the subclass and define the subcomponents of the specific service.
+ * 
+ * @author Adriana Brosio
+ */
 public abstract class GenericService extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	protected OperationPanel operationPanel;
@@ -56,8 +61,6 @@ public abstract class GenericService extends JPanel{
 		innerPanel = generateInnerPanel();
 		innerPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		add(innerPanel, BorderLayout.CENTER);
-		
-		
 	}
 	
 	protected abstract JPanel generateInnerPanel();

@@ -15,6 +15,9 @@ import javax.swing.JPanel;
 
 import anagraficaCentrale.client.gui.SideMenuPanel;
 
+/**
+ * this class manage the side menu panel animation
+ */
 public class SideMenuPanelManager {
 
 	private GroupLayout gl;
@@ -108,6 +111,9 @@ public class SideMenuPanelManager {
 		this.isEnabled = isEnabled;
 	}
 
+	/**
+	 * this is the main function. It manage opening action and closing action for the side menu
+	 */
 	public void openCloseSideMenu() {
 		int b = maxWidth % speed;
 		if (x == maxWidth) {
@@ -199,7 +205,7 @@ public class SideMenuPanelManager {
 	public void closeMenu() {
 		side.setSize(new Dimension(minWidth, side.getHeight()));
 		main.setLocation(minWidth, main.getY());
-		setGLSize(minWidth);
+		setPanelSize(minWidth);
 		// close();
 		isOpen = false;
 		x = 0;
@@ -209,13 +215,13 @@ public class SideMenuPanelManager {
 		if (!isOpen()) {
 			side.setSize(new Dimension(minWidth + maxWidth, side.getHeight()));
 			main.setLocation(minWidth + maxWidth, main.getY());
-			setGLSize(minWidth + maxWidth);
+			setPanelSize(minWidth + maxWidth);
 			x = maxWidth;
 			isOpen = true;
 		}
 	}
 
-	private void setGLSize(int size) {
+	private void setPanelSize(int size) {
 		gl = new GroupLayout(main.getParent());
 		main.getParent().setLayout(gl);
 		gl.setHorizontalGroup(gl.createParallelGroup(GroupLayout.Alignment.LEADING)

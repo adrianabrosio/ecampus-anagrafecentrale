@@ -8,11 +8,12 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represents the notification element. It specializes the abstract resource element
+ * @author Adriana Brosio
+ */
 public class NotificationElement extends AbstractResourceElement {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private ConnectionManager cm;

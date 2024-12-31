@@ -22,15 +22,18 @@ import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.client.gui.resource.FakeBankTransactionPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the service of the ticket payment.
+ *
+ * @author Adriana Brosio
+ */
 public class TicketPaymentService extends GenericService {
 	private JEditorPane textField;
 	private AcTextField firstNameText;
 	private AcTextField surnameText;
 	private AcTextField ticketNumberText;
 	private AcTextField cardNumberText;
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	public TicketPaymentService(OperationPanel op) {

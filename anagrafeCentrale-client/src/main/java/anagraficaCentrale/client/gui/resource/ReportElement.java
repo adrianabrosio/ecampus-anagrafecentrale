@@ -5,12 +5,13 @@ import java.io.FileNotFoundException;
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 
+/**
+ * this class represents the report element. It specializes the abstract resource element
+ * @author Adriana Brosio
+ */
 public class ReportElement extends AbstractResourceElement {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+private static final long serialVersionUID = 1L;
 	private String id, fileTitle, fileContent, filePath;
 	
 	public ReportElement(OperationPanel op, String id, String fileDisplayName, String fileTitle, String fileContent, String filePath) {

@@ -11,6 +11,14 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
+/**
+ * Class that represents a fake bank transaction panel. 
+ * It is a placeholder for the real bank transaction panel that could be implemented in future.
+ * 
+ * To be used, the class must be extended and the callback method must be implemented.
+ * The callback method is used to run post action after the Bank Transaction is completed.
+ * @author Adriana Brosio
+ */
 public abstract class FakeBankTransactionPanel {
 	protected JFrame frame;
 	protected JPanel panel;

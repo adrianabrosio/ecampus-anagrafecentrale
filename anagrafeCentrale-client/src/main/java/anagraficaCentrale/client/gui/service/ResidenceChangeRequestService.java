@@ -21,15 +21,17 @@ import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the service of the residence change request
+ * @author Adriana Brosio
+ */
 public class ResidenceChangeRequestService extends GenericService {
 	private JEditorPane textField;
 	private AcTextField newAddress;
 	private AcTextField newTown;
 	private AcTextField newProvince;
 	private AcTextField newZipCode;
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	public ResidenceChangeRequestService(OperationPanel op) {

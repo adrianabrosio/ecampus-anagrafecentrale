@@ -15,11 +15,12 @@ import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the service of the certificate request
+ * @author Adriana Brosio
+ */
 public abstract class CertificateRequestService extends GenericService {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JEditorPane textField;
 

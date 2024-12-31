@@ -9,23 +9,21 @@ import anagraficaCentrale.utils.ClientServerConstants.PortalType;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 /**
- * 
- *
+ * this class represents the service panel. It is a filterable resource panel specialized for services
+ * @author Adriana Brosio
  */
 public class ServicePanel extends FilterableResourcePanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * constructor. It appends the static list of service based on portal type
 	 */
 	public ServicePanel(OperationPanel op,PortalType portalType, boolean isAdmin) {
 		super();
 		//addResource(new ServiceElement(op, "Service 1"));
 
+		//append the static list of service based on portal type
 		switch(portalType){
 		case COMUNE:
 			if(!isAdmin){

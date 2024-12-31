@@ -12,18 +12,15 @@ import anagraficaCentrale.utils.ClientServerConstants.PortalType;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
 /**
- * 
- *
+ * this class represents the admin support panel. It is a filterable resource panel specialized for admin support requests
+ * @author Adriana Brosio
  */
 public class AdminSupportPanel extends FilterableResourcePanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * this constructor creates the admin support panel recovering the admin support requests from the server
 	 */
 	public AdminSupportPanel(OperationPanel op,PortalType portalType, boolean isAdmin) {
 		super();
@@ -42,6 +39,12 @@ public class AdminSupportPanel extends FilterableResourcePanel {
 
 	}
 
+	/**
+	 * get the request name from the request type
+	 * @param requestName 
+	 * @param requestType
+	 * @return
+	 */
 	private Object getRequestName(String requestName, String requestType) {
 		if(requestName != null && !requestName.isEmpty()) {
 			return requestName;

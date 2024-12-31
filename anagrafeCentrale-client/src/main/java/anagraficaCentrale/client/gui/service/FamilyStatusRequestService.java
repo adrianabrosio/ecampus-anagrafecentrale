@@ -7,11 +7,12 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the family status request service. It specializes the abstract certificate request service
+ * @author Adriana Brosio
+ */
 public class FamilyStatusRequestService extends CertificateRequestService {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public FamilyStatusRequestService(OperationPanel op) {

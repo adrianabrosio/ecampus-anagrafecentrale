@@ -16,6 +16,9 @@ import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * this class contains some utility functions. This is shared between client and server
+ */
 public class ScriptUtils {
 	final static Logger logger = LogManager.getRootLogger();
 	/**
@@ -68,6 +71,11 @@ public class ScriptUtils {
 		return plainText;
 	}
 
+	/**
+	 * validate Italian tax id code (codice fiscale) using regex
+	 * @param codiceFiscale
+	 * @return
+	 */
 	public static boolean isValidTaxId(String codiceFiscale) {
 		String CF_REGEX = "^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$";
 		Pattern CF_PATTERN = Pattern.compile(CF_REGEX);
@@ -75,6 +83,13 @@ public class ScriptUtils {
 		return matcher.matches();
 	}
 	
+	/**
+	 * this method convert a string that contains a list of values in a Map, using given separator.
+	 * The key value pairs must be separated by '='
+	 * @param mapToBeConverted string to be parsed
+	 * @param separator separator
+	 * @return Map of key value pairs
+	 */
 	public static Map<String, String> convertParamStringToMap(String mapToBeConverted, String separator) {
 		String[] entries = mapToBeConverted.split(separator);
 		HashMap<String, String> map = new HashMap<>();
@@ -86,10 +101,22 @@ public class ScriptUtils {
 		return map;
 	}
 	
+	/**
+	 * return the password hash
+	 * @param password string to be parsed
+	 * @return hashed password
+	 * @throws NoSuchAlgorithmException in case of error
+	 */
 	public static String hash(String password) throws NoSuchAlgorithmException {
 		return hash(password.toCharArray());
 	}
 
+	/**
+	 * return the password hash
+	 * @param password char array to be parsed
+	 * @return hashed password
+	 * @throws NoSuchAlgorithmException in case of error
+	 */
 	public static String hash(char[] password) throws NoSuchAlgorithmException {
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
 		Charset charset = StandardCharsets.UTF_8;
@@ -98,6 +125,11 @@ public class ScriptUtils {
 		return String.valueOf(bytesToHex(encodedhash));
 	}
 
+	/**
+	 * convert bytes array to a hex string
+	 * @param hash array to be converted
+	 * @return hex string
+	 */
 	public static String bytesToHex(byte[] hash) {
 		StringBuilder hexString = new StringBuilder(2 * hash.length);
 		for (int i = 0; i < hash.length; i++) {
@@ -110,19 +142,27 @@ public class ScriptUtils {
 		return hexString.toString();
 	}
 	
+	/**
+	 * utility method to get a resources from jar
+	 * @param c
+	 * @param resourceName
+	 * @return
+	 */
 	public static InputStream getResourceAsStream(Class<?> c, String resourceName) {
 		InputStream in;
-		//URL url = c.getClassLoader().getResource(resourceName);
-		//System.out.println("resource path: "+url);
 		in=c.getClassLoader().getResourceAsStream(resourceName);
 		if(in==null) {
-			//url = c.getClassLoader().getResource("resources/"+resourceName);
-			//System.out.println("resource path2: "+url);
 			in = c.getClassLoader().getResourceAsStream("resources/"+resourceName);
 		}
 		return in;
 	}
 	
+	/**
+	 * utility method to get a resources from jar
+	 * @param c
+	 * @param resourceName
+	 * @return
+	 */
 	public static URL getResource(Class<?> c, String resourceName) {
 		URL url;
 		url=c.getClassLoader().getResource(resourceName);

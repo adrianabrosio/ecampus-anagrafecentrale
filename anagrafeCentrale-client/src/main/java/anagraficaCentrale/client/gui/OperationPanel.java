@@ -52,6 +52,11 @@ import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 import anagraficaCentrale.utils.PDFWriter;
 import anagraficaCentrale.utils.ScriptUtils;
 
+/**
+ * class that displays the main operation panel. This class is the GUI controller. 
+ * It coordinates the loading of the services on the left panel and the details on the right panel
+ * @author Adriana Brosio
+ */
 public class OperationPanel {
 
 	private JFrame frame;
@@ -80,7 +85,10 @@ public class OperationPanel {
 	public static void main(String[] args) {
 		new OperationPanel(PortalType.COMUNE, null).show();
 	}*/
-
+	
+	/**
+	 * method that shows the panel
+	 */
 	public void show() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -93,6 +101,9 @@ public class OperationPanel {
 		});
 	}
 
+	/**
+	 * method that sets the location of the panel
+	 */
 	public void setLocationRelativeTo(ClientGui clientGui) {
 		frame.setLocationRelativeTo(clientGui);
 	}
@@ -107,7 +118,6 @@ public class OperationPanel {
 		this.guiBackgroundColor = getPortalBackgroundColor(pt);
 		initialize();
 	}
-
 
 	/**
 	 * Initialize the contents of the frame.
@@ -231,11 +241,17 @@ public class OperationPanel {
 		}
 		return reportPanel;
 	}
-
+	
+	/**
+	 * method to initialize the profile panel
+	 */
 	private GenericService initProfilePanel() {
 		return new ShowProfileService(this);
 	}
 
+	/**
+	 * method to initialize the admin support panel
+	 */
 	protected FilterableResourcePanel initAdminSupportPanel() {
 		FilterableResourcePanel adminSupportPanel = new AdminSupportPanel(this, portalType, getConnectionManager().isAdmin());
 		return adminSupportPanel;
@@ -274,10 +290,16 @@ public class OperationPanel {
 		return notificationPanel;
 	}
 
+	/**
+	 * method to select an element of the left panel
+	 */
 	public void selectOperation(AbstractResourceElement abstractResourceElement) {
 		leftPanel.setSelected(abstractResourceElement);
 	}
 	
+	/**
+	 * method to open a service
+	 */
 	public void openService(ServiceType serviceType) {
 		openService(serviceType, null);
 	}
@@ -300,6 +322,9 @@ public class OperationPanel {
 		closeLoading();
 	}
 	
+	/**
+	 * method to scroll the right panel on top (useful for long panels)
+	 */
 	public void scrollOnTop() {
 		if(rightPanelScrollPane != null) {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -311,6 +336,9 @@ public class OperationPanel {
 		}
 	}
 
+	/**
+	 * method to close the loading panel
+	 */
 	private void closeLoading() {
 		isServiceStillLoading = false;
 		miniLoadingPanel.setVisible(false);
@@ -609,6 +637,9 @@ public class OperationPanel {
 		}.execute();
 	}
 
+	/**
+	 * method to open the admin support panel
+	 */
 	public void openAdminSupportPanelAction() {
 		new SwingWorker<Integer, Integer>() {
 
@@ -684,10 +715,16 @@ public class OperationPanel {
 		}
 	}
 
+	/**
+	 * method to download a file located on the server 
+	 */
 	public void downloadFile(String fileName) {
 		throw new UnsupportedOperationException("downloadFile is not implemented yet");
 	}
 
+	/**
+	 * method to get the size of the right panel
+	 */
 	public Dimension getRightPanelSize() {
 		Dimension d = new Dimension(400,400);
 		try {

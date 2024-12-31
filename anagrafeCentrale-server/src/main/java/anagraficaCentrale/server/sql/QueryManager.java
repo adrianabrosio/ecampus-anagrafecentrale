@@ -16,26 +16,27 @@ import org.apache.logging.log4j.Logger;
 
 import anagraficaCentrale.utils.ScriptUtils;
 
-@SuppressWarnings("unused")
+/**
+ * this class manage the connection to the database
+ * 
+ * @author Adriana Brosio
+ */
 public class QueryManager implements QueryManagerIF{
 
 	final static Logger logger = LogManager.getRootLogger();
 
 	private String dbUrl, dbName, dbUser, dbPw;
 
-	private boolean verbose = false;
-	private boolean enableUpdate = false;
-	private boolean header = false;
-	private boolean plain = false;
-	private int fetchSize = 50;
-	private int batchSize = 0;
-	private int totalRecordToProcess = 0;
-	private int totalRecordWithError = 0;
-	private String fileSeparator = ",";
-	private boolean isTrimRequired = false;
+	private boolean enableConcurUpdate = false;
 
 	private Statement statement;
 
+	/**
+	 * this method initialize the connection to the database. The configuration file must contains database connection information
+	 * @param cfgFile contains database connection information
+	 * @throws IOException JDBC connection error
+	 * @throws DatabaseException generic database error
+	 */
 	public QueryManager(String cfgFile) throws IOException, DatabaseException {
 
 		if(cfgFile == null) 
@@ -49,7 +50,7 @@ public class QueryManager implements QueryManagerIF{
 		dbName = prop.getProperty("db.name");
 		dbUser = prop.getProperty("db.user");
 		dbPw = prop.getProperty("db.password");
-		logger.debug("sto accedendo al db con questi dati: " + dbUrl + ", user:" + dbUser + ", pw=****");
+		logger.debug("Connecting to DB using URL: " + dbUrl + ", user:" + dbUser + ", pw=****");
 
 		ResultSet rs;
 		try {
@@ -64,6 +65,9 @@ public class QueryManager implements QueryManagerIF{
 
 	}
 
+	/**
+	 * this method returns a connection to the database
+	 */
 	@Override
 	public Statement getStatement() throws DatabaseException {
 		try {
@@ -71,7 +75,7 @@ public class QueryManager implements QueryManagerIF{
 				Class.forName("com.mysql.cj.jdbc.Driver");
 				Connection con = DriverManager.getConnection(dbUrl + dbName, dbUser, dbPw);
 				int resultsetType;
-				if (enableUpdate)
+				if (enableConcurUpdate)
 					resultsetType = ResultSet.CONCUR_UPDATABLE;
 				else
 					resultsetType = ResultSet.CONCUR_READ_ONLY;
@@ -86,22 +90,26 @@ public class QueryManager implements QueryManagerIF{
 		return statement;
 	}
 
+	/**
+	 * this method install the database. The script executed must contains all the creation statements
+	 * and the constraints
+	 */
 	@Override
 	public void installDatabase() throws SQLException, IOException, DatabaseException {
-		// leggi script SQL dal file nelle risorse
+		// lread SQL script from file
 		logger.info("Installing database..");
 		BufferedReader reader = new BufferedReader(
 				new InputStreamReader(ScriptUtils.getResourceAsStream(getClass(), "db_installation.sql")));
 		logger.info("script db_installation.sql loaded. Dropping all tables..");
 		dropAlltables();
 		logger.info("drop completed. Executing db_installation.sql script..");
-		// eseguire lo script SQL con attenzione agli statement multiriga.
-		// Scartare il ";" e i commenti
+		// execute SQL script. Pay attention to multi-line statements
+		// discard ";" and comments
 		StringBuilder statement = new StringBuilder();
 		String line;
 		while ((line = reader.readLine()) != null) {
 			if (line.trim().startsWith("--"))
-				continue; // salto commenti
+				continue; // skip comments
 			statement.append(line+' ');
 			if (line.endsWith(";")) {
 				Statement stmt = getStatement();
@@ -111,7 +119,7 @@ public class QueryManager implements QueryManagerIF{
 			}
 		}
 
-		// warning se presenti altre linee non eseguite
+		// warning if found a line not executeble
 		if (statement.length() > 0) {
 			logger.warn("found line not executeble at EOF (missing semicolon[';']?): "+statement.toString());
 		}
@@ -119,6 +127,9 @@ public class QueryManager implements QueryManagerIF{
 		reader.close();
 	}
 
+	/**
+	 * this method populate the database. The script executed must contains sample data
+	 */
 	public void populateDatabase() throws SQLException, IOException, DatabaseException {
 		// leggi script SQL dal file nelle risorse
 		logger.info("populating DB tables..");
@@ -148,6 +159,9 @@ public class QueryManager implements QueryManagerIF{
 		reader.close();
 	}
 
+	/**
+	 * delete all the table in the database (also temporary tables if present)
+	 */
 	@Override
 	public void dropAlltables() throws DatabaseException {
 		String queryModel = "SELECT GROUP_CONCAT('DROP TABLE IF EXISTS ', table_name) as query FROM information_schema.tables WHERE table_schema = '"
@@ -176,7 +190,6 @@ public class QueryManager implements QueryManagerIF{
 				logger.error(e);
 			}
 		}
-
 	}
 
 }

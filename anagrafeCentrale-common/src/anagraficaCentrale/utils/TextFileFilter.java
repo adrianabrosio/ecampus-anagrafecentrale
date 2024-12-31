@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.regex.Pattern;
 
+/**
+ * file filter for text files
+ */
 public class TextFileFilter implements FilenameFilter {
 	private Pattern p;
 	public TextFileFilter(String filter) {

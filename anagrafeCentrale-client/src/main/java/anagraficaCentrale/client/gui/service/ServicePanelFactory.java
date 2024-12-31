@@ -8,6 +8,12 @@ import javax.swing.JPanel;
 
 import anagraficaCentrale.client.gui.OperationPanel;
 
+/**
+ * this class represent the factory of the service panels.
+ * It is used to generate the panels for the services, managing the parameters transformation if needed.
+ * 
+ * @author Adriana Brosio
+ */
 public class ServicePanelFactory {
 
 	public static GenericService generateDummyPanel(OperationPanel operationPanel){

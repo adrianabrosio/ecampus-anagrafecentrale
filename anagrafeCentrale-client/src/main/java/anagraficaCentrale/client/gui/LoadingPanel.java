@@ -18,11 +18,12 @@ import org.apache.logging.log4j.Logger;
 
 import anagraficaCentrale.utils.ScriptUtils;
 
+/**
+ * class that displays a loading panel
+ * @author Adriana Brosio
+ */
 public class LoadingPanel extends JFrame {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel loadingPanel;
 	
@@ -30,6 +31,9 @@ public class LoadingPanel extends JFrame {
 	
 	private Timer tm;
 
+	/* 
+	 * Constructor
+	 */
     public LoadingPanel(ClientGui clientGui) {
         super("Loading Panel Example");
         try {

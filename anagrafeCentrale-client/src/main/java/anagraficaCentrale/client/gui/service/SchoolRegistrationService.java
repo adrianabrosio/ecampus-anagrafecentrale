@@ -20,11 +20,12 @@ import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the service of the school registration
+ * @author Adriana Brosio
+ */
 public class SchoolRegistrationService extends GenericService {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JEditorPane textField;
 	private Map<String, Map<String,String>> usersList;

@@ -29,11 +29,17 @@ import org.apache.logging.log4j.Logger;
 
 import anagraficaCentrale.client.gui.GUIConstants;
 
+/**
+ * class that represents a text field with a placeholder
+ * it manages:
+ * - mandatory fields
+ * - digit only
+ * - fixed size of the text
+ * It manages error messages related to the field validity
+ * @author Adriana Brosio
+ */
 public class AcTextField extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	final static Logger logger = LogManager.getRootLogger();
 

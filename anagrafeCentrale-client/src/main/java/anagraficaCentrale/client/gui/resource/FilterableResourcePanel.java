@@ -24,11 +24,17 @@ import javax.swing.text.Document;
 import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.component.AcIconButton;
 
+/**
+ * class that represent a panel that can be filtered.
+ * the panel is composed by a list of resource elements and a filter text box
+ * it updates the list of resource elements when the filter text box is changed in real time
+ * 
+ * It is a generic resource element collector that can be used as is or specialized in case of need
+ *
+ * @author Adriana Brosio
+ */
 public class FilterableResourcePanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private ArrayList<AbstractResourceElement> resourceList;

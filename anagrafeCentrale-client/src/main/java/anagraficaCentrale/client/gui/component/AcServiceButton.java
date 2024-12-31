@@ -16,11 +16,14 @@ import javax.swing.border.MatteBorder;
 
 import anagraficaCentrale.client.gui.GUIConstants;
 
+/**
+ * class that represents a button to select a service.
+ * The button is highlighted when the mouse is over it.
+ * This represent the basic component of left panel
+ * @author Adriana Brosio
+ */
 public class AcServiceButton extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private JButton button;

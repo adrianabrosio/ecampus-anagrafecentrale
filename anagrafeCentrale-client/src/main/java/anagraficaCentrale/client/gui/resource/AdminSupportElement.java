@@ -5,11 +5,12 @@ import java.util.Map;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represents the admin support element. It specializes the abstract resource element
+ * @author Adriana Brosio
+ */
 public class AdminSupportElement extends AbstractResourceElement {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private ServiceType service;

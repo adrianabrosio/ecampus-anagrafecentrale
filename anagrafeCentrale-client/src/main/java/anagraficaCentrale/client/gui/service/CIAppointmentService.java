@@ -4,11 +4,12 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the service of the change doctor request. It specializes the abstract appointment service
+ * @author Adriana Brosio
+ */
 public class CIAppointmentService extends AppointmentService {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public CIAppointmentService(OperationPanel op) {

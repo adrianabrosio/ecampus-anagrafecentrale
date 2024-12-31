@@ -49,12 +49,12 @@ import anagraficaCentrale.client.exception.AcErrorDialog;
 import anagraficaCentrale.utils.ClientServerConstants.PortalType;
 import anagraficaCentrale.utils.ScriptUtils;
 
+/**
+ * class that manages the login gui
+ * @author Adriana Brosio
+ */
 public class ClientGui extends JFrame {
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	final static Logger logger = LogManager.getRootLogger();
 	private Font labelFont;
@@ -83,7 +83,9 @@ public class ClientGui extends JFrame {
 
 	private ConnectionManager connectionManager;
 
-
+	/**
+	 * constructor of the class ClientGui  
+	 */
 	public ClientGui(String[] args, ConnectionManager connectionManager) {
 		super("Login");
 		this.startTime = Long.parseLong(ScriptUtils.getParam(args, "-startTime="));
@@ -94,6 +96,9 @@ public class ClientGui extends JFrame {
 		isReady = true;
 	}
 
+	/**
+	 * method that initializes and shows the login gui 
+	 */
 	private void initAndShowLoginGui() {
 		
 		labelFont = new Font("Segoe UI", Font.BOLD, 14);
@@ -271,6 +276,9 @@ public class ClientGui extends JFrame {
 
 	}
 
+	/**
+	 * method to initialize the header button panel. It insert the buttons for each service exposed
+	 */
 	private void initHeaderButtonPanel() {
 		headerButtonPanel = new JPanel();
 		headerButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -345,6 +353,9 @@ public class ClientGui extends JFrame {
 
 	}
 
+	/**
+	 * method to initialize the exit button.
+	 */
 	private JButton initExitButton() {
 		final JButton exitButton = new JButton();
 		exitButton.setBounds(0, 0, 0, 0);
@@ -399,6 +410,9 @@ public class ClientGui extends JFrame {
 		return exitButton;
 	}
 
+	/**
+	 * method to initialize the login button.
+	 */
 	private JButton initLoginButton() {
 		final JButton loginButton = new JButton("");
 		loginButton.setBorder(null);
@@ -440,7 +454,9 @@ public class ClientGui extends JFrame {
 		return loginButton;
 	}
 
-
+	/**
+	 * method to set the icon of the login button. It choose the icon according to the portal type
+	 */
 	private void setLoginButtonIcon(PortalType pt) {
 		try {
 			//BufferedImage bi = ImageIO.read(ScriptUtils.getResourceAsStream(getClass(), "login"+pt.getValue()+".png"));
@@ -451,6 +467,9 @@ public class ClientGui extends JFrame {
 		}
 	}
 
+	/**
+	 * method to perform the login operations
+	 */
 	protected void loginOperations() {
 		logger.debug("logging in..");
 		errorMessageLabel.setText(" ");
@@ -519,6 +538,9 @@ public class ClientGui extends JFrame {
 		}.execute();
 	}
 
+	/**
+	 * method to perform the closing operations
+	 */
 	protected void closingOperations() {
 		logger.info("Closing the application..");
 		try{
@@ -530,6 +552,10 @@ public class ClientGui extends JFrame {
 		System.exit(0);
 	}
 
+	/**
+	 * this inner class implements a custom focus traversal policy. It allows to cycle through the components in a specific order
+	 * @author Adriana Brosio
+	 */
 	class CustomFocusTraversalPolicy extends FocusTraversalPolicy {
 		private final List<Component> componentOrder = new ArrayList<>();
 
@@ -572,7 +598,10 @@ public class ClientGui extends JFrame {
 			}
 		}
 	}
-
+	
+	/**
+	 * method to check if the application is ready
+	 */
 	public boolean isReady() {
 		return isReady;
 	}

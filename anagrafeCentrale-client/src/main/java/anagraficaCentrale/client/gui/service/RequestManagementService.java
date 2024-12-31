@@ -19,11 +19,13 @@ import anagraficaCentrale.utils.ClientServerConstants;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 import anagraficaCentrale.utils.ScriptUtils;
 
+/**
+ * this class represent the service of the request management.
+ * It is used to show both request management service for Admin and notification pane for User
+ * @author Adriana Brosio
+ */
 public class RequestManagementService extends GenericService {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JEditorPane textField;
 	private String title;

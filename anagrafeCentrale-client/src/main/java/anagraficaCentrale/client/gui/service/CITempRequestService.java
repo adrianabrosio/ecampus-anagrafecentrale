@@ -7,11 +7,12 @@ import anagraficaCentrale.client.gui.GUIConstants;
 import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the service of temporary ID document request. It specializes the abstract certificate request service
+ * @author Adriana Brosio
+ */
 public class CITempRequestService extends CertificateRequestService {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public CITempRequestService(OperationPanel op) {

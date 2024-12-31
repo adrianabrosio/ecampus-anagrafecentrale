@@ -13,6 +13,10 @@ import anagraficaCentrale.utils.ClientServerConstants;
 import anagraficaCentrale.utils.ClientServerConstants.ServerAction;
 import anagraficaCentrale.utils.ScriptUtils;
 
+/**
+ * Server Instance represent a single server instance. This is the object that manage the communication between a client and the server (database).<br>
+ * 
+ */
 public class ServerInstance extends Thread {
 
 	private Socket socket;
@@ -35,12 +39,17 @@ public class ServerInstance extends Thread {
 	}
 
 	/**
-	 * Fare override di questo metodo per per cambiare ServerOperation
+	 * this method is protected to give the possibility to change server implementation in future.<br>
+	 * It should be possible to change only the serverOp object to use a completely different server implementation, maintaining the ServerInstance function
 	 */
 	protected void initializeServerOperation() {
 		this.serverOp = new ServerOperationImpl(prop, qm);
 	}
 
+	/**
+	 * thread implementation. It is basically a infinite loop that exists until the client connection is closed
+	 * this method handle all the API managed by the server
+	 */
 	public void run() {
 		ServerAction action = null;
 		String username = null;

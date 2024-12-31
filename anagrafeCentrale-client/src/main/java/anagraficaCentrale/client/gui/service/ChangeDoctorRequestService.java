@@ -21,6 +21,10 @@ import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the service of the change doctor request
+ * @author Adriana Brosio
+ */
 public class ChangeDoctorRequestService extends GenericService {
 	private JEditorPane textField;
 	private AcTextField textFirstName;

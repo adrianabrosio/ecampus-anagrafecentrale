@@ -26,6 +26,10 @@ import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.client.gui.resource.FakeBankTransactionPanel;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent the service of the school fee payment
+ * @author Adriana Brosio
+ */
 public class SchoolFeePaymentService extends GenericService {
 	private JEditorPane textField;
 	private AcTextField firstNameText;
@@ -33,14 +37,11 @@ public class SchoolFeePaymentService extends GenericService {
 	private JComboBox<String> monthText, userList;
 	private AcTextField feeText;
 	private boolean panelIsInvalid;
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	public SchoolFeePaymentService(OperationPanel op) {
 		super(op, null);
-		panelIsInvalid = false;
 		setTitle(GUIConstants.LANG.lbl_PAG_RET_SrvTitle);
 	}
 
@@ -101,7 +102,6 @@ public class SchoolFeePaymentService extends GenericService {
 		String[] users = usersList.keySet().toArray(new String[0]);
 
 		if(users != null && users.length > 0) {
-			panelIsInvalid = false;
 			userList = new JComboBox<>(users);
 			userList.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 			userList.addActionListener(new ActionListener() {
@@ -119,6 +119,7 @@ public class SchoolFeePaymentService extends GenericService {
 			String selection = (String) userList.getSelectedItem();
 			firstNameText.setText(usersList.get(selection).get("first_name"));
 			surnameText.setText(usersList.get(selection).get("surname"));
+			panelIsInvalid = false;
 		} else {
 			JLabel lblUserError = new JLabel(GUIConstants.LANG.errorNoRelationFound);
 			lblUserError.setForeground(Color.RED);

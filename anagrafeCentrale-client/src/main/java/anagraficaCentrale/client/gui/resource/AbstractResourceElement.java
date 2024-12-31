@@ -26,11 +26,16 @@ import anagraficaCentrale.client.gui.OperationPanel;
 import anagraficaCentrale.client.gui.component.AcIconButton;
 import anagraficaCentrale.utils.ScriptUtils;
 
+/**
+ * abstract class that represent a basic element of the resource panel
+ * it defines the set of common properties (most of them UI related) and gives the responsability to define
+ * the behavior of the element to the subclasses
+ * 
+ * All subclasses should implement the "executeAction" method, post action (if needed) and the icon for the button
+ * @author Adriana Brosio
+ */
 public abstract class AbstractResourceElement extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	final static Logger logger = LogManager.getRootLogger();

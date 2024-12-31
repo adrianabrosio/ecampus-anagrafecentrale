@@ -32,8 +32,8 @@ import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 import anagraficaCentrale.utils.ScriptUtils;
 
 /**
- * La classe connection manager si occupa di gestire lo scambio di informazioni
- * tra il client ed il server
+ * The Connection Manager class is responsible for managing the exchange of information
+ * between the client and the server
  * 
  * @author Adriana Brosio
  *
@@ -52,11 +52,26 @@ public class ConnectionManager {
 
 	private String lastError;
 
+    /**
+     * Constructor for ConnectionManager
+     * 
+     * @param args command-line arguments
+     * @throws UnknownHostException if the host is unknown
+     * @throws IOException if an I/O error occurs
+     */
 	public ConnectionManager(String[] args) throws UnknownHostException, IOException {
 		String cfgFile = ScriptUtils.getParam(args, "-cfg=");
 		this.socket = getConnection(cfgFile);
 	}
 
+    /**
+     * Establish a connection to the server using the given configuration file
+     * 
+     * @param cfgFile the configuration file name
+     * @return the socket connection
+     * @throws UnknownHostException if the host is unknown
+     * @throws IOException if an I/O error occurs
+     */
 	private Socket getConnection(String cfgFile) throws UnknownHostException, IOException {
 		try {
 			// load a properties file
@@ -82,6 +97,17 @@ public class ConnectionManager {
 		return new Socket(host, port);
 	}
 
+	/**
+	 * serverCall method is used to send a command to the server. It is one of the most important methods of this class.<br>
+	 * the first parameter in the communication is always the response code.<br>
+	 *  - OK for success<br>
+	 *  - KO for error<br>
+	 *  In case of success, the following parameters are the response message (may be more than one, it depends from the call)<br>
+	 *  In case of failure, the second parameter is the error message returned by the server<br>
+	 * @param action is the action to perform
+	 * @param comm_args list of arguments for the action
+	 * @return array of response messages
+	 */
 	public String[] serverCall(ClientServerConstants.ServerAction action, String... comm_args){
 		if("admin".equals(username)) // dummy user
 			return new String[]{"OK"};
@@ -98,11 +124,10 @@ public class ConnectionManager {
 			JOptionPane.showConfirmDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 
-		// read the message with a buffer. Message end with \n
+		// read the message with a buffer. Message end with EOL separator
+		//there is a skeleton implementation for encryption. It is not implemented yet
 		try {
 			String strToDecrypt;
-			//-- need to change EOL separator in COMM_EOL
-			//char[] strToDecrypt = (new BufferedReader(new InputStreamReader(getSocket().getInputStream()))).readLine().toCharArray();
 			InputStream is = socket.getInputStream();
 			StringBuilder sb = new StringBuilder();
 			byte[] buffer = new byte[1024];
@@ -115,7 +140,6 @@ public class ConnectionManager {
 			strToDecrypt = sb.toString();
 			//remove EOL chars
 			strToDecrypt = strToDecrypt.substring(0, strToDecrypt.length() - ClientServerConstants.COMM_EOL.length());
-			//-- 
 			logger.debug("RECV: "+ScriptUtils.decrypt(strToDecrypt));
 			return ScriptUtils.decrypt(new String(strToDecrypt)).split(ClientServerConstants.COMM_SEPARATOR);
 		} catch (Exception e1) {
@@ -134,6 +158,14 @@ public class ConnectionManager {
 		return socket;
 	}
 
+	/**
+	 * this method perform the user authentication
+	 * @param username user id of the user
+	 * @param pw password
+	 * @param portalType portal type on which the user is logging in
+	 * @throws InvalidCredentialException exception thrown in case of wrong credentials
+	 * @throws ServerResponseException generic error thrown by the server
+	 */
 	public void login(String username, String pw, PortalType portalType) throws InvalidCredentialException, ServerResponseException {
 		logger.debug("trying to log in as " + username);
 
@@ -167,16 +199,28 @@ public class ConnectionManager {
 		this.username = username;
 	}
 
+	/**
+	 * this method perform the user logout
+	 */
 	public void logout() {
 		logger.debug("closing connection");
 		serverCall(ServerAction.LOGOUT, this.username);
 		logger.debug("connection closed!");
 	}
 
+	/**
+	 * utility method to check if the user is an admin
+	 * @return true if admin, false otherwise
+	 */
 	public boolean isAdmin() {
 		return isAdmin;
 	}
 
+	/**
+	 * utility method to parse a server response and check if it is an error
+	 * @param callArgs
+	 * @return
+	 */
 	private boolean checkIfErrorAndParse(String[] callArgs){
 		if(callArgs==null || callArgs.length<1){
 			lastError = "Invalid server response: no response or not enough arguments in the response";
@@ -195,6 +239,12 @@ public class ConnectionManager {
 		return false;
 	}
 	
+	/**
+	 * recover user information from the server given the user id
+	 * @param user user id of the user
+	 * @return a map of user attributes related to the user
+	 * @throws UserNotFoundException exception thrown in case of user not found
+	 */
 	public Map<String, String> getUserData(String user) throws UserNotFoundException{
 		String[] respComm = serverCall(ServerAction.GET_USER_DATA, user);
 		if(checkIfErrorAndParse(respComm)){
@@ -211,6 +261,9 @@ public class ConnectionManager {
 		return othersUserData;
 	}
 
+	/**
+	 * utility method used to invalidate cached data in case of changes
+	 */
 	public void refreshUserData() {
 		try {
 			userAttributes = getUserData(username);
@@ -219,12 +272,21 @@ public class ConnectionManager {
 		}
 	}
 
+	/**
+	 * utility method to get a user attribute
+	 * @param attrName attribute name
+	 * @return the attribute value
+	 */
 	public String getUserAttribute(String attrName){
 		if(userAttributes == null)
 			refreshUserData();
 		return userAttributes.get(attrName) != null? userAttributes.get(attrName) : "";
 	}
 
+	/**
+	 * this method mark a notification as read
+	 * @param id of the notification to be marked as read
+	 */
 	public void markNotificationAsRead(String id) {
 		String[] respComm = serverCall(ServerAction.MARK_NOTIFICATION_AS_READ, id);
 		if(checkIfErrorAndParse(respComm)){
@@ -232,6 +294,10 @@ public class ConnectionManager {
 		}
 	}
 
+	/**
+	 * this method delete a notification
+	 * @param id of the notification to be deleted
+	 */
 	public void deleteNotification(String id) {
 		String[] respComm = serverCall(ServerAction.DELETE_NOTIFICATION, id);
 		if(checkIfErrorAndParse(respComm)){
@@ -239,6 +305,11 @@ public class ConnectionManager {
 		}
 	}
 
+	/**
+	 * this method check if there are new notifications.<br>
+	 * this method is used by the polling system to manage the notification indicator.
+	 * @return true if there are new notifications, false otherwise
+	 */
 	public boolean checkNewNotification(PortalType pt) {
 		String[] respComm = serverCall(ServerAction.CHECK_NEW_NOTIFICATION, username, ""+isAdmin(), ""+pt.getValue());
 		if(checkIfErrorAndParse(respComm)){
@@ -250,6 +321,11 @@ public class ConnectionManager {
 		return false;
 	}
 
+	/**
+     * Get the notification list from the server filtered by portal type
+     * 
+     * @return the notification list
+     */
 	public ArrayList<Map<String,String>> getNewNotificationList(PortalType portalType) {
 		String[] respComm = serverCall(ServerAction.GET_NOTIFICATION_LIST, username, ""+isAdmin(), ""+portalType.getValue());
 		if(checkIfErrorAndParse(respComm)){
@@ -276,6 +352,10 @@ public class ConnectionManager {
 		return notificationList;
 	}
 
+	/**
+	 * create a new user based on the information filled in the UI
+	 * @param userProps is the list of the user properties
+	 */
 	public void createUser(List<String[]> userProps) {
 		List<String> args = new ArrayList<>();
 		for(String[] prop : userProps)
@@ -287,6 +367,10 @@ public class ConnectionManager {
 		}
 	}
 	
+	/**
+	 * edit an existing user based on the information filled in the UI
+	 * @param userProps is the list of the user properties
+	 */
 	public void editUser(List<String[]> userProps) {
 		List<String> args = new ArrayList<>();
 		for(String[] prop : userProps)
@@ -297,7 +381,12 @@ public class ConnectionManager {
 			throw new AcServerRuntimeException(lastError);
 		}
 	}
-
+	
+	/**
+     * Get the report list from the server filtered by portal type
+     * 
+     * @return the report list
+     */
 	public ArrayList<Map<String,String>> getReportList(PortalType portalType) {
 		String[] respComm = serverCall(ServerAction.GET_REPORT_LIST, username, ""+isAdmin(), ""+portalType.getValue());
 		if(checkIfErrorAndParse(respComm)){
@@ -324,6 +413,12 @@ public class ConnectionManager {
 		return reportList;
 	}
 
+	/**
+	 * create an appointment
+	 * @param serviceType is the input service
+	 * @param userProps is the list of the properties related to the specific service
+	 * @throws UnsupportedServiceException is thrown if the service is not supported
+	 */
 	public void createAppointment(ServiceType serviceType, List<String[]> userProps) throws UnsupportedServiceException {
 		List<String> args = new ArrayList<>();
 		for(String[] prop : userProps)
@@ -346,14 +441,22 @@ public class ConnectionManager {
 		}
 	}
 
+	/**
+	 * utility method used to invalidate cached data in case of changes
+	 */
 	public void refreshRelationsData() {
 
 		String[] respComm = serverCall(ServerAction.GET_RELATIONS, username);
 		if(checkIfErrorAndParse(respComm)){
 			throw new AcServerRuntimeException(lastError);
 		}
-		//the user may not have any relation. In any case, clear the relations attributes 
-		String[] relationList = respComm.length>=2? respComm[1].split(ClientServerConstants.COMM_MILTIVALUE_FIELD_SEPARATOR) : new String[0];
+		//the user may not have any relation. In any case, clear the relations attributes
+		//append to relationList all the field of respComm except the first one
+		String[] relationList = new String[respComm.length-1];
+		for(int i = 1; i < respComm.length; i++){
+			relationList[i-1] = respComm[i];
+		}
+		
 		if(relationsAttributes != null){
 			relationsAttributes.clear();
 		} else {
@@ -361,27 +464,29 @@ public class ConnectionManager {
 		}
 
 		for(String user : relationList){
-			/*Map<String, String> tmpMap = new HashMap<>();
-			respComm = serverCall(ServerAction.GET_USER_DATA, user);
-			if(checkIfErrorAndParse(respComm)){
-				throw new AcServerRuntimeException(lastError);
-			}
-			for(String ret : respComm){
-				if(ret.contains("=")){
-					String[] tokens = ret.split("=", 2);
-					tmpMap.put(tokens[0], tokens[1]);
-				}
-			}*/
 			try {
 				relationsAttributes.put(user, getUserData(user));
 			} catch (UserNotFoundException e) {/*implicitly managed*/}
 		}
 	}
 
+	/**
+	 * get an attribute of a relation user
+	 * @param username is the username of the related user
+	 * @param attrName is the attribute name
+	 * @return the attribute value
+	 */
 	public String getRelationAttribute(String username, String attrName){
 		return relationsAttributes.get(username).get(attrName);
 	}
 
+	/**
+	 * recover the username of a user based on an attribute.<br>
+	 * this method works only if the attribute is unique (e.g. tax_id_code)
+	 * @param attrName is the attribute name
+	 * @param attrValue is the attribute value
+	 * @return the username of the relation user
+	 */
 	public String getRelationUsernameFromAttribute(String attrName, String attrValue){
 		for(String key : getRelationsList()) {
 			if(attrValue.equals(getRelationAttribute(key, attrName)))
@@ -390,9 +495,13 @@ public class ConnectionManager {
 		return null;
 	}
 
+	/**
+	 * get the list of the related users
+	 * @return the list of the related users
+	 */
 	public String[] getRelationsList(){
 		if(relationsAttributes == null)
-			throw new RuntimeException("Proramming error:you must refresh relation data before call this method");
+			throw new RuntimeException("Programming error:you must refresh relation data before call this method");
 		return relationsAttributes.keySet().toArray(new String[0]);
 	}
 
@@ -415,11 +524,21 @@ public class ConnectionManager {
 		return taxIdList;
 	}
 	
+	/**
+	 * get the map of the attributes of the related users
+	 * it refreshes cached data before return
+	 * @return the map of the attributes of the related users
+	 */
 	public Map<String, Map<String,String>> getRelationsData(){
 		refreshRelationsData();
 		return relationsAttributes;
 	}
 
+	/**
+	 * method used to create a new request
+	 * @param serviceType is the service type
+	 * @param userProps is the list of the attribute for the request
+	 */
 	public void createSimpleRequest(ServiceType serviceType, List<String[]> userProps) {
 		List<String> args = new ArrayList<>();
 		for(String[] prop : userProps)
@@ -431,14 +550,29 @@ public class ConnectionManager {
 		}
 	}
 
+	/**
+	 * 
+	 * @param camRes service type
+	 * @param userProps is the list of the attribute for the request
+	 */
 	public void createResidenceChangeRequest(ServiceType camRes, List<String[]> userProps) {
 		createSimpleRequest(camRes, userProps);
 	}
 
+	/**
+	 * 
+	 * @param camMed service type
+	 * @param userProps is the list of the attribute for the request
+	 */
 	public void createDoctorChangeRequest(ServiceType camMed, List<String[]> userProps) {
 		createSimpleRequest(camMed, userProps);
 	}
 	
+	/**
+	 * create a certificate request. It generate a report for the user.
+	 * @param serviceType is the service type
+	 * @param userProps is the list of the attribute for the request
+	 */
 	public void createCertificateRequest(ServiceType serviceType, List<String[]> userProps) {
 		List<String> args = new ArrayList<>();
 		for(String[] prop : userProps)
@@ -450,11 +584,21 @@ public class ConnectionManager {
 		}
 	}
 
+	/**
+	 * this is a placeholder for payment request
+	 * @param pagTick is the service type
+	 * @param userProps is the list of the attribute for the request
+	 */
 	public void createPaymentRequest(ServiceType pagTick, List<String[]> userProps) {
 		/*FAKE OPERATION*/
 
 	}
 
+	/**
+	 * this method return the list of the admin support requests for admin support request panel
+	 * @param portalType is the portal type
+	 * @return the list of the admin support requests
+	 */
 	public List<Map<String, String>> getAdminSupportRequestsList(PortalType portalType) {
 		List<Map<String, String>> requestList = new ArrayList<>();
 		String[] respComm = serverCall(ServerAction.GET_ALL_ADM_MNG_REQ, username, ""+isAdmin(), ""+portalType.getValue());
@@ -472,6 +616,11 @@ public class ConnectionManager {
 		return requestList;
 	}
 
+	/**
+	 * this method manage the admin support request
+	 * @param serviceData is the service data
+	 * @param acceptRequest is a boolean value that represent the request status (accepted or rejected)
+	 */
 	public void manageRequest(Map<String, String> serviceData, boolean acceptRequest) {
 		String[] respComm = serverCall(ServerAction.ADM_MNG_REQ, username, ""+isAdmin(), ""+serviceData.get("id"), ""+acceptRequest);
 		if(checkIfErrorAndParse(respComm)){
@@ -480,6 +629,12 @@ public class ConnectionManager {
 		}
 	}
 
+	/**
+	 * get the request data
+	 * @param requestId request id
+	 * @return the list of the attributes related to a specific request
+	 * @throws RequestNotFoundException if the request is not found
+	 */
 	public Map<String, String> getRequestData(String requestId) throws RequestNotFoundException {
 		String[] respComm = serverCall(ServerAction.GET_REQUEST_DATA, username, ""+isAdmin(), requestId);
 		if(checkIfErrorAndParse(respComm)){
@@ -495,6 +650,14 @@ public class ConnectionManager {
 		
 	}
 
+	/**
+	 * method used to change the user password. User must exists.
+	 * @param username is the username
+	 * @param oldPassword is the old password
+	 * @param newPassword is the new password
+	 * @throws NoSuchAlgorithmException it the hash operation fails
+	 * @throws AcServerRuntimeException in case of server error
+	 */
 	public void passwordReset(String username, char[] oldPassword, char[] newPassword) throws NoSuchAlgorithmException {
 		String[] respComm = serverCall(ServerAction.USR_CHANGE_PASS, username, ScriptUtils.hash(oldPassword), ScriptUtils.hash(newPassword));
 		

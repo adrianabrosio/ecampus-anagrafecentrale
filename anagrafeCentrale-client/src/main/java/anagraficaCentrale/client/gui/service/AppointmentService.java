@@ -33,6 +33,12 @@ import anagraficaCentrale.client.gui.component.AcServiceButton;
 import anagraficaCentrale.client.gui.component.AcTextField;
 import anagraficaCentrale.utils.ClientServerConstants.ServiceType;
 
+/**
+ * this class represent a service that can be used to create an appointment
+ * it is abstract because it can be used by different type of appointment services
+ * 
+ * @author Adriana Brosio
+ */
 public abstract class AppointmentService extends GenericService {
 	private JEditorPane textField;
 	private DatePicker datePicker1;
@@ -66,17 +72,13 @@ public abstract class AppointmentService extends GenericService {
 		gbc.gridheight = 1;
 		gbc.gridwidth = 2;
 
-		/*textField = new JTextArea(getTextAreaContent());
-		Font textAreaFont = new Font(textField.getFont().getFontName(), textField.getFont().getStyle(), 16);
-		textField.setFont(textAreaFont);
-		textField.setEditable(false);*/
 		textField = new JEditorPane();
 		textField.setContentType("text/html");
 		textField.setText(getTextAreaContent());
 		textField.setEditable(false);
 		attrPanel.add(textField, gbc);
 
-		//lista persone per appuntamento
+		//list of user for the appointment
 		Map<String, Map<String,String>> usersList = new HashMap<>();
 
 		if(this.userListType == USER_ONLY || this.userListType == USER_AND_RELATIONS){
@@ -126,6 +128,7 @@ public abstract class AppointmentService extends GenericService {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					//if selection is changed, update the first name and surname
 					String selection = (String) userList.getSelectedItem();
 					textFirstName.setText(usersList.get(selection).get("first_name"));
 					textSurname.setText(usersList.get(selection).get("surname"));
@@ -147,7 +150,7 @@ public abstract class AppointmentService extends GenericService {
 			attrPanel.add(lblUserError, gbc);
 		}
 
-		//data appuntamento
+		//appointment date
 		JLabel lblDate = new JLabel(GUIConstants.LANG.lblAppointmentDate + "*");
 		gbc.gridy = 4;
 		gbc.gridx = 0;
@@ -155,6 +158,7 @@ public abstract class AppointmentService extends GenericService {
 
 		// Create a date picker with some custom settings.
 		DatePickerSettings dateSettings = new DatePickerSettings();
+		//Italian settings
 		dateSettings.setFirstDayOfWeek(DayOfWeek.MONDAY);
 		dateSettings.setLocale(Locale.ITALIAN);
 		dateSettings.setAllowEmptyDates(false);
@@ -163,6 +167,7 @@ public abstract class AppointmentService extends GenericService {
 		datePicker1 = new DatePicker(dateSettings);
 		datePicker1.getComponentDateTextField().setEditable(false);
 
+		//you cannot make appointments in the past and more than a year into the future
 		try{LocalDate today = LocalDate.now();
 		dateSettings.setDateRangeLimits(today, today.plusYears(1));
 		}catch(Exception e){
@@ -214,7 +219,6 @@ public abstract class AppointmentService extends GenericService {
 		lowerPanel.setLayout(new GridLayout(0,1));
 		lowerPanel.setBackground(GUIConstants.OPERATION_PANEL_BACKGROUND);
 		lowerPanel.add(createUserButton);
-		//lowerPanel.add(new JLabel(""));
 
 		innerPanel.add(lowerPanel, BorderLayout.AFTER_LAST_LINE);
 		return innerPanel;

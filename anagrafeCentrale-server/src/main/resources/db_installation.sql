@@ -45,7 +45,7 @@ CREATE TABLE `Report` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `user_id` VARCHAR(20) NOT NULL,
   `portal_type` INTEGER NOT NULL,
-  `file_path` VARCHAR(100) NOT NULL,
+  `file_path` VARCHAR(100) NULL,
   `file_display_name` VARCHAR(50) NOT NULL,
   `file_title` VARCHAR(50) NULL DEFAULT NULL,
   `file_content` MEDIUMTEXT NULL DEFAULT NULL,

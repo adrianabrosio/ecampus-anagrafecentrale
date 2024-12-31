@@ -25,11 +25,12 @@ import org.apache.logging.log4j.Logger;
 import anagraficaCentrale.client.gui.component.AcIconButton;
 import anagraficaCentrale.utils.ScriptUtils;
 
+/**
+ * class that represents the side menu panel
+ * @author Adriana Brosio
+ */
 public class SideMenuPanel extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final static Logger logger = LogManager.getRootLogger();
 
@@ -37,9 +38,15 @@ public class SideMenuPanel extends JPanel {
 	private HashMap<JButton, String> buttonNameMap;
 	private JPanel mainPanel;
 	private JButton notificationButton;
-
+	
+	/**
+	 * debug variable to show the border of the buttons highlighted
+	 */
 	private boolean debugButtonBorder = false;
 
+	/**
+	 * constructor
+	 */
 	public SideMenuPanel(OperationPanel operationPanel) {
 		setBackground(operationPanel.guiBackgroundColor);
 		setLayout(new BorderLayout());
@@ -98,6 +105,9 @@ public class SideMenuPanel extends JPanel {
 		add(lowerPanel, BorderLayout.AFTER_LAST_LINE);
 	}
 
+	/**
+	 * method that generates the admin support button
+	 */
 	private JButton generateAdminSupportButton(OperationPanel operationPanel) {
 		ImageIcon adminSupportIcon = null;
 		try {
@@ -123,6 +133,9 @@ public class SideMenuPanel extends JPanel {
 		return adminSupportButton;
 	}
 
+	/**
+	 * method that generates the notification button
+	 */
 	private JButton generateNotificationButton(OperationPanel operationPanel) {
 		ImageIcon notificationIcon = null;
 		try {
@@ -149,6 +162,9 @@ public class SideMenuPanel extends JPanel {
 		return notificationButton;
 	}
 
+	/**
+	 * method that generates the report button
+	 */
 	private JButton generateReportButton(OperationPanel operationPanel) {
 		ImageIcon reportIcon = null;
 		try {
@@ -175,6 +191,9 @@ public class SideMenuPanel extends JPanel {
 		return reportButton;
 	}
 
+	/**
+	 * method that generates the service button
+	 */
 	private JButton generateServiceButton(OperationPanel operationPanel) {
 		ImageIcon serviceIcon = null;
 		try {
@@ -199,7 +218,10 @@ public class SideMenuPanel extends JPanel {
 		});
 		return serviceButton;
 	}
-
+	
+	/**
+	 * method that generates the profile button
+	 */
 	private JButton generateAccountButton(OperationPanel operationPanel) {
 		ImageIcon loginIcon = null;
 		try {
@@ -230,6 +252,9 @@ public class SideMenuPanel extends JPanel {
 		return accountButton;
 	}
 
+	/**
+	 * method that generates the expand button
+	 */
 	private JButton generateExpandButton(OperationPanel operationPanel) {
 		ImageIcon expandIcon = null;
 		try {
@@ -255,22 +280,34 @@ public class SideMenuPanel extends JPanel {
 		return accountButton;
 	}
 
+	/**
+	 * method that opens the buttons side panel
+	 */
 	public void openPanel(int maxWidth){
 		for(JButton btn : sideButtonList){
 			btn.setText(buttonNameMap.get(btn));
 		}
 	}
 
+	/**
+	 * method that closes the buttons side panel
+	 */
 	public void closePanel(int minWidth){
 		for(JButton btn : sideButtonList){
 			btn.setText("");
 		}
 	}
 
+	/**
+	 * method that returns the notification button
+	 */
 	public JButton getNotificationButton() {
 		return notificationButton;
 	}
 
+	/**
+	 * method that sets the notification icon
+	 */
 	public void setNewNotificationIcon(boolean isThereAnyNotification) {
 		String imgName = isThereAnyNotification? "notificationOn0.png" : "notificationOff0.png";
 		ImageIcon notificationIcon = null;
