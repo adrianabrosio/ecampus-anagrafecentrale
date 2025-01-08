@@ -43,6 +43,7 @@ public class ShowProfileService extends GenericService {
 	protected JPanel generateInnerPanel() {
 		JPanel innerPanel = new JPanel();
 		ConnectionManager cm = this.operationPanel.getConnectionManager();
+		cm.refreshUserData();
 		setTitle("");
 		this.removeAll();
 		innerPanel.setLayout(new GridLayout(0, 2, 20, 20));

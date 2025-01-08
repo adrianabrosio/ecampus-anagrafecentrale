@@ -307,7 +307,9 @@ public class UserCreationService extends GenericService {
 
 				List<String[]> userProps = new ArrayList<>();
 				userProps.add(new String[]{"id", textField.getText()});
-				userProps.add(new String[]{"password", hashedPassword});
+				if(!editMode){
+					userProps.add(new String[]{"password", hashedPassword});
+				}
 				userProps.add(new String[]{"first_name", textField_1.getText()});
 				userProps.add(new String[]{"surname", textField_2.getText()});
 				String sqlDateFormated = datePicker1.getDate().format(DateTimeFormatter.ISO_DATE);
@@ -440,7 +442,7 @@ public class UserCreationService extends GenericService {
 		datePicker1.setDateToToday();
 		genderList.setSelectedIndex(0);
 		authGroup.clear();
-		
+
 		if(editMode) {
 			lowerPanel.remove(createUserButton);
 			lowerPanel.add(searchUserButton);
@@ -520,7 +522,7 @@ public class UserCreationService extends GenericService {
 		}
 		return !formIncomplete;
 	}
-	
+
 	protected boolean isSearchFormValid() {
 		//validation
 		boolean formIncomplete = false;
